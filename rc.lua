@@ -38,8 +38,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 -- ZK: changed theme here. Font size and panel size are here.
--- beautiful.init("/usr/local/google/home/zhangkun/.config/awesome/zenburn/theme.lua")
-beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "x-terminal-emulator"
@@ -362,7 +361,7 @@ awful.rules.rules = {
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
     -- Add a titlebar
-    -- awful.titlebar.add(c, { modkey = modkey })
+    awful.titlebar.add(c, { modkey = modkey })
 
     -- Enable sloppy focus
     c:add_signal("mouse::enter", function(c)
