@@ -263,6 +263,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "\\", function () awful.util.spawn("bin/chrome-personal") end)
 )
 
+-- ZK: Only show the title bar when the window is floating
+function update_titlebar_status(c)
+  if awful.client.floating.get(c) then
+    if not c.titlebar then awful.titlebar.add(c, { modkey = modkey }) end
+  else
+    if c.titlebar then awful.titlebar.remove(c) end
+  end
+end
+
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
@@ -340,17 +349,20 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-                     floating = false,
+                     floating = true,
                      buttons = clientbuttons },
       -- ZK: new windows are set as slave, so the existing master window can stay master
       callback = awful.client.setslave },
     -- ZK: I use xterm to launch alsamixer. This makes the window floating and centered
     -- HOW-TO: use xprop to get window properties. "class" is the second value in WM_CLASS.
     { rule = { class = "XTerm" },
-      properties = { floating = true, ontop = true } },
-    -- ZK: Make dialogs float
-    { rule = { type = "dialog" },
-      properties = { floating = true, ontop = true } },
+      properties = { ontop = true } },
+    -- ZK: Make Chrome not float
+    { rule = { class = "Google-chrome" }, except = { type = "dialog" },
+      properties = { floating = false } },
+    -- ZK: Make Xfce4-terminal not float
+    { rule = { class = "Xfce4-terminal"}, except = { type = "dialog" },
+      properties = { floating = false } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -360,9 +372,6 @@ awful.rules.rules = {
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
-    -- Add a titlebar
-    awful.titlebar.add(c, { modkey = modkey })
-
     -- Enable sloppy focus
     c:add_signal("mouse::enter", function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
@@ -371,6 +380,8 @@ client.add_signal("manage", function (c, startup)
         end
     end)
 
+    c:add_signal("property::floating", update_titlebar_status)
+
     if not startup then
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
@@ -378,14 +389,17 @@ client.add_signal("manage", function (c, startup)
 
         -- Put windows in a smart way, only if they does not set an initial position.
         if not c.size_hints.user_position and not c.size_hints.program_position then
+            awful.placement.under_mouse(c)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
     end
+    update_titlebar_status(c)
 end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
 -- }}}
 
 -- ZK: Change key repeat rate
