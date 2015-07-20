@@ -35,10 +35,12 @@ do
 end
 -- }}}
 
+local config_home = os.getenv("HOME") .. "/.config/awesome/"
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 -- ZK: changed theme here. Font size and panel size are here.
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/zenburn/theme.lua")
+beautiful.init(config_home .. "zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "x-terminal-emulator"
@@ -249,18 +251,17 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
+    -- ZK: File manager
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict
-    awful.key({ modkey }, "F10", function () awful.util.spawn("bin/youdao_dict.py") end),
-    -- ZK: alsamixer in xterm
-    awful.key({ modkey }, "F11", function () awful.util.spawn("bin/mixer") end),
+    awful.key({ modkey }, "F10", function () awful.util.spawn(config_home .. "bin/youdao_dict.py") end),
     -- ZK: Lock screen
-    awful.key({ modkey }, "F12", function () awful.util.spawn("bin/xlock.sh") end),
+    awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the awesome manual
     awful.key({ modkey }, "/", function () os.execute("xfce4-terminal -e awesomehelp") end),
     -- ZK: Open google-chrome window
-    awful.key({ modkey }, "\\", function () awful.util.spawn("bin/chrome-default-user") end),
-    awful.key({ modkey, "Shift" }, "\\", function () awful.util.spawn("bin/chrome-personal") end)
+    awful.key({ modkey }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-default-user.sh") end),
+    awful.key({ modkey, "Shift" }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-personal.sh") end)
 )
 
 -- ZK: Only show the title bar when the window is floating
