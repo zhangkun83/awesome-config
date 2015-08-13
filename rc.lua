@@ -44,7 +44,6 @@ beautiful.init(config_home .. "zenburn/theme.lua")
 -- ZK: changed default terminal
 terminal = "xfce4-terminal"
 editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -72,13 +71,17 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+local cheatsheet_command = "xterm -geometry 66x36+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "cheat sheet", cheatsheet_command },
+   { "edit config", terminal .. " --default-working-directory .config/awesome" },
    { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "quit", {
+       { "yes", awesome.quit },
+       { "no", function() end } } }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
@@ -253,8 +256,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F10", function () awful.util.spawn(config_home .. "bin/youdao_dict.py") end),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
-    -- ZK: Open the awesome manual
-    awful.key({ modkey }, "/", function () os.execute("xfce4-terminal -e awesomehelp") end),
+    -- ZK: Open the cheat sheet
+    awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
     -- ZK: Open google-chrome window
     awful.key({ modkey }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-default-user.sh") end),
     awful.key({ modkey, "Shift" }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-personal.sh") end)
@@ -273,7 +276,7 @@ clientkeys = awful.util.table.join(
     -- awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey,  },          "f",      awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey, "Control" }, "space", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),

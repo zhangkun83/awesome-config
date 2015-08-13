@@ -1,0 +1,34 @@
+--------========#####  AWESOME CHEAT SHEET ##### ========--------
+
+Mod4 + /                     *  open this cheat sheet
+-----------------------------------------------------------------
+
+                             TAGS
+
+Mod4 + -> / <-               *  switch to next / previous tag
+Mod4 + <num>                 *  switch to tag
+Mod4 + Ctrl + <num>          *  toggle tag on display
+
+Mod4 + Shift + <num>         *  move window to tag
+Mod4 + Shift + Ctrl + <num>  *  toggle tag on window
+-----------------------------------------------------------------
+
+                            WINDOWS
+
+Mod4 + J / K                 *  next / previous window
+Mod4 + Space                 *  next layout
+Mod4 + Shift + Space         *  previous layout
+Mod4 + Ctrl + Space          *  make current window master
+Mod4 + F                     *  toggle window floating
+Mod4 + Shift + C             *  close window
+-----------------------------------------------------------------
+
+                         LAUNCH PROGRAMS
+
+Mod4 + R                     *  run command
+Mod4 + Enter                 *  terminal
+Mod4 + \                     *  chrome (working)
+Mod4 + Shift + \             *  chrome (personal)
+Mod4 + ]                     *  file manager
+Mod4 + F10                   *  youdao dict
+Mod4 + F12                   *  lock screen
