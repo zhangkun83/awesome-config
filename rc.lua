@@ -71,7 +71,7 @@ for s = 1, screen.count() do
 end
 -- }}}
 
-local cheatsheet_command = "xterm -geometry 66x36+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+local cheatsheet_command = "xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -192,6 +192,28 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+local saved_tags_file = config_home .. "saved_tags"
+
+-- ZK: save tag names so that they survive after restart
+function save_tag_names()
+  local f = assert(io.open(saved_tags_file, "w"))
+  local savedTags = tags[mouse.screen]
+  for i = 1, table.getn(savedTags) do
+    f:write(savedTags[i].name)
+    f:write("\n")
+  end
+  f:close()
+end
+
+function restore_tag_names()
+  local f = assert(io.open(saved_tags_file, "r"))
+  local savedTags = tags[mouse.screen]
+  for i = 1, table.getn(savedTags) do
+    savedTags[i].name = f:read()
+  end
+  f:close()
+end
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
@@ -226,7 +248,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
+    --awful.key({ modkey, "Control" }, "r", awesome.restart),
     --awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
@@ -249,6 +271,22 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
+              end),
+    -- ZK: Prompt to rename the current tag
+    awful.key({ modkey, "Shift" }, "=",
+              function ()
+                  awful.prompt.run({ prompt = "Name tag: " },
+                  mypromptbox[mouse.screen].widget,
+                  function (s)
+                    local tag = awful.tag.selected(mouse.screen)
+                    local index = awful.tag.getidx(tag)
+                    if s == "" then
+                      tag.name = index
+                    else
+                      tag.name = index .. ":" .. s
+                    end
+                    save_tag_names()
+                  end)
               end),
     -- ZK: File manager
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
@@ -409,3 +447,5 @@ awful.util.spawn_with_shell("nvidia-settings -l")
 -- ZK: xscreensaver
 awful.util.spawn_with_shell("xscreensaver")
 awful.util.spawn_with_shell("ibus-daemon -d")
+
+restore_tag_names()
