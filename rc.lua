@@ -37,7 +37,7 @@ local config_home = os.getenv("HOME") .. "/.config/awesome/"
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 -- ZK: changed theme here. Font size and panel size are here.
-beautiful.init(config_home .. "zenburn/theme.lua")
+beautiful.init(config_home .. "zenburn-lightblue/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "x-terminal-emulator"
