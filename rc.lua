@@ -275,7 +275,7 @@ globalkeys = awful.util.table.join(
     -- ZK: Prompt to rename the current tag
     awful.key({ modkey, "Shift" }, "=",
               function ()
-                  awful.prompt.run({ prompt = "Name tag: " },
+                  awful.prompt.run({ prompt = "Rename tag: " },
                   mypromptbox[mouse.screen].widget,
                   function (s)
                     local tag = awful.tag.selected(mouse.screen)
