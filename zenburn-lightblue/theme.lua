@@ -9,7 +9,7 @@
 -- {{{ Main
 theme = {}
 local theme_dir = os.getenv("HOME") .. "/.config/awesome/zenburn-lightblue/"
-theme.wallpaper_cmd = { "awsetbg " .. theme_dir .. "background.png" }
+theme.wallpaper_cmd = { "qiv -o '#4B6888' -x " .. theme_dir .. "background.png" }
 -- }}}
 
 -- {{{ Styles
@@ -74,7 +74,7 @@ theme.mouse_finder_color = "#CC9393"
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_height = "15"
+theme.menu_height = "28"
 theme.menu_width  = "200"
 -- }}}
 
