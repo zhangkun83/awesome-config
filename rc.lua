@@ -469,6 +469,8 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 
 -- ZK: Change key repeat rate
 os.execute("xset r rate 220 30")
+-- ZK: Make mouse move slower
+os.execute("xset m 1/5 10")
 
 -- ZK: start the gnome-sound-applet that allows you to control volume
 awful.util.spawn_with_shell("gnome-sound-applet")
