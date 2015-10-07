@@ -390,6 +390,7 @@ awful.rules.rules = {
                      focus = true,
                      keys = clientkeys,
                      floating = true,
+                     size_hints_honor = false,
                      buttons = clientbuttons },
       -- ZK: new windows are set as slave, so the existing master window can stay master
       callback = awful.client.setslave },
