@@ -9,6 +9,10 @@ require("naughty")
 
 local hideTitleBarWhenTiling = false
 
+function raise_focus()
+  if client.focus then client.focus:raise() end
+end
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -108,7 +112,11 @@ mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
-                    awful.button({ }, 1, awful.tag.viewonly),
+                    awful.button({ }, 1,
+                        function (t)
+                            awful.tag.viewonly(t)
+                            raise_focus()
+                        end),
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
@@ -120,6 +128,7 @@ mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
                                                   c.minimized = true
+                                                  raise_focus()
                                               else
                                                   if not c:isvisible() then
                                                       awful.tag.viewonly(c:tags()[1])
@@ -140,11 +149,11 @@ mytasklist.buttons = awful.util.table.join(
                                           end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
-                                              if client.focus then client.focus:raise() end
+                                              raise_focus()
                                           end),
                      awful.button({ }, 5, function ()
                                               awful.client.focus.byidx(-1)
-                                              if client.focus then client.focus:raise() end
+                                              raise_focus()
                                           end))
 
 for s = 1, screen.count() do
@@ -217,19 +226,27 @@ end
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Left",
+        function ()
+            awful.tag.viewprev()
+            raise_focus()
+        end),
+    awful.key({ modkey,           }, "Right",
+        function ()
+            awful.tag.viewnext()
+            raise_focus()
+        end),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
-            if client.focus then client.focus:raise() end
+            raise_focus()
         end),
     awful.key({ modkey,           }, "k",
         function ()
             awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
+            raise_focus()
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
@@ -242,9 +259,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
+            raise_focus()
         end),
 
     -- Standard program
@@ -324,6 +339,7 @@ clientkeys = awful.util.table.join(
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
+            raise_focus()
         end),
     awful.key({ modkey,           }, "m",
         function (c)
@@ -348,6 +364,7 @@ for i = 1, keynumber do
                         local screen = mouse.screen
                         if tags[screen][i] then
                             awful.tag.viewonly(tags[screen][i])
+                            raise_focus()
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
@@ -355,18 +372,21 @@ for i = 1, keynumber do
                       local screen = mouse.screen
                       if tags[screen][i] then
                           awful.tag.viewtoggle(tags[screen][i])
+                          raise_focus()
                       end
                   end),
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.movetotag(tags[client.focus.screen][i])
+                          raise_focus()
                       end
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.toggletag(tags[client.focus.screen][i])
+                          raise_focus()
                       end
                   end))
 end
