@@ -7,6 +7,8 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+local hideTitleBarWhenTiling = false
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -166,7 +168,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 28 })
+    mywibox[s] = awful.wibox({ position = "bottom", screen = s, height = 28 })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
@@ -303,7 +305,7 @@ globalkeys = awful.util.table.join(
 
 -- ZK: Only show the title bar when the window is floating
 function update_titlebar_status(c)
-  if awful.client.floating.get(c) then
+  if (not hideTitleBarWhenTiling) or awful.client.floating.get(c) then
     if not c.titlebar then awful.titlebar.add(c, { modkey = modkey }) end
   else
     if c.titlebar then awful.titlebar.remove(c) end
