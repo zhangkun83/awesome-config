@@ -451,6 +451,13 @@ client.add_signal("manage", function (c, startup)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
+
+        -- At least, make space for the window title
+        local geometry = c:geometry()
+        if geometry.y < 50 then
+          geometry.y = 50
+        end
+        c:geometry(geometry)
     end
     update_titlebar_status(c)
 end)
