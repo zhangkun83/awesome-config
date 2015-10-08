@@ -9,7 +9,7 @@
 -- {{{ Main
 theme = {}
 local theme_dir = os.getenv("HOME") .. "/.config/awesome/zenburn-lightblue/"
-theme.wallpaper_cmd = { "qiv -o '#C1BCB7' -x " .. theme_dir .. "background.png" }
+theme.wallpaper_cmd = { "qiv -o '#DCDBDC' -x " .. theme_dir .. "background.png" }
 -- }}}
 
 -- {{{ Styles
@@ -17,14 +17,14 @@ theme.font      = "sans 12"
 
 -- {{{ Colors
 theme.bg_focus                                  = '#5278AE'
-theme.bg_normal                                 = '#DCDBDC'
+theme.bg_normal                                 = '#FFFFFF'
 theme.bg_urgent                                 = '#FCCBCC'
 theme.bg_minimize                               = '#434750'
 theme.fg_normal                                 = '#000000'
-theme.fg_focus                                  = '#DCDBDC'
+theme.fg_focus                                  = '#FFFFFF'
 theme.fg_urgent                                 = '#000000'
 theme.fg_minimize                               = '#000000'
-theme.bg_widget                                 = '#DCDBDC'
+theme.bg_widget                                 = '#FFFFFF'
 theme.fg_widget                                 = '#000000'
 theme.fg_center_widget                          = '#000000'
 theme.fg_end_widget                             = '#000000'
@@ -34,14 +34,14 @@ theme.tooltip_fg_color                          = '#000000'
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal                             = '#DCDBDC'
+theme.border_normal                             = '#9C9EA0'
 theme.border_focus                              = '#434750'
 theme.border_marked                             = '#5278AE'
 -- }}}
 
 -- {{{ Titlebars
 theme.titlebar_bg_focus  = "#434750"
-theme.titlebar_fg_focus  = "#DCDBDC"
+theme.titlebar_fg_focus  = "#FFFFFF"
 theme.titlebar_bg_normal = "#9C9EA0"
 -- }}}
 
