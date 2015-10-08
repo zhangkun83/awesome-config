@@ -320,7 +320,7 @@ globalkeys = awful.util.table.join(
 -- ZK: Only show the title bar when the window is floating
 function update_titlebar_status(c)
   if (not hideTitleBarWhenTiling) or awful.client.floating.get(c) then
-    if not c.titlebar then awful.titlebar.add(c, { modkey = modkey }) end
+    if not c.titlebar then awful.titlebar.add(c, { modkey = modkey, height = 24 }) end
   else
     if c.titlebar then awful.titlebar.remove(c) end
   end

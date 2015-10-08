@@ -9,39 +9,40 @@
 -- {{{ Main
 theme = {}
 local theme_dir = os.getenv("HOME") .. "/.config/awesome/zenburn-lightblue/"
-theme.wallpaper_cmd = { "qiv -o '#4B6888' -x " .. theme_dir .. "background.png" }
+theme.wallpaper_cmd = { "qiv -o '#C1BCB7' -x " .. theme_dir .. "background.png" }
 -- }}}
 
 -- {{{ Styles
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.bg_focus                                  = '#729fcf'
-theme.bg_normal                                 = '#f5f2ef'
-theme.bg_urgent                                 = '#7f55d7'
-theme.bg_minimize                               = '#808080'
+theme.bg_focus                                  = '#5278AE'
+theme.bg_normal                                 = '#DCDBDC'
+theme.bg_urgent                                 = '#FCCBCC'
+theme.bg_minimize                               = '#434750'
 theme.fg_normal                                 = '#000000'
-theme.fg_focus                                  = '#ffffff'
-theme.fg_urgent                                 = '#ffffff'
+theme.fg_focus                                  = '#DCDBDC'
+theme.fg_urgent                                 = '#000000'
 theme.fg_minimize                               = '#000000'
-theme.bg_widget                                 = '#f5f2ef'
-theme.fg_widget                                 = '#00a2fe'
-theme.fg_center_widget                          = '#0066e5'
-theme.fg_end_widget                             = '#0017ed'
-theme.tooltip_bg_color                          = '#ffffbf'
+theme.bg_widget                                 = '#DCDBDC'
+theme.fg_widget                                 = '#000000'
+theme.fg_center_widget                          = '#000000'
+theme.fg_end_widget                             = '#000000'
+theme.tooltip_bg_color                          = '#C1BCB7'
 theme.tooltip_fg_color                          = '#000000'
 -- }}}
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal                             = '#000000'
-theme.border_focus                              = '#729fcf'
-theme.border_marked                             = '#7f55d7'
+theme.border_normal                             = '#DCDBDC'
+theme.border_focus                              = '#434750'
+theme.border_marked                             = '#5278AE'
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#729fcf"
-theme.titlebar_bg_normal = "#f5f2ef"
+theme.titlebar_bg_focus  = "#434750"
+theme.titlebar_fg_focus  = "#DCDBDC"
+theme.titlebar_bg_normal = "#9C9EA0"
 -- }}}
 
 -- There are other variable sets
@@ -76,6 +77,8 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[border_color|border_width]
 theme.menu_height = "28"
 theme.menu_width  = "200"
+theme.menu_border_color = "#434750"
+theme.menu_border_with = "1"
 -- }}}
 
 -- {{{ Icons
