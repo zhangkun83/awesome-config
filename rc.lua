@@ -422,23 +422,10 @@ awful.rules.rules = {
       -- ZK: new windows are set as slave, so the existing master window can stay master
       callback = awful.client.setslave },
     -- ZK: I use xterm to launch short-lived console programs. This makes the
-    -- window floating.
+    -- window always on top.
     -- HOW-TO: use xprop to get window properties. "class" is the second value in WM_CLASS.
     { rule = { class = "XTerm" },
       properties = { ontop = true } },
-    -- ZK: Make Chrome not float
-    { rule = { class = "Google-chrome" }, except = { type = "dialog" },
-      properties = { floating = false } },
-    -- However, if chrome opens a page without address bar (e.g., for youdao
-    -- dict), it has role of "pop-up", and we want it to float.
-    { rule = { role = "pop-up" },
-      properties = { floating = true } },
-    -- ZK: Make Xfce4-terminal not float
-    { rule = { class = "Xfce4-terminal"}, except = { type = "dialog" },
-      properties = { floating = false } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
