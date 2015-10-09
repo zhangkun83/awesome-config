@@ -82,8 +82,8 @@ editor = os.getenv("EDITOR") or "editor"
 -- ZK: removed unused layouts
 layouts =
 {
-    awful.layout.suit.max,
     awful.layout.suit.tile,
+    awful.layout.suit.max,
     awful.layout.suit.tile.bottom,
 }
 -- }}}
