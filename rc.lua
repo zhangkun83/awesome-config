@@ -55,6 +55,8 @@ modkey = "Mod4"
 
 config_home = os.getenv("HOME") .. "/.config/awesome/"
 terminal = "xfce4-terminal"
+cheatsheet_command = "xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+
 
 -- {{{ provides the following variables / functions
 --- * mythememod
@@ -94,8 +96,6 @@ for s = 1, screen.count() do
     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, s, layouts[1])
 end
 -- }}}
-
-local cheatsheet_command = "xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
