@@ -10,7 +10,7 @@ myawesomemenu = {
    { "sleep", config_home .. "bin/sleepnlock.sh"}
 }
 
-mywiboxprops = { height = 24, border_width = "1" }
+mywiboxprops = { height = 24, border_width = "0" }
 
 mykeybindings = awful.key({ modkey }, "\\", function () run_shell_command(config_home .. "bin/chrome-default-user.sh") end)
 

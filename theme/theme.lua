@@ -9,7 +9,6 @@
 -- {{{ Main
 theme = {}
 local theme_dir = os.getenv("HOME") .. "/.config/awesome/theme/"
-theme.wallpaper_cmd = { "qiv -o '#DCDBDC' -x " .. theme_dir .. "background.png" }
 -- }}}
 
 -- {{{ Styles

@@ -9,7 +9,7 @@ myawesomemenu = {
         { "no", function() end } } }
 }
 
-mywiboxprops = { height = 26, border_width = "2" }
+mywiboxprops = { height = 26, border_width = "0" }
 
 mykeybindings = awful.util.table.join(
     awful.key({ modkey }, "\\", function () run_shell_command(config_home .. "bin/chrome-default-user.sh") end),
