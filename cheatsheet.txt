@@ -28,8 +28,8 @@ Mod4 + Shift + C             *  close window
 
 Mod4 + R                     *  run command
 Mod4 + Enter                 *  terminal
-Mod4 + \                     *  chrome (working)
-Mod4 + Shift + \             *  chrome (personal)
+Mod4 + \                     *  chrome (main profile)
+Mod4 + Shift + \             *  chrome (alt. profile)
 Mod4 + ]                     *  file manager
 Mod4 + F10                   *  youdao dict
 Mod4 + F12                   *  lock screen
