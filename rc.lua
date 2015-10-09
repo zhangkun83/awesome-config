@@ -55,7 +55,7 @@ modkey = "Mod4"
 
 config_home = os.getenv("HOME") .. "/.config/awesome/"
 terminal = "xfce4-terminal"
-cheatsheet_command = "xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+cheatsheet_command = "xterm -geometry 66x39+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
 
 -- {{{ provides the following variables / functions
@@ -234,6 +234,13 @@ function restore_tag_names()
   f:close()
 end
 
+function set_floating_for_all_clients(value)
+    local clients = client.get(mouse.screen)
+    for k,c in pairs(clients) do
+        awful.client.floating.set(c, value)
+    end
+end
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",
@@ -322,6 +329,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
+    awful.key({ modkey, "Control" }, "f", function() set_floating_for_all_clients(false) end),
+    awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
     mykeybindings
 )
 

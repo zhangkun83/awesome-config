@@ -21,6 +21,8 @@ Mod4 + Space                 *  next layout
 Mod4 + Shift + Space         *  previous layout
 Mod4 + Ctrl + Space          *  make current window master
 Mod4 + F                     *  toggle window floating
+Mod4 + Ctrl + F              *  Unfloat all windows
+Mod4 + Ctrl + Shift + F      *  Float all windows
 Mod4 + Shift + C             *  close window
 -----------------------------------------------------------------
 
