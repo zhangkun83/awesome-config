@@ -13,6 +13,14 @@ function raise_focus()
   if client.focus then client.focus:raise() end
 end
 
+function run_shell_command(command)
+    awful.util.spawn_with_shell(command)
+end
+
+function start_if_absent(name, command)
+    run_shell_command(config_home .. "bin/start_if_absent.sh " .. name .. " " .. command)
+end
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -38,25 +46,35 @@ do
 end
 -- }}}
 
-local config_home = os.getenv("HOME") .. "/.config/awesome/"
-
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
--- ZK: changed theme here. Font size and panel size are here.
-beautiful.init(config_home .. "zenburn-lightblue/theme.lua")
-
--- This is used later as the default terminal and editor to run.
---terminal = "x-terminal-emulator"
--- ZK: changed default terminal
-terminal = "xfce4-terminal"
-editor = os.getenv("EDITOR") or "editor"
-
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+
+config_home = os.getenv("HOME") .. "/.config/awesome/"
+terminal = "xfce4-terminal"
+
+-- {{{ provides the following variables / functions
+--- * mythememod
+--- * myawesomemenu
+--- * mywiboxprops
+--- * mykeybindings
+--- * myautostarts
+dofile(config_home .. "current_profile.lua")
+-- }}}
+
+-- {{{ Variable definitions
+-- Themes define colours, icons, and wallpapers
+os.execute("cat " .. config_home .. "theme/theme.lua " .. mythememod ..
+    " > " .. config_home .. "theme/theme-generated.lua")
+beautiful.init(config_home .. "theme/theme-generated.lua")
+
+-- This is used later as the default terminal and editor to run.
+--terminal = "x-terminal-emulator"
+-- ZK: changed default terminal
+editor = os.getenv("EDITOR") or "editor"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 -- ZK: removed unused layouts
@@ -81,15 +99,6 @@ local cheatsheet_command = "xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "cheat sheet", cheatsheet_command },
-   { "edit config", terminal .. " --default-working-directory .config/awesome" },
-   { "restart", awesome.restart },
-   { "quit", {
-       { "yes", awesome.quit },
-       { "no", function() end } } }
-}
-
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal }
                                   }
@@ -176,7 +185,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "bottom", screen = s, height = 26, border_width = "2" })
+    mywibox[s] = awful.wibox(awful.util.table.join({ position = "bottom", screen = s }, mywiboxprops))
     mywibox[s].border_color = "#434750"
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
@@ -313,9 +322,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
-    -- ZK: Open google-chrome window
-    awful.key({ modkey }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-default-user.sh") end),
-    awful.key({ modkey, "Shift" }, "\\", function () awful.util.spawn(config_home .. "bin/chrome-personal.sh") end)
+    mykeybindings
 )
 
 -- ZK: Only show the title bar when the window is floating
@@ -472,12 +479,10 @@ os.execute("xset r rate 220 30")
 -- ZK: Make mouse move slower
 os.execute("xset m 1/5 10")
 
--- ZK: start the gnome-sound-applet that allows you to control volume
-awful.util.spawn_with_shell("gnome-sound-applet")
--- ZK: load nvidia settings
-awful.util.spawn_with_shell("nvidia-settings -l")
--- ZK: xscreensaver
-awful.util.spawn_with_shell("xscreensaver")
-awful.util.spawn_with_shell("ibus-daemon -d")
+start_if_absent("gnome-sound-applet", "gnome-sound-applet")
+start_if_absent("xscreensaver", "xscreensaver")
+start_if_absent("ibus-daemon", "ibus-daemon -d")
+
+myautostarts()
 
 restore_tag_names()

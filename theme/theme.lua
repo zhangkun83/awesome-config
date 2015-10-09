@@ -8,7 +8,7 @@
 
 -- {{{ Main
 theme = {}
-local theme_dir = os.getenv("HOME") .. "/.config/awesome/zenburn-lightblue/"
+local theme_dir = os.getenv("HOME") .. "/.config/awesome/theme/"
 theme.wallpaper_cmd = { "qiv -o '#DCDBDC' -x " .. theme_dir .. "background.png" }
 -- }}}
 
@@ -134,5 +134,3 @@ theme.titlebar_maximized_button_focus_inactive  = theme_dir .. "titlebar/maximiz
 theme.titlebar_maximized_button_normal_inactive = theme_dir .. "titlebar/maximized_normal_inactive.png"
 -- }}}
 -- }}}
-
-return theme

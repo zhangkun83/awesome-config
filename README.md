@@ -8,12 +8,13 @@ from various desktop environments and you may not have them installed.
 Features
  - The 10th tag, binded to `Mod4+0`
  - Renaming the tag by `Mod4+Shift+=`. Tag names are saved so they survive reboots.
- - Show window title only when floating.
  - My personalized floating rules -- all windows are started floating, except for xfce4-terminal and google-chrome.
  - Application shortcuts and changes to default key bindings. See the [cheatsheet](/cheatsheet.txt).
  - My personalized minimalist awesome menu.
- - Customized looking based on icons from zenburn, color scheme from sky and a miminalist wallpaper.
+ - Customized light-colored theme.
  - Doesn't use any awesome extensions.
+ - Support multiple profiles that let you have small tweaks on your differnt
+   machines. Use `switch_profile.sh {work|home}` to swich between profiles.
 
 Screenshots
 

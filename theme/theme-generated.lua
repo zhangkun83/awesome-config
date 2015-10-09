@@ -8,32 +8,41 @@
 
 -- {{{ Main
 theme = {}
-local theme_dir = os.getenv("HOME") .. "/.config/awesome/zenburn/"
-theme.wallpaper_cmd = { "awsetbg " .. theme_dir .. "zenburn-background.png" }
+local theme_dir = os.getenv("HOME") .. "/.config/awesome/theme/"
+theme.wallpaper_cmd = { "qiv -o '#DCDBDC' -x " .. theme_dir .. "background.png" }
 -- }}}
 
 -- {{{ Styles
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.fg_normal = "#DCDCCC"
-theme.fg_focus  = "#F0DFAF"
-theme.fg_urgent = "#CC9393"
-theme.bg_normal = "#5F5F5F"
-theme.bg_focus  = "#3E4340"
-theme.bg_urgent = "#5F5F5F"
+theme.bg_focus                                  = '#5278AE'
+theme.bg_normal                                 = '#FFFFFF'
+theme.bg_urgent                                 = '#FCCBCC'
+theme.bg_minimize                               = '#434750'
+theme.fg_normal                                 = '#000000'
+theme.fg_focus                                  = '#FFFFFF'
+theme.fg_urgent                                 = '#000000'
+theme.fg_minimize                               = '#000000'
+theme.bg_widget                                 = '#FFFFFF'
+theme.fg_widget                                 = '#000000'
+theme.fg_center_widget                          = '#000000'
+theme.fg_end_widget                             = '#000000'
+theme.tooltip_bg_color                          = '#C1BCB7'
+theme.tooltip_fg_color                          = '#000000'
 -- }}}
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#6F6F6F"
-theme.border_marked = "#CC9393"
+theme.border_normal                             = '#9C9EA0'
+theme.border_focus                              = '#434750'
+theme.border_marked                             = '#5278AE'
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#3F3F3F"
-theme.titlebar_bg_normal = "#3F3F3F"
+theme.titlebar_bg_focus  = "#434750"
+theme.titlebar_fg_focus  = "#FFFFFF"
+theme.titlebar_bg_normal = "#9C9EA0"
 -- }}}
 
 -- There are other variable sets
@@ -66,8 +75,10 @@ theme.mouse_finder_color = "#CC9393"
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_height = "15"
+theme.menu_height = "28"
 theme.menu_width  = "200"
+theme.menu_border_color = "#434750"
+theme.menu_border_with = "1"
 -- }}}
 
 -- {{{ Icons
@@ -123,5 +134,7 @@ theme.titlebar_maximized_button_focus_inactive  = theme_dir .. "titlebar/maximiz
 theme.titlebar_maximized_button_normal_inactive = theme_dir .. "titlebar/maximized_normal_inactive.png"
 -- }}}
 -- }}}
+theme.font = "sans 10"
+theme.menu_height = "24"
 
 return theme
