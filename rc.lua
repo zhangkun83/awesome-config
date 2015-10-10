@@ -237,7 +237,9 @@ end
 function set_floating_for_all_clients(value)
     local clients = client.get(mouse.screen)
     for k,c in pairs(clients) do
-        awful.client.floating.set(c, value)
+        if (c:isvisible()) then
+            awful.client.floating.set(c, value)
+        end
     end
 end
 
