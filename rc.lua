@@ -55,7 +55,7 @@ modkey = "Mod4"
 
 config_home = os.getenv("HOME") .. "/.config/awesome/"
 terminal = "xfce4-terminal"
-cheatsheet_command = "xterm -geometry 66x39+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+cheatsheet_command = "xterm -geometry 66x40+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
 
 -- {{{ provides the following variables / functions
@@ -243,6 +243,19 @@ function set_floating_for_all_clients(value)
     end
 end
 
+function float_window_nicely(c)
+    awful.client.floating.set(c, true)
+    local geo = c:geometry()
+    local screen_geo = screen[mouse.screen].geometry
+    local xpadding = screen_geo.width / 10
+    local ypadding = screen_geo.height / 10
+    geo.x = xpadding
+    geo.width = screen_geo.width - 2 * xpadding
+    geo.y = ypadding
+    geo.height = screen_geo.height - 2 * ypadding
+    c:geometry(geo)
+end
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",
@@ -360,6 +373,7 @@ clientkeys = awful.util.table.join(
             c.minimized = true
             raise_focus()
         end),
+    awful.key({ modkey,           }, "p",      float_window_nicely),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
