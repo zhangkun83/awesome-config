@@ -100,6 +100,9 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "compositor", {
+                                        { "yes", config_home .. "bin/compositor.sh true" },
+                                        { "no", config_home .. "bin/compositor.sh false" } } },
                                     { "open terminal", terminal }
                                   }
                         })
