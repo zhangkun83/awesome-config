@@ -54,6 +54,7 @@ end
 modkey = "Mod4"
 
 config_home = os.getenv("HOME") .. "/.config/awesome/"
+titlebar_height = 24
 terminal = "xfce4-terminal"
 cheatsheet_command = "xterm -geometry 66x40+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
@@ -246,7 +247,7 @@ function set_floating_for_all_clients(value)
     end
 end
 
-function float_window_nicely(c)
+function float_and_center_window(c)
     awful.client.floating.set(c, true)
     local geo = c:geometry()
     local screen_geo = screen[mouse.screen].geometry
@@ -257,6 +258,43 @@ function float_window_nicely(c)
     geo.y = ypadding
     geo.height = screen_geo.height - 2 * ypadding
     c:geometry(geo)
+end
+
+-- Adjust a range [initial_offset, initial_offset + initial_length), so that it
+-- fit in the range [0, limit), with the minimum padding on both sides
+-- (min_padding) and a minimum length (min_length). min_length has a higher
+-- priority than min_padding and limit.
+-- Returns a table {offset, length}.
+function get_sane_offset_and_length(initial_offset, initial_length, min_padding, min_length, limit)
+    local offset = initial_offset
+    local length = initial_length
+    if offset < min_padding then
+        offset = min_padding
+    end
+    if offset + length > limit - min_padding then
+        length = limit - min_padding - offset
+    end
+    if length < min_length then
+        length = min_length
+    end
+    local result = {}
+    result.offset = offset
+    result.length = length
+    return result
+end
+
+function place_window_sanely(c)
+  local screen_geo = screen[mouse.screen].geometry
+  local geo = c:geometry()
+  local xgeo = get_sane_offset_and_length(
+      geo.x, geo.width, 0, screen_geo.width / 10, screen_geo.width)
+  local ygeo = get_sane_offset_and_length(
+      geo.y, geo.height, titlebar_height, screen_geo.height / 10, screen_geo.height)
+  geo.x = xgeo.offset
+  geo.width = xgeo.length
+  geo.y = ygeo.offset
+  geo.height = ygeo.length
+  c:geometry(geo)
 end
 
 -- {{{ Key bindings
@@ -355,7 +393,7 @@ globalkeys = awful.util.table.join(
 -- ZK: Only show the title bar when the window is floating
 function update_titlebar_status(c)
   if (not hideTitleBarWhenTiling) or awful.client.floating.get(c) then
-    if not c.titlebar then awful.titlebar.add(c, { modkey = modkey, height = 24 }) end
+    if not c.titlebar then awful.titlebar.add(c, { modkey = modkey, height = titlebar_height }) end
   else
     if c.titlebar then awful.titlebar.remove(c) end
   end
@@ -376,7 +414,7 @@ clientkeys = awful.util.table.join(
             c.minimized = true
             raise_focus()
         end),
-    awful.key({ modkey,           }, "p",      float_window_nicely),
+    awful.key({ modkey,           }, "p",      float_and_center_window),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
@@ -474,12 +512,9 @@ client.add_signal("manage", function (c, startup)
             awful.placement.no_offscreen(c)
         end
 
-        -- At least, make space for the window title
-        local geometry = c:geometry()
-        if geometry.y < 50 then
-          geometry.y = 50
-        end
-        c:geometry(geometry)
+        -- At least, make space for the window title, and do not extend over
+        -- the borders of the screen
+        place_window_sanely(c)
     end
     update_titlebar_status(c)
 end)
