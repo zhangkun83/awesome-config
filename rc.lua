@@ -116,6 +116,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
+
+-- The systray doesn't get along with Chrome very well. Disable it for now.
 -- Create a systray
 -- mysystray = widget({ type = "systray" })
 mysystray = nil
@@ -390,6 +392,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
     awful.key({ modkey, "Control" }, "f", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
+    -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
+    -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
+    -- as an notification.
+    awful.key({ "Control"}, "space", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh") end),
     mykeybindings
 )
 
