@@ -35,4 +35,5 @@ Mod4 + \                     *  chrome (main profile)
 Mod4 + Shift + \             *  chrome (alt. profile)
 Mod4 + ]                     *  file manager
 Mod4 + F10                   *  youdao dict
+Mod4 + F11                   *  alsamixer
 Mod4 + F12                   *  lock screen

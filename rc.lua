@@ -56,7 +56,7 @@ modkey = "Mod4"
 config_home = os.getenv("HOME") .. "/.config/awesome/"
 titlebar_height = 24
 terminal = "xfce4-terminal"
-cheatsheet_command = "xterm -geometry 66x40+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
+cheatsheet_command = "xterm -geometry 66x41+800+300 -fa 'Monospace' -fs 11 -e 'less .config/awesome/cheatsheet.txt'"
 
 
 -- {{{ provides the following variables / functions
@@ -117,7 +117,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
-mysystray = widget({ type = "systray" })
+-- mysystray = widget({ type = "systray" })
+mysystray = nil
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -381,6 +382,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict
     awful.key({ modkey }, "F10", function () awful.util.spawn(config_home .. "bin/youdao_dict.py") end),
+    -- alsamixer
+    awful.key({ modkey }, "F11", function () awful.util.spawn(config_home .. "bin/mixer.sh") end),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
@@ -529,7 +532,6 @@ os.execute("xset r rate 220 30")
 -- ZK: Make mouse move slower
 os.execute("xset m 1/5 10")
 
-start_if_absent("gnome-sound-applet", "gnome-sound-applet")
 start_if_absent("xscreensaver", "xscreensaver")
 start_if_absent("ibus-daemon", "ibus-daemon -d")
 
