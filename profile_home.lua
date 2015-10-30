@@ -15,5 +15,5 @@ mywiboxprops = { height = 24, border_width = "0" }
 mykeybindings = awful.key({ modkey }, "\\", function () run_shell_command(config_home .. "bin/chrome-default-user.sh") end)
 
 function myautostarts()
-    start_if_absent("nm-applet", "nm-applet")
+--    start_if_absent("nm-applet", "nm-applet")
 end
