@@ -32,5 +32,5 @@ CURRENT_ENGINE=$(get_current_engine) || exit 1
 echo "naughty.destroy(ibusnotification)" | awesome-client
 echo "ibusnotification = naughty.notify({"\
   "text = \"ibus: <b>$CURRENT_ENGINE</b>\","\
-  "position = \"bottom_right\", timeout = 1})" |\
+  "position = \"bottom_right\"})" |\
   awesome-client

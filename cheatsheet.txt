@@ -1,39 +1,47 @@
 --------========#####  AWESOME CHEAT SHEET ##### ========--------
 
-Mod4 + /                     *  open this cheat sheet
+Mod4 + /                       *  open this cheat sheet
 -----------------------------------------------------------------
 
                              TAGS
 
-Mod4 + -> / <-               *  switch to next / previous tag
-Mod4 + <num>                 *  switch to tag
-Mod4 + Ctrl + <num>          *  toggle tag on display
+Mod4 + -> / <-                 *  switch to next / previous tag
+Mod4 + <num>                   *  switch to tag
+Mod4 + Ctrl + <num>            *  toggle tag on display
 
-Mod4 + Shift + <num>         *  move window to tag
-Mod4 + Shift + Ctrl + <num>  *  toggle tag on window
-Mod4 + Shift + =             *  rename tag
+Mod4 + Shift + <num>           *  move window to tag
+Mod4 + Shift + Ctrl + <num>    *  toggle tag on window
+Mod4 + Shift + =               *  rename tag
 -----------------------------------------------------------------
 
                             WINDOWS
 
-Mod4 + J / K                 *  next / previous window
-Mod4 + Space                 *  next layout
-Mod4 + Shift + Space         *  previous layout
-Mod4 + Ctrl + Space          *  make current window master
-Mod4 + F                     *  toggle window floating
-Mod4 + P                     *  float and center the window
-Mod4 + Ctrl + F              *  unfloat all windows
-Mod4 + Ctrl + Shift + F      *  float all windows
-Mod4 + Shift + C             *  close window
+Mod4 + J / K                   *  next / previous window
+Mod4 + Space                   *  next layout
+Mod4 + Shift + Space           *  previous layout
+Mod4 + Ctrl + Space            *  make current window master
+Mod4 + F                       *  toggle window floating
+Mod4 + P                       *  float and center the window
+Mod4 + Ctrl + F                *  unfloat all windows
+Mod4 + Ctrl + Shift + F        *  float all windows
+Mod4 + Shift + C               *  close window
 -----------------------------------------------------------------
 
-                         LAUNCH PROGRAMS
+                       LAUNCHING PROGRAMS
 
-Mod4 + R                     *  run command
-Mod4 + Enter                 *  terminal
-Mod4 + \                     *  chrome (main profile)
-Mod4 + Shift + \             *  chrome (alt. profile)
-Mod4 + ]                     *  file manager
-Mod4 + F10                   *  youdao dict
-Mod4 + F11                   *  alsamixer
-Mod4 + F12                   *  lock screen
+Mod4 + R                       *  run command
+Mod4 + Enter                   *  terminal
+Mod4 + \                       *  chrome (main profile)
+Mod4 + Shift + \               *  chrome (alt. profile)
+Mod4 + ]                       *  file manager
+Mod4 + F10                     *  youdao dict
+Mod4 + F11                     *  alsamixer
+Mod4 + F12                     *  lock screen
+
+-----------------------------------------------------------------
+
+                         MISC CONTROLS
+
+Ctrl + Space                   * switch ibus engine
+Mod4 + (numpad) plus / minus   * volume up / down
+Mod4 + (numpad) asterisk       * mute / unmute
