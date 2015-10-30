@@ -29,6 +29,8 @@ fi
 
 ibus engine ${ENGINES[$INDEX]}
 CURRENT_ENGINE=$(get_current_engine) || exit 1
-echo "naughty.notify({text = \"ibus: <b>$CURRENT_ENGINE</b>\","\
+echo "naughty.destroy(ibusnotification)" | awesome-client
+echo "ibusnotification = naughty.notify({"\
+  "text = \"ibus: <b>$CURRENT_ENGINE</b>\","\
   "position = \"bottom_right\", timeout = 1})" |\
   awesome-client
