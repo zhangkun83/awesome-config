@@ -540,7 +540,7 @@ os.execute("xset r rate 220 30")
 os.execute("xset m 1/5 10")
 
 start_if_absent("xscreensaver", "xscreensaver")
-start_if_absent("ibus-daemon", "ibus-daemon -d")
+run_shell_command(config_home .. "bin/restart_ibus.sh")
 
 myautostarts()
 
