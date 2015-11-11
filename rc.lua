@@ -8,6 +8,7 @@ require("beautiful")
 require("naughty")
 
 local hideTitleBarWhenTiling = false
+local floatingWindowAlwaysOnTop = true
 
 function raise_focus()
   if client.focus then client.focus:raise() end
@@ -400,12 +401,17 @@ globalkeys = awful.util.table.join(
     mykeybindings
 )
 
--- ZK: Only show the title bar when the window is floating
-function update_titlebar_status(c)
+-- Run whenver the floating status of a window changes
+function on_floating_changed(c)
   if (not hideTitleBarWhenTiling) or awful.client.floating.get(c) then
     if not c.titlebar then awful.titlebar.add(c, { modkey = modkey, height = titlebar_height }) end
   else
     if c.titlebar then awful.titlebar.remove(c) end
+  end
+
+  if floatingWindowAlwaysOnTop then
+    c.ontop = awful.client.floating.get(c)
+    raise_focus()
   end
 end
 
@@ -508,7 +514,7 @@ awful.rules.rules = {
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
-    c:add_signal("property::floating", update_titlebar_status)
+    c:add_signal("property::floating", on_floating_changed)
 
     if not startup then
         -- Set the windows at the slave,
@@ -526,7 +532,7 @@ client.add_signal("manage", function (c, startup)
         -- the borders of the screen
         place_window_sanely(c)
     end
-    update_titlebar_status(c)
+    on_floating_changed(c)
 end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
