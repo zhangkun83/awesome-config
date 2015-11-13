@@ -113,7 +113,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+mytextclock = awful.widget.textclock({ align = "right" }, " %a %b %d, %H:%M ", 1)
 
 
 -- The systray doesn't get along with Chrome very well. Disable it for now.
