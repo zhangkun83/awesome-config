@@ -178,7 +178,7 @@ mytasklist.buttons = awful.util.table.join(
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
-    mypromptbox[s] = awful.widget.prompt()
+    mypromptbox[s] = awful.widget.prompt({ prompt = " [Run]: " })
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -371,7 +371,7 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey }, "x",
               function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
+                  awful.prompt.run({ prompt = " [Run Lua code]: " },
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
@@ -379,7 +379,7 @@ globalkeys = awful.util.table.join(
     -- ZK: Prompt to rename the current tag
     awful.key({ modkey, "Shift" }, "=",
               function ()
-                  awful.prompt.run({ prompt = "Rename tag: " },
+                  awful.prompt.run({ prompt = " [Rename tag]: " },
                   mypromptbox[mouse.screen].widget,
                   function (s)
                     local tag = awful.tag.selected(mouse.screen)
