@@ -10,7 +10,6 @@ naughty = require("naughty")
 -- Widget and layout library
 local wibox = require("wibox")
 
-local hideTitleBarWhenTiling = false
 local floatingWindowAlwaysOnTop = true
 
 function raise_focus()
@@ -416,12 +415,6 @@ globalkeys = awful.util.table.join(
 
 -- Run whenver the floating status of a window changes
 function on_floating_changed(c)
-  if (not hideTitleBarWhenTiling) or awful.client.floating.get(c) then
-    awful.titlebar.show(c)
-  else
-    awful.titlebar.hide(c)
-  end
-
   if floatingWindowAlwaysOnTop then
     c.ontop = awful.client.floating.get(c)
     raise_focus()
@@ -542,7 +535,7 @@ client.connect_signal("manage", function (c, startup)
     end
 
     -- Create titlebar
-    if c.type == "normal" or c.type == "dialog" then
+    if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
         -- buttons for the titlebar
         local buttons = awful.util.table.join(
                 awful.button({ }, 1, function()
@@ -583,7 +576,8 @@ client.connect_signal("manage", function (c, startup)
         layout:set_right(right_layout)
         layout:set_middle(middle_layout)
 
-        awful.titlebar(c):set_widget(layout)
+        awful.titlebar(c, { size = titlebar_height }):set_widget(layout)
+        awful.titlebar.show(c)
 
         -- At least, make space for the window title, and do not extend over
         -- the borders of the screen
