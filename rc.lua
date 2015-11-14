@@ -84,6 +84,7 @@ editor = os.getenv("EDITOR") or "editor"
 -- ZK: removed unused layouts
 layouts =
 {
+    awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.max,
     awful.layout.suit.tile.bottom,
@@ -249,6 +250,10 @@ function restore_tag_names()
   f:close()
 end
 
+function is_in_floating_layout(c)
+  return awful.layout.get(c.screen) == awful.layout.suit.floating
+end
+
 function set_floating_for_all_clients(value)
     local clients = client.get(mouse.screen)
     for k,c in pairs(clients) do
@@ -259,7 +264,9 @@ function set_floating_for_all_clients(value)
 end
 
 function float_and_center_window(c)
-    awful.client.floating.set(c, true)
+    if not is_in_floating_layout(c) then
+        awful.client.floating.set(c, true)
+    end
     local geo = c:geometry()
     local screen_geo = screen[mouse.screen].geometry
     local xpadding = screen_geo.width / 10
@@ -503,7 +510,6 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-                     floating = true,
                      size_hints_honor = false,
                      buttons = clientbuttons },
       -- ZK: new windows are set as slave, so the existing master window can stay master
@@ -532,6 +538,12 @@ client.connect_signal("manage", function (c, startup)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
+
+        -- In floating layout, new windows do not have "floating" state.
+        -- In tiling layouts, new windows have "floating" state.
+        -- The idea is that new windows are always floating, but have "floating"
+        -- state only when necessary.
+        awful.client.floating.set(c, not is_in_floating_layout(c))
     end
 
     -- Create titlebar
