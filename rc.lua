@@ -263,19 +263,77 @@ function set_floating_for_all_clients(value)
     end
 end
 
-function float_and_center_window(c)
-    if not is_in_floating_layout(c) then
-        awful.client.floating.set(c, true)
+function get_center(range)
+  return range.offset + range.length / 2
+end
+
+function unclutter_ranges(ranges, limit, margin)
+  local num_ranges = table.getn(ranges)
+  if num_ranges < 2 then
+    return
+  end
+  table.sort(ranges, function(a, b) return get_center(a) < get_center(b) end)
+  -- Calculate the space the ranges would use if uncluttered without shrunk
+  local sum_lengths = 0
+  for i,range in ipairs(ranges) do
+    sum_lengths = sum_lengths + range.length
+  end
+  -- Scatter ranges with evenly distributed with their lengths as the weight
+  local padding = (limit - sum_lengths) / (num_ranges - 1)
+  local offset = 0
+  for i,range in ipairs(ranges) do
+    range.offset = offset
+    offset = offset + range.length + padding
+  end
+end
+
+-- Eliminate overlaps by repositioning and shrinking the clients when necessary.
+function unclutter_clients()
+  local clients = {}
+  local Xs = {}
+  local Ys = {}
+  local n = 0
+  local screen_geo = screen[mouse.screen].workarea
+  for k,c in pairs(client.get(mouse.screen)) do
+    if (c:isvisible()) then
+      local geo = c:geometry()
+      table.insert(clients, c)
+      local Xelement = {}
+      Xelement.offset = geo.x
+      Xelement.length = geo.width
+      table.insert(Xs, Xelement)
+      local Yelement = {}
+      Yelement.offset = geo.y
+      Yelement.length = geo.height
+      table.insert(Ys, Yelement)
+      n = n + 1
     end
-    local geo = c:geometry()
-    local screen_geo = screen[mouse.screen].geometry
-    local xpadding = screen_geo.width / 10
-    local ypadding = screen_geo.height / 10
-    geo.x = xpadding
-    geo.width = screen_geo.width - 2 * xpadding
-    geo.y = ypadding
-    geo.height = screen_geo.height - 2 * ypadding
-    c:geometry(geo)
+  end
+  unclutter_ranges(Xs, screen_geo.width)
+  unclutter_ranges(Ys, screen_geo.height)
+  for i=1,n,1 do
+    local geo = {}
+    geo.x = Xs[i].offset
+    geo.width = Xs[i].length
+    geo.y = Ys[i].offset
+    geo.height = Ys[i].length
+    clients[i]:geometry(geo)
+  end
+end
+
+function float_and_center_window(c)
+  if not is_in_floating_layout(c) then
+    awful.client.floating.set(c, true)
+  end
+  local geo = c:geometry()
+  local screen_geo = screen[mouse.screen].geometry
+  local xpadding = screen_geo.width / 10
+  local ypadding = screen_geo.height / 10
+  geo.x = xpadding
+  geo.width = screen_geo.width - 2 * xpadding
+  geo.y = ypadding
+  geo.height = screen_geo.height - 2 * ypadding
+  c:geometry(geo)
 end
 
 -- Adjust a range [initial_offset, initial_offset + initial_length), so that it
@@ -410,6 +468,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "/", function () awful.util.spawn(config_home .. "bin/cheatsheet.sh") end),
     awful.key({ modkey, "Control" }, "f", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
+    awful.key({ modkey, "Control"}, "p", unclutter_clients),
     awful.key({ modkey }, "KP_Add", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "KP_Subtract", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
     awful.key({ modkey }, "KP_Multiply", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
