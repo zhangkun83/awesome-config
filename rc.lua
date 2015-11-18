@@ -292,8 +292,13 @@ function force_directed_distribute_sim(geos, screen_geo)
   local friction = 5
   local force_multiplier = 10
   local n = table.getn(geos)
+  -- Maximum window dimension is 80% of the screen size
+  local max_width = screen_geo.width * 4 / 5
+  local max_height = screen_geo.height * 4 / 5
   for i=1,n,1 do
     local geo = geos[i]
+    geo.width = math.min(max_width, geo.width)
+    geo.height = math.min(max_height, geo.height)
     geo.area = geo.width * geo.height
     -- Initial velocity
     geo.vx = 0
@@ -336,29 +341,29 @@ function force_directed_distribute_sim(geos, screen_geo)
           end
         end
       end
-      -- Calculate forces between g1 and the screen borders
-      local f = {x = 0, y = 0}
-      if g1.x < 0 then
-        f.x = f.x - g1.height * g1.x * force_multiplier
-      end
-      if g1.y < 0 then
-        f.y = f.y - g1.width * g1.y * force_multiplier
-      end
-      if (g1.x + g1.width) > screen_geo.width then
-        f.x = f.x - g1.height * (g1.x + g1.width - screen_geo.width) * force_multiplier
-      end
-      if (g1.y + g1.height) > screen_geo.height then
-        f.y = f.y - g1.width * (g1.y + g1.height - screen_geo.height) * force_multiplier
-      end
-      -- apply f to g1
-      g1.vx = g1.vx + f.x / g1.area
-      g1.vy = g1.vy + f.y / g1.area
       -- Move g1
       g1.x = g1.x + g1.vx
       g1.y = g1.y + g1.vy
       -- Apply friction
       g1.vx = get_sign(g1.vx) * math.max(0, math.abs(g1.vx) - friction)
       g1.vy = get_sign(g1.vy) * math.max(0, math.abs(g1.vy) - friction)
+      -- Stop when hitting the borders
+      if g1.x < 0 then
+        g1.x = 0
+        g1.vx = 0
+      end
+      if g1.y < 0 then
+        g1.y = 0
+        g1.vy = 0
+      end
+      if (g1.x + g1.width) > screen_geo.width then
+        g1.x = screen_geo.width - g1.width
+        g1.vx = 0
+      end
+      if (g1.y + g1.height) > screen_geo.height then
+        g1.y = screen_geo.height - g1.height
+        g1.vy = 0
+      end
     end
   end
 end
@@ -368,7 +373,7 @@ function unclutter_clients()
   local clients = {}
   local geos = {}
   local n = 0
-  local screen_geo = screen[mouse.screen].geometry
+  local screen_geo = screen[mouse.screen].workarea
   for k,c in pairs(client.get(mouse.screen)) do
     if (c:isvisible()) then
       local geo = c:geometry()
