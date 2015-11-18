@@ -263,61 +263,123 @@ function set_floating_for_all_clients(value)
     end
 end
 
-function get_center(range)
-  return range.offset + range.length / 2
+function get_center(geo)
+  return {x = geo.x + geo.width / 2, y = geo.y + geo.height / 2}
 end
 
-function unclutter_ranges(ranges, limit, margin)
-  local num_ranges = table.getn(ranges)
-  if num_ranges < 2 then
-    return
+function get_overlap(s1, e1, s2, e2)
+  if e1 <= s2 or e2 <= s1 then
+    return 0
+  else
+    return math.min(e1, e2) - math.max(s1, s2)
   end
-  table.sort(ranges, function(a, b) return get_center(a) < get_center(b) end)
-  -- Calculate the space the ranges would use if uncluttered without shrunk
-  local sum_lengths = 0
-  for i,range in ipairs(ranges) do
-    sum_lengths = sum_lengths + range.length
+end
+
+function get_sign(n)
+  if n > 0 then
+    return 1
   end
-  -- Scatter ranges with evenly distributed with their lengths as the weight
-  local padding = (limit - sum_lengths) / (num_ranges - 1)
-  local offset = 0
-  for i,range in ipairs(ranges) do
-    range.offset = offset
-    offset = offset + range.length + padding
+  if n < 0 then
+    return -1
+  end
+  return 0
+end
+
+-- Run a force simulation while overlapping clients repulse each other
+-- in order to reach a more even distribution.
+function force_directed_distribute_sim(geos, screen_geo)
+  local steps = 500
+  local friction = 5
+  local force_multiplier = 10
+  local n = table.getn(geos)
+  for i=1,n,1 do
+    local geo = geos[i]
+    geo.area = geo.width * geo.height
+    -- Initial velocity
+    geo.vx = 0
+    geo.vy = 0
+  end
+  for step=1,steps,1 do
+    for i=1,n,1 do
+      local g1 = geos[i]
+      -- Calculate forces between objects and apply them
+      for j=i+1,n,1 do
+        local g2 = geos[j]
+        local overlap_x = get_overlap(
+            g1.x, g1.x + g1.width, g2.x, g2.x + g2.width)
+        if overlap_x > 0 then
+          local overlap_y = get_overlap(
+              g1.y, g1.y + g1.height, g2.y, g2.y + g2.height)
+          if overlap_y > 0 then
+            local overlap_area = overlap_x * overlap_y
+            local c1 = get_center(g1)
+            local c2 = get_center(g2)
+            -- relative position of g2 to g1
+            local rp = {x = c2.x - c1.x, y = c2.y - c1.y}
+            -- distance of centers
+            local d = math.sqrt(rp.x * rp.x + rp.y * rp.y)
+            -- the force scalar, which is a factor of the overlap area
+            local f = overlap_area * force_multiplier
+            -- force vector from g1 to g2
+            local f12
+            if d > 0 then
+              f12 = {x = rp.x * f / d, y = rp.y * f / d}
+            else
+              f12 = {x = f, y = 0}
+            end
+            -- apply f12 to g2
+            g2.vx = g2.vx + f12.x / g2.area
+            g2.vy = g2.vy + f12.y / g2.area
+            -- apply the counter f12 to g1
+            g1.vx = g1.vx - f12.x / g1.area
+            g1.vy = g1.vy - f12.y / g1.area
+          end
+        end
+      end
+      -- Calculate forces between g1 and the screen borders
+      local f = {x = 0, y = 0}
+      if g1.x < 0 then
+        f.x = f.x - g1.height * g1.x * force_multiplier
+      end
+      if g1.y < 0 then
+        f.y = f.y - g1.width * g1.y * force_multiplier
+      end
+      if (g1.x + g1.width) > screen_geo.width then
+        f.x = f.x - g1.height * (g1.x + g1.width - screen_geo.width) * force_multiplier
+      end
+      if (g1.y + g1.height) > screen_geo.height then
+        f.y = f.y - g1.width * (g1.y + g1.height - screen_geo.height) * force_multiplier
+      end
+      -- apply f to g1
+      g1.vx = g1.vx + f.x / g1.area
+      g1.vy = g1.vy + f.y / g1.area
+      -- Move g1
+      g1.x = g1.x + g1.vx
+      g1.y = g1.y + g1.vy
+      -- Apply friction
+      g1.vx = get_sign(g1.vx) * math.max(0, math.abs(g1.vx) - friction)
+      g1.vy = get_sign(g1.vy) * math.max(0, math.abs(g1.vy) - friction)
+    end
   end
 end
 
 -- Eliminate overlaps by repositioning and shrinking the clients when necessary.
 function unclutter_clients()
   local clients = {}
-  local Xs = {}
-  local Ys = {}
+  local geos = {}
   local n = 0
-  local screen_geo = screen[mouse.screen].workarea
+  local screen_geo = screen[mouse.screen].geometry
   for k,c in pairs(client.get(mouse.screen)) do
     if (c:isvisible()) then
       local geo = c:geometry()
       table.insert(clients, c)
-      local Xelement = {}
-      Xelement.offset = geo.x
-      Xelement.length = geo.width
-      table.insert(Xs, Xelement)
-      local Yelement = {}
-      Yelement.offset = geo.y
-      Yelement.length = geo.height
-      table.insert(Ys, Yelement)
+      table.insert(geos, geo)
       n = n + 1
     end
   end
-  unclutter_ranges(Xs, screen_geo.width)
-  unclutter_ranges(Ys, screen_geo.height)
+  force_directed_distribute_sim(geos, screen_geo)
   for i=1,n,1 do
-    local geo = {}
-    geo.x = Xs[i].offset
-    geo.width = Xs[i].length
-    geo.y = Ys[i].offset
-    geo.height = Ys[i].length
-    clients[i]:geometry(geo)
+    clients[i]:geometry(geos[i])
   end
 end
 
