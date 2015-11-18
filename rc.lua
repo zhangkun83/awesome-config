@@ -686,13 +686,13 @@ client.connect_signal("manage", function (c, startup)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
-
-        -- In floating layout, new windows do not have "floating" state.
-        -- In tiling layouts, new windows have "floating" state.
-        -- The idea is that new windows are always floating, but have "floating"
-        -- state only when necessary.
-        awful.client.floating.set(c, not is_in_floating_layout(c))
     end
+
+    -- In floating layout, new windows do not have "floating" state.
+    -- In tiling layouts, new windows have "floating" state.
+    -- The idea is that new windows are always floating, but have "floating"
+    -- state only when necessary.
+    awful.client.floating.set(c, not is_in_floating_layout(c))
 
     -- Create titlebar
     if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
