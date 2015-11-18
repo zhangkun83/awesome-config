@@ -285,6 +285,10 @@ function get_sign(n)
   return 0
 end
 
+function ceil(n)
+  return get_sign(n) * math.ceil(math.abs(n))
+end
+
 -- Run a force simulation while overlapping clients repulse each other
 -- in order to reach a more even distribution.
 function force_directed_distribute_sim(geos, screen_geo)
@@ -293,8 +297,9 @@ function force_directed_distribute_sim(geos, screen_geo)
   local force_multiplier = 10
   local n = table.getn(geos)
   -- Maximum window dimension is 80% of the screen size
-  local max_width = screen_geo.width * 4 / 5
-  local max_height = screen_geo.height * 4 / 5
+  local max_dimension_ratio = 0.8
+  local max_width = screen_geo.width * max_dimension_ratio
+  local max_height = screen_geo.height * max_dimension_ratio
   for i=1,n,1 do
     local geo = geos[i]
     geo.width = math.min(max_width, geo.width)
@@ -328,28 +333,32 @@ function force_directed_distribute_sim(geos, screen_geo)
             local d = math.sqrt(rp.x * rp.x + rp.y * rp.y)
             -- the force scalar, which is a factor of the overlap area
             local f = overlap_area * force_multiplier
-            -- force vector from g1 to g2
-            local f12
+            -- acceleration scalars for g1 and g2
+            local a1 = math.ceil(f / g1.area)
+            local a2 = math.ceil(f / g2.area)
+            -- acceleration vectors for g1 and g2
+            local va1
+            local va2
             if d > 0 then
-              f12 = {x = rp.x * f / d, y = rp.y * f / d}
+              local t2 = a2 / d
+              va2 = {x = ceil(rp.x * t2), y = ceil(rp.y * t2)}
+              local t1 = - a1 / d
+              va1 = {x = ceil(rp.x * t1), y = ceil(rp.y * t1)}
             else
-              f12 = {x = f, y = 0}
+              va2 = {x = a2, y = 0}
+              va1 = {x = 0, y = -a1}
             end
-            -- apply f12 to g2
-            g2.vx = g2.vx + f12.x / g2.area
-            g2.vy = g2.vy + f12.y / g2.area
-            -- apply the counter f12 to g1
-            g1.vx = g1.vx - f12.x / g1.area
-            g1.vy = g1.vy - f12.y / g1.area
+            -- apply va2 to g2
+            g2.vx = g2.vx + va2.x
+            g2.vy = g2.vy + va2.y
+            -- apply va1 to g1
+            g1.vx = g1.vx + va1.x
+            g1.vy = g1.vy + va1.y
           end
         end
       end
-      -- Move g1
       g1.x = g1.x + g1.vx
       g1.y = g1.y + g1.vy
-      -- Apply friction
-      g1.vx = get_sign(g1.vx) * math.max(0, math.abs(g1.vx) - friction)
-      g1.vy = get_sign(g1.vy) * math.max(0, math.abs(g1.vy) - friction)
       -- Stop when hitting the borders
       if g1.x < 0 then
         g1.x = 0
@@ -368,7 +377,10 @@ function force_directed_distribute_sim(geos, screen_geo)
         g1.vy = 0
       end
       -- Check if finished
-      if g1.vx ~= 0 or g1.vy ~= 0 then stable = false end
+      if math.abs(g1.vx) > 0.5 or math.abs(g1.vy) > 0.5 then stable = false end
+      -- Apply friction
+      g1.vx = get_sign(g1.vx) * math.max(0, math.abs(g1.vx) - friction)
+      g1.vy = get_sign(g1.vy) * math.max(0, math.abs(g1.vy) - friction)
     end
     if stable then break end
   end
