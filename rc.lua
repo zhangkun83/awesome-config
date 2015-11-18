@@ -293,7 +293,6 @@ end
 -- in order to reach a more even distribution.
 function force_directed_distribute_sim(geos, screen_geo)
   local max_steps = 10000
-  local friction = 5
   local force_multiplier = 10
   local padding = 10
   local n = table.getn(geos)
@@ -306,14 +305,16 @@ function force_directed_distribute_sim(geos, screen_geo)
     geo.width = math.min(max_width, geo.width)
     geo.height = math.min(max_height, geo.height)
     geo.area = geo.width * geo.height
-    -- Initial velocity
-    geo.vx = 0
-    geo.vy = 0
   end
   local steps = 0
   for step=1,max_steps,1 do
     steps = step
-    local stable = true
+    for i=1,n,1 do
+      -- Reset velocity at each step
+      geos[i].vx = 0
+      geos[i].vy = 0
+    end
+    local equilibrium = true
     for i=1,n,1 do
       local g1 = geos[i]
       -- Calculate forces between objects and apply them
@@ -377,13 +378,10 @@ function force_directed_distribute_sim(geos, screen_geo)
         g1.y = screen_geo.height - g1.height
         g1.vy = 0
       end
-      -- Check if finished
-      if math.abs(g1.vx) > 0.5 or math.abs(g1.vy) > 0.5 then stable = false end
-      -- Apply friction
-      g1.vx = get_sign(g1.vx) * math.max(0, math.abs(g1.vx) - friction)
-      g1.vy = get_sign(g1.vy) * math.max(0, math.abs(g1.vy) - friction)
+      -- Not in equilibrium state if at least one object is moving
+      if math.abs(g1.vx) > 0.5 or math.abs(g1.vy) > 0.5 then equilibrium = false end
     end
-    if stable then break end
+    if equilibrium then break end
   end
   naughty.notify({title = "Uncluttered", text = "Used " .. steps .. " steps"})
 end
