@@ -368,14 +368,15 @@ function force_directed_distribute_sim(geos, screen_geo)
   end
 end
 
--- Eliminate overlaps by repositioning and shrinking the clients when necessary.
-function unclutter_clients()
+-- Eliminate overlaps by repositioning and shrinking the floating clients when
+-- necessary.
+function unclutter_floating_clients()
   local clients = {}
   local geos = {}
   local n = 0
   local screen_geo = screen[mouse.screen].workarea
   for k,c in pairs(client.get(mouse.screen)) do
-    if (c:isvisible()) then
+    if c:isvisible() and (is_in_floating_layout(c) or awful.client.floating.get(c)) then
       local geo = c:geometry()
       table.insert(clients, c)
       table.insert(geos, geo)
@@ -393,7 +394,7 @@ function float_and_center_window(c)
     awful.client.floating.set(c, true)
   end
   local geo = c:geometry()
-  local screen_geo = screen[mouse.screen].geometry
+  local screen_geo = screen[mouse.screen].workarea
   local xpadding = screen_geo.width / 10
   local ypadding = screen_geo.height / 10
   geo.x = xpadding
@@ -535,7 +536,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "/", function () awful.util.spawn(config_home .. "bin/cheatsheet.sh") end),
     awful.key({ modkey, "Control" }, "f", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
-    awful.key({ modkey, "Control"}, "p", unclutter_clients),
+    awful.key({ modkey, "Control"}, "p", unclutter_floating_clients),
     awful.key({ modkey }, "KP_Add", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "KP_Subtract", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
     awful.key({ modkey }, "KP_Multiply", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
