@@ -15,11 +15,13 @@ class youdao_dict:
     def query(self, widget, data=None):
         query = urllib.quote(self.input_box.get_text())
         print query
-        if widget == self.lookup_button:
-          url = "http://dict.youdao.com/search?q="
+        if widget == self.youdao_button:
+          url = "http://dict.youdao.com/search?q=" + query
+        elif widget == self.jisho_button:
+          url = "http://dictionary.goo.ne.jp/srch/all/" + query + "/m0u/"
         else:
-          url = "http://www.google.com/search?q="
-        os.system("google-chrome --app=" + url + query + " &")
+          url = "http://www.google.com/search?q=" + query
+        os.system("google-chrome --app=" + url + " &")
 
     def delete_event(self, widget, event, data=None):
         # If you return FALSE in the "delete_event" signal handler,
@@ -78,38 +80,46 @@ class youdao_dict:
 
     
         # Creates a new button
-        self.lookup_button = gtk.Button("_Dictionary")
-        self.lookup_button.set_size_request(-1, -1)
+        self.youdao_button = gtk.Button("_Youdao")
+        self.youdao_button.set_size_request(-1, -1)
         # let the button can be set as the default widget of the window
-        self.lookup_button.set_flags(gtk.CAN_DEFAULT)
+        self.youdao_button.set_flags(gtk.CAN_DEFAULT)
+
+        # Button for Japanese dictionary
+        self.jisho_button = gtk.Button("_Jisho")
+        self.jisho_button.set_size_request(-1, -1)
 
         # Button for google search
-        self.search_button = gtk.Button("_Google")
-        self.search_button.set_size_request(-1, -1)
+        self.google_button = gtk.Button("_Google")
+        self.google_button.set_size_request(-1, -1)
     
         # When the button receives the "clicked" signal, it will call the
         # function hello() passing it None as its argument.  The hello()
         # function is defined above.
-        self.lookup_button.connect("clicked", self.query, None)
-        self.search_button.connect("clicked", self.query, None)
+        self.youdao_button.connect("clicked", self.query, None)
+        self.jisho_button.connect("clicked", self.query, None)
+        self.google_button.connect("clicked", self.query, None)
     
         # This will cause the window to be destroyed by calling
         # gtk_widget_destroy(window) when "clicked".  Again, the destroy
         # signal could come from here, or the window manager.
-        self.lookup_button.connect_object("clicked", gtk.Widget.destroy, self.window)
-        self.search_button.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.youdao_button.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.jisho_button.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.google_button.connect_object("clicked", gtk.Widget.destroy, self.window)
     
         # This packs the button into the window (a GTK container).
         text_msg = gtk.Label("Anything to search:")
         self.window.get_content_area().add(text_msg)
         self.window.get_content_area().add(self.input_box)
-        self.window.add_action_widget(self.lookup_button, 1)
-        self.window.add_action_widget(self.search_button, 2)
-        self.window.set_default(self.lookup_button)
+        self.window.add_action_widget(self.youdao_button, 1)
+        self.window.add_action_widget(self.jisho_button, 1)
+        self.window.add_action_widget(self.google_button, 3)
+        self.window.set_default(self.youdao_button)
     
         # The final step is to display this newly created widget.
-        self.lookup_button.show()
-        self.search_button.show()
+        self.youdao_button.show()
+        self.jisho_button.show()
+        self.google_button.show()
         self.input_box.show()
         text_msg.show()
     
