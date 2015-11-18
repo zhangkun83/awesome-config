@@ -288,7 +288,7 @@ end
 -- Run a force simulation while overlapping clients repulse each other
 -- in order to reach a more even distribution.
 function force_directed_distribute_sim(geos, screen_geo)
-  local steps = 500
+  local max_steps = 10000
   local friction = 5
   local force_multiplier = 10
   local n = table.getn(geos)
@@ -304,7 +304,10 @@ function force_directed_distribute_sim(geos, screen_geo)
     geo.vx = 0
     geo.vy = 0
   end
-  for step=1,steps,1 do
+  local steps = 0
+  for step=1,max_steps,1 do
+    steps = step
+    local stable = true
     for i=1,n,1 do
       local g1 = geos[i]
       -- Calculate forces between objects and apply them
@@ -364,8 +367,12 @@ function force_directed_distribute_sim(geos, screen_geo)
         g1.y = screen_geo.height - g1.height
         g1.vy = 0
       end
+      -- Check if finished
+      if g1.vx ~= 0 or g1.vy ~= 0 then stable = false end
     end
+    if stable then break end
   end
+  naughty.notify({title = "Uncluttered", text = "Used " .. steps .. " steps"})
 end
 
 -- Eliminate overlaps by repositioning and shrinking the floating clients when
