@@ -295,6 +295,7 @@ function force_directed_distribute_sim(geos, screen_geo)
   local max_steps = 10000
   local friction = 5
   local force_multiplier = 10
+  local padding = 10
   local n = table.getn(geos)
   -- Maximum window dimension is 80% of the screen size
   local max_dimension_ratio = 0.8
@@ -319,10 +320,10 @@ function force_directed_distribute_sim(geos, screen_geo)
       for j=i+1,n,1 do
         local g2 = geos[j]
         local overlap_x = get_overlap(
-            g1.x, g1.x + g1.width, g2.x, g2.x + g2.width)
+            g1.x, g1.x + g1.width + padding, g2.x, g2.x + g2.width + padding)
         if overlap_x > 0 then
           local overlap_y = get_overlap(
-              g1.y, g1.y + g1.height, g2.y, g2.y + g2.height)
+              g1.y, g1.y + g1.height + padding, g2.y, g2.y + g2.height + padding)
           if overlap_y > 0 then
             local overlap_area = overlap_x * overlap_y
             local c1 = get_center(g1)
