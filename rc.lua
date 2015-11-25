@@ -412,14 +412,20 @@ function unclutter_floating_clients()
   end
 end
 
-function center_window(c)
+-- Place the window at one of the 9 pre-defined pivot points on the window
+-- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
+-- (1, 1) means down-right.
+function place_window_at_pivot(h, v, c)
   if not is_floating(c) then
     return
   end
   local geo = c:geometry()
   local screen_geo = screen[c.screen].workarea
-  geo.x = (screen_geo.width - geo.width) / 2
-  geo.y = (screen_geo.height - geo.height) / 2
+  local win_center = {}
+  win_center.x = screen_geo.width * (0.5 + h * 0.25)
+  win_center.y = screen_geo.height * (0.5 + v * 0.25)
+  geo.x = math.min(math.max(0, win_center.x - geo.width / 2), screen_geo.width - geo.width)
+  geo.y = math.min(math.max(0, win_center.y - geo.height / 2), screen_geo.height - geo.height)
   c:geometry(geo)
 end
 
@@ -643,7 +649,16 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey }, "KP_Next",  function (c) change_window_geometry(window_move_step, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_End",  function (c) change_window_geometry(-window_move_step, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_Prior",  function (c) change_window_geometry(window_move_step, -window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Begin",  center_window),
+    -- Placing the window at pivot points
+    awful.key({ modkey, "Control" }, "KP_Up",  function (c) place_window_at_pivot(0, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Down",  function (c) place_window_at_pivot(0, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Left",  function (c) place_window_at_pivot(-1, 0, c) end),
+    awful.key({ modkey, "Control" }, "KP_Right",  function (c) place_window_at_pivot(1, 0, c) end),
+    awful.key({ modkey, "Control" }, "KP_Home",  function (c) place_window_at_pivot(-1, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Next",  function (c) place_window_at_pivot(1, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_End",  function (c) place_window_at_pivot(-1, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Prior",  function (c) place_window_at_pivot(1, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Begin", function (c) place_window_at_pivot(0, 0, c) end),
     awful.key({ modkey }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
