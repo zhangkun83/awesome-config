@@ -10,8 +10,6 @@ naughty = require("naughty")
 -- Widget and layout library
 local wibox = require("wibox")
 
-local floatingWindowAlwaysOnTop = true
-
 function raise_focus()
   if client.focus then client.focus:raise() end
 end
@@ -56,9 +54,11 @@ end
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+local floatingWindowAlwaysOnTop = true
 config_home = os.getenv("HOME") .. "/.config/awesome/"
 titlebar_height = 24
 terminal = "xfce4-terminal"
+local window_move_step = 50
 
 -- {{{ provides the following variables / functions
 --- * mythememod
@@ -254,6 +254,10 @@ function is_in_floating_layout(c)
   return awful.layout.get(c.screen) == awful.layout.suit.floating
 end
 
+function is_floating(c)
+  return is_in_floating_layout(c) or awful.client.floating.get(c)
+end
+
 function set_floating_for_all_clients(value)
     local clients = client.get(mouse.screen)
     for k,c in pairs(clients) do
@@ -394,7 +398,7 @@ function unclutter_floating_clients()
   local n = 0
   local screen_geo = screen[mouse.screen].workarea
   for k,c in pairs(client.get(mouse.screen)) do
-    if c:isvisible() and (is_in_floating_layout(c) or awful.client.floating.get(c)) then
+    if c:isvisible() and is_floating(c) then
       local geo = c:geometry()
       table.insert(clients, c)
       table.insert(geos, geo)
@@ -407,18 +411,43 @@ function unclutter_floating_clients()
   end
 end
 
+function center_window(c)
+  if not is_floating(c) then
+    return
+  end
+  local geo = c:geometry()
+  local screen_geo = screen[c.screen].workarea
+  geo.x = (screen_geo.width - geo.width) / 2
+  geo.y = (screen_geo.height - geo.height) / 2
+  c:geometry(geo)
+end
+
 function float_and_center_window(c)
-  if not is_in_floating_layout(c) then
+  if not is_floating(c) then
     awful.client.floating.set(c, true)
   end
   local geo = c:geometry()
-  local screen_geo = screen[mouse.screen].workarea
+  local screen_geo = screen[c.screen].workarea
   local xpadding = screen_geo.width / 10
   local ypadding = screen_geo.height / 10
   geo.x = xpadding
   geo.width = screen_geo.width - 2 * xpadding
   geo.y = ypadding
   geo.height = screen_geo.height - 2 * ypadding
+  c:geometry(geo)
+end
+
+function change_window_geometry(dx, dy, dw, dh, c)
+  -- Only floating windows can be moved
+  if not is_floating(c) then
+    return
+  end
+  local geo = c:geometry()
+  local screen_geo = screen[c.screen].workarea
+  geo.x = math.min(math.max(0, geo.x + dx), screen_geo.width - 50)
+  geo.y = math.min(math.max(0, geo.y + dy), screen_geo.height - 50)
+  geo.width = math.min(math.max(100, geo.width + dw), screen_geo.width)
+  geo.height = math.min(math.max(100, geo.height + dh), screen_geo.height)
   c:geometry(geo)
 end
 
@@ -595,7 +624,26 @@ clientkeys = awful.util.table.join(
             raise_focus()
         end),
     awful.key({ modkey,           }, "p",      float_and_center_window),
-    awful.key({ modkey,           }, "m",
+    -- Resizing the window by keyboard
+    awful.key({ modkey, "Shift" }, "KP_Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Left",  function (c) change_window_geometry(0, 0, -window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Right",  function (c) change_window_geometry(0, 0, window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Home",  function (c) change_window_geometry(0, 0, -window_move_step, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Next",  function (c) change_window_geometry(0, 0, window_move_step, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_End",  function (c) change_window_geometry(0, 0, -window_move_step, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Prior",  function (c) change_window_geometry(0, 0, window_move_step, -window_move_step, c) end),
+    -- Moving the window by keyboard
+    awful.key({ modkey }, "KP_Up",  function (c) change_window_geometry(0, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Down",  function (c) change_window_geometry(0, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Left",  function (c) change_window_geometry(-window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Right",  function (c) change_window_geometry(window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Home",  function (c) change_window_geometry(-window_move_step, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Next",  function (c) change_window_geometry(window_move_step, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_End",  function (c) change_window_geometry(-window_move_step, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Prior",  function (c) change_window_geometry(window_move_step, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Begin",  center_window),
+    awful.key({ modkey }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -693,11 +741,8 @@ client.connect_signal("manage", function (c, startup)
         end
     end
 
-    -- In floating layout, new windows do not have "floating" state.
-    -- In tiling layouts, new windows have "floating" state.
-    -- The idea is that new windows are always floating, but have "floating"
-    -- state only when necessary.
-    awful.client.floating.set(c, not is_in_floating_layout(c))
+    -- New windows are always floating, but have "floating" state only when necessary.
+    awful.client.floating.set(c, not is_floating(c))
 
     -- Create titlebar
     if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
