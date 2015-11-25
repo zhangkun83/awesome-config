@@ -59,6 +59,7 @@ config_home = os.getenv("HOME") .. "/.config/awesome/"
 titlebar_height = 24
 terminal = "xfce4-terminal"
 local window_move_step = 50
+cheatsheet_command = config_home .. "bin/cheatsheet.sh"
 
 -- {{{ provides the following variables / functions
 --- * mythememod
@@ -587,7 +588,7 @@ globalkeys = awful.util.table.join(
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
-    awful.key({ modkey }, "/", function () awful.util.spawn(config_home .. "bin/cheatsheet.sh") end),
+    awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
     awful.key({ modkey, "Control" }, "f", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
     awful.key({ modkey, "Control"}, "p", unclutter_floating_clients),
