@@ -422,8 +422,8 @@ function place_window_at_pivot(h, v, c)
   local geo = c:geometry()
   local screen_geo = screen[c.screen].workarea
   local win_center = {}
-  win_center.x = screen_geo.width * (0.5 + h * 0.25)
-  win_center.y = screen_geo.height * (0.5 + v * 0.25)
+  win_center.x = screen_geo.width * (0.5 + h * 0.33)
+  win_center.y = screen_geo.height * (0.5 + v * 0.33)
   geo.x = math.min(math.max(0, win_center.x - geo.width / 2), screen_geo.width - geo.width)
   geo.y = math.min(math.max(0, win_center.y - geo.height / 2), screen_geo.height - geo.height)
   c:geometry(geo)
