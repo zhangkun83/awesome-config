@@ -34,7 +34,9 @@ It uses the following applications / packages:
 ## Screenshots ##
 
 Tiling windows in the background, with a window just brought to front by `Mod+P`:
+
 <img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/place_center.jpg" width="640">
 
 The floating layout:
+
 <img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/floating.jpg" width="640">
