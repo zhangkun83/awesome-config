@@ -6,8 +6,13 @@ myawesomemenu = {
    { "restart", awesome.restart },
    { "quit", {
        { "yes", awesome.quit },
-       { "no", function() end } } },
-   { "sleep", config_home .. "bin/sleepnlock.sh"}
+       { "no", function() end } }
+   },
+   { "sleep", config_home .. "bin/sleepnlock.sh" },
+   { "power off", {
+       { "yes", config_home .. "bin/poweroff.sh" },
+       { "no", function() end } }
+   }
 }
 
 mywiboxprops = { height = 24, border_width = "0" }
