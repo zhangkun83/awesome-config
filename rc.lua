@@ -67,14 +67,16 @@ cheatsheet_command = config_home .. "bin/cheatsheet.sh"
 --- * mywiboxprops
 --- * mykeybindings
 --- * myautostarts
-dofile(config_home .. "current_profile.lua")
+dofile(config_home .. "runtime/current_profile.lua")
 -- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-os.execute("cat " .. config_home .. "theme/theme.lua " .. mythememod ..
-    " > " .. config_home .. "theme/theme-generated.lua")
-beautiful.init(config_home .. "theme/theme-generated.lua")
+os.execute("mkdir -p " .. config_home .. "/runtime")
+os.execute(config_home .. "bin/prepare-wallpaper.sh")
+os.execute("cat " .. config_home .. "theme/theme-common.lua " .. mythememod ..
+    " > " .. config_home .. "runtime/theme.lua")
+beautiful.init(config_home .. "runtime/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "x-terminal-emulator"
@@ -229,7 +231,7 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
-local saved_tags_file = config_home .. "saved_tags"
+local saved_tags_file = config_home .. "runtime/saved_tags"
 
 -- ZK: save tag names so that they survive after restart
 function save_tag_names()

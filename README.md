@@ -2,16 +2,6 @@
 This is the [awesome WM](http://awesome.naquadah.org/) config I have fined-tuned for my daily use.
 I am currently running it on awesome v3.5.6 on Ubuntu 14.04 (work profile) and Mint 17 (home profile).
 
-## Dependencies ##
-It uses the following applications / packages:
- - __xfce4-terminal__ as the terminal emulator (`Mod+Enter`)
- - __xscreensaver__ for screen lock (`Mod+F12`)
- - __python-gtk2__ for the quick search dialog (`Mod+F10`)
- - __pulseaudio-ctl__ for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
- - __ibus__ for Chinese input (`Ctrl+Space`)
- - __thunar__ as the file manager (`Mod+]`)
- - __Google Chrome__ as the web browser (`Mod+\`)
-
 ## Features ##
  - Uses tiling for long-live windows (for writing, programing or reading etc),
    while floating for temporary windows (file manager, IM, settings etc).
@@ -30,6 +20,34 @@ It uses the following applications / packages:
  - Support multiple profiles that let me have small tweaks (theming, autostarts
    etc) on my differnt machines. Use `switch_profile.sh {work|home}` to swich
    between profiles.
+ - Randomized wallpaper (from `jpg` files under `~/.config/awesome/runtime/wallpapers`).
+
+## Dependencies ##
+It uses the following applications / packages:
+ - __xfce4-terminal__ as the terminal emulator (`Mod+Enter`)
+ - __xscreensaver__ for screen lock (`Mod+F12`)
+ - __python-gtk2__ for the quick search dialog (`Mod+F10`)
+ - __pulseaudio-ctl__ for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
+ - __ibus__ for Chinese input (`Ctrl+Space`)
+ - __thunar__ as the file manager (`Mod+]`)
+ - __Google Chrome__ as the web browser (`Mod+\`)
+
+## Setting up
+Clone the repository to `~/.config/awesome`:
+```
+$ cd ~/.config
+$ git clone https://github.com/zhangkun83/awesome-config.git awesome
+```
+Choose between the `work` and the `home` profile:
+```
+$ cd ~/.config/awesome
+$ ./switch_profile.sh home
+```
+(Optional) link the wallpaper directory as the source of randomized wallpapers. If you skip this step,
+the default wallpaper will be used.
+```
+$ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
+```
 
 ## Screenshots ##
 

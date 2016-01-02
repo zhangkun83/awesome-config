@@ -8,8 +8,11 @@
 
 -- {{{ Main
 theme = {}
-local theme_dir = os.getenv("HOME") .. "/.config/awesome/theme/"
+local config_dir = os.getenv("HOME") .. "/.config/awesome/"
+local theme_dir = config_dir .. "/theme/"
 -- }}}
+
+theme.wallpaper = config_dir .. "/runtime/current-wallpaper.jpg"
 
 -- {{{ Styles
 theme.font      = "sans 12"
