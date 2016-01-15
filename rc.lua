@@ -820,12 +820,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- }}}
 
--- ZK: Change key repeat rate
-os.execute("xset r rate 220 30")
--- ZK: Make mouse move slower
-os.execute("xset m 1/5 10")
-
 start_if_absent("xscreensaver", "xscreensaver")
+
+run_shell_command(config_home .. "bin/post-start-commands.sh ")
 
 myautostarts()
 
