@@ -19,14 +19,14 @@ theme.font      = "sans 12"
 
 -- {{{ Colors
 theme.bg_focus                                  = '#5278AE'
-theme.bg_normal                                 = '#BFBFBF'
+theme.bg_normal                                 = '#FFFFFF'
 theme.bg_urgent                                 = '#FCCBCC'
 theme.bg_minimize                               = '#434750'
 theme.fg_normal                                 = '#000000'
 theme.fg_focus                                  = '#FFFFFF'
 theme.fg_urgent                                 = '#000000'
 theme.fg_minimize                               = '#000000'
-theme.bg_widget                                 = '#BFBFBF'
+theme.bg_widget                                 = '#FFFFFF'
 theme.fg_widget                                 = '#000000'
 theme.fg_center_widget                          = '#000000'
 theme.fg_end_widget                             = '#000000'
