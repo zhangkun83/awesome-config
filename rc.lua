@@ -129,6 +129,11 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- Create a textclock widget
 mytextclock = awful.widget.textclock(" %a %b %d, %H:%M ", 1)
 
+function move_and_switch_to_tag(t)
+   awful.client.movetotag(t)
+   awful.tag.viewonly(t)
+end
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -140,7 +145,7 @@ mytaglist.buttons = awful.util.table.join(
                             awful.tag.viewonly(t)
                             raise_focus()
                         end),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
+                    awful.button({ modkey }, 1, move_and_switch_to_tag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
                     awful.button({ }, 4, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
@@ -699,7 +704,7 @@ for i = 1, keynumber do
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
-                          awful.client.movetotag(tags[client.focus.screen][i])
+                          move_and_switch_to_tag(tags[client.focus.screen][i])
                           raise_focus()
                       end
                   end),
