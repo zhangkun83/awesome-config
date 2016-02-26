@@ -627,7 +627,8 @@ end
 clientkeys = awful.util.table.join(
     -- awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey,  },          "f",      awful.client.floating.toggle                     ),
+    awful.key({ modkey,  },          "f",      function (c) awful.client.floating.set(c, false) end),
+    awful.key({ modkey, "Shift"   }, "f",      function (c) awful.client.floating.set(c, true) end),
     awful.key({ modkey, "Control" }, "space", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
