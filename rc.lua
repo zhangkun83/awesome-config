@@ -611,8 +611,8 @@ globalkeys = awful.util.table.join(
     -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
     -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
     -- as an notification.
-    awful.key({ modkey }, "F1", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 0") end),
-    awful.key({ modkey }, "F2", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 1") end),
+    awful.key({ modkey }, ",", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 0") end),
+    awful.key({ modkey }, ".", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 1") end),
     mykeybindings
 )
 
