@@ -557,7 +557,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "F1",    function () awful.layout.set(awful.layout.suit.max) end),
     awful.key({ modkey,           }, "F2",    function () awful.layout.set(awful.layout.suit.tile.bottom) end),
     awful.key({ modkey,           }, "F3",    function () awful.layout.set(awful.layout.suit.tile) end),
-    awful.key({ modkey,           }, "F4",   function () awful.layout.set(awful.layout.suit.floating) end),
+    awful.key({ modkey,           }, "F4",
+              function ()
+                 awful.layout.set(awful.layout.suit.floating)
+                 -- Floating all clients will restore their positions
+                 -- when they were previously floating, which is favorable here.
+                 set_floating_for_all_clients(true)
+                 -- But we don't really need them to be in floating state.
+                 set_floating_for_all_clients(false)
+              end),
 
     awful.key({ modkey, "Control" }, "n",
               function()
