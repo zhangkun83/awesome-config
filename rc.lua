@@ -88,9 +88,9 @@ editor = os.getenv("EDITOR") or "editor"
 layouts =
 {
     awful.layout.suit.floating,
-    awful.layout.suit.tile,
     awful.layout.suit.max,
     awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile,
 }
 -- }}}
 
@@ -554,8 +554,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey,           }, "F1",    function () awful.layout.set(awful.layout.suit.max) end),
+    awful.key({ modkey,           }, "F2",    function () awful.layout.set(awful.layout.suit.tile.bottom) end),
+    awful.key({ modkey,           }, "F3",    function () awful.layout.set(awful.layout.suit.tile) end),
+    awful.key({ modkey,           }, "F4",   function () awful.layout.set(awful.layout.suit.floating) end),
 
     awful.key({ modkey, "Control" }, "n",
               function()
@@ -611,6 +613,7 @@ globalkeys = awful.util.table.join(
     -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
     -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
     -- as an notification.
+    awful.key({ modkey }, "space", function() awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh") end),
     awful.key({ modkey }, ",", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 0") end),
     awful.key({ modkey }, ".", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 1") end),
     mykeybindings
