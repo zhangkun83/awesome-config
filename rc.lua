@@ -83,16 +83,32 @@ beautiful.init(config_home .. "runtime/theme.lua")
 -- ZK: changed default terminal
 editor = os.getenv("EDITOR") or "editor"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
--- ZK: removed unused layouts
-layouts =
-{
-    awful.layout.suit.floating,
-    awful.layout.suit.max,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile,
-}
--- }}}
+function layoutMaximized()
+   awful.layout.set(awful.layout.suit.max)
+end
+
+function layoutHSplit()
+   awful.layout.set(awful.layout.suit.tile.bottom)
+end
+
+function layoutVSplit()
+   awful.layout.set(awful.layout.suit.tile)
+end
+
+function layoutFloating()
+   awful.layout.set(awful.layout.suit.floating)
+   -- Floating all clients will restore their positions when they were
+   -- previously floating, which is favorable here.
+   set_floating_for_all_clients(true)
+   -- But we don't really need them to be in floating state.
+   set_floating_for_all_clients(false)
+end
+
+layoutMenu = awful.menu({ items = {
+                             { "maximized", layoutMaximized },
+                             { "horizontal split", layoutHSplit},
+                             { "vertical split", layoutVSplit},
+                             { "floating", layoutFloating}}})
 
 -- {{{ Wallpaper
 if beautiful.wallpaper then
@@ -107,7 +123,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, s, layouts[1])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, s, awful.layout.suit.floating)
 end
 -- }}}
 
@@ -194,10 +210,8 @@ for s = 1, screen.count() do
     -- We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
     mylayoutbox[s]:buttons(awful.util.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+                           awful.button({ }, 1, function () awful.menu.toggle(layoutMenu) end),
+                           awful.button({ }, 3, function () awful.menu.toggle(layoutMenu) end)))
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
@@ -557,18 +571,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "F1",    function () awful.layout.set(awful.layout.suit.max) end),
-    awful.key({ modkey,           }, "F2",    function () awful.layout.set(awful.layout.suit.tile.bottom) end),
-    awful.key({ modkey,           }, "F3",    function () awful.layout.set(awful.layout.suit.tile) end),
-    awful.key({ modkey,           }, "F4",
-              function ()
-                 awful.layout.set(awful.layout.suit.floating)
-                 -- Floating all clients will restore their positions
-                 -- when they were previously floating, which is favorable here.
-                 set_floating_for_all_clients(true)
-                 -- But we don't really need them to be in floating state.
-                 set_floating_for_all_clients(false)
-              end),
+    awful.key({ modkey,           }, "F1",    layoutMaximized),
+    awful.key({ modkey,           }, "F2",    layoutHSplit),
+    awful.key({ modkey,           }, "F3",    layoutVSplit),
+    awful.key({ modkey,           }, "F4",    layoutFloating),
 
     awful.key({ modkey, "Control" }, "n",
               function()
