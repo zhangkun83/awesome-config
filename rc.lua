@@ -117,6 +117,9 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "compositor", {
                                         { "on", config_home .. "bin/compositor.sh true" },
                                         { "off", config_home .. "bin/compositor.sh false" } } },
+                                    { "web browser", config_home .. "bin/chrome-default-user.sh"},
+                                    { "file manager", "thunar"},
+                                    { "dictionary", config_home .. "bin/youdao_dict.py" },
                                     { "open terminal", terminal }
                                   }
                         })

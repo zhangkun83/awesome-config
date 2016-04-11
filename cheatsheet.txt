@@ -46,5 +46,6 @@ Mod4 + F12                     *  lock screen
 
 Mod4 + , (comma)               * English input
 Mod4 + . (dot)                 * Chinese (Pinyin) input
+Mod4 + Space                   * Cycle input methods
 Mod4 + (numpad) plus / minus   * volume up / down
 Mod4 + (numpad) asterisk       * mute / unmute
