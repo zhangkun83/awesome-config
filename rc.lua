@@ -105,10 +105,10 @@ function layoutFloating()
 end
 
 layoutMenu = awful.menu({ items = {
-                             { "maximized", layoutMaximized },
-                             { "horizontal split", layoutHSplit},
-                             { "vertical split", layoutVSplit},
-                             { "floating", layoutFloating}}})
+                             { "maximized", layoutMaximized, beautiful.layout_max },
+                             { "horizontal split", layoutHSplit, beautiful.layout_tilebottom},
+                             { "vertical split", layoutVSplit, beautiful.layout_tile},
+                             { "floating", layoutFloating, beautiful.layout_floating}}})
 
 -- {{{ Wallpaper
 if beautiful.wallpaper then
