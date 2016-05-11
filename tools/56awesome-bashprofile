@@ -1,0 +1,10 @@
+# If we are running the awesome, load ~/.bash_profile
+# Put this file under /etc/X11/Xsession.d and make it readable by all users.
+
+BASESTARTUP=$(basename "$STARTUP" | cut -d\  -f1)
+if [ "$BASESTARTUP" = x-session-manager ]; then
+    BASESTARTUP=$(basename $(readlink /etc/alternatives/x-session-manager))
+fi
+if [ "$BASESTARTUP" = "awesome" ]; then
+    [ -r ~/.bash_profile ] && source ~/.bash_profile
+fi
