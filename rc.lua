@@ -812,6 +812,7 @@ client.connect_signal("manage", function (c, startup)
 
         -- Widgets that are aligned to the right
         local right_layout = wibox.layout.fixed.horizontal()
+        right_layout:add(awful.titlebar.widget.minimizebutton(c))
         right_layout:add(awful.titlebar.widget.floatingbutton(c))
         --right_layout:add(awful.titlebar.widget.maximizedbutton(c))
         --right_layout:add(awful.titlebar.widget.stickybutton(c))

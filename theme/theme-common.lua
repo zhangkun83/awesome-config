@@ -134,5 +134,8 @@ theme.titlebar_maximized_button_focus_active  = theme_dir .. "titlebar/maximized
 theme.titlebar_maximized_button_normal_active = theme_dir .. "titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_inactive  = theme_dir .. "titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme_dir .. "titlebar/maximized_normal_inactive.png"
+
+theme.titlebar_minimize_button_focus_inactive  = theme_dir .. "titlebar/minimize_focus.png"
+theme.titlebar_minimize_button_normal_inactive = theme_dir .. "titlebar/minimize_normal.png"
 -- }}}
 -- }}}
