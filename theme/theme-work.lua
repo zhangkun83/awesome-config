@@ -1,4 +1,4 @@
-theme.font = "Aegean Bold 11.5"
+theme.font = "Aegean Bold 12"
 theme.menu_height = "28"
 
 return theme
