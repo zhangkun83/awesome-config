@@ -451,7 +451,7 @@ globalkeys = awful.util.table.join(
                 end
               end),
 
-    awful.key({ modkey, "Control", "Shift" }, "n", minimize_all_floating_clients),
+    awful.key({ modkey, "Shift" }, "n", minimize_all_floating_clients),
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 

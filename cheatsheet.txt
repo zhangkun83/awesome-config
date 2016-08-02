@@ -8,7 +8,6 @@ Mod4 + /                       *  open this cheat sheet
 Mod4 + -> / <-                 *  switch to next / previous tag
 Mod4 + <num>                   *  switch to tag
 Mod4 + Ctrl + <num>            *  toggle tag on display
-
 Mod4 + Shift + <num>           *  move window to tag
 Mod4 + Shift + Ctrl + <num>    *  toggle tag on window
 Mod4 + Shift + =               *  rename tag
@@ -20,12 +19,14 @@ Mod4 + J / K                   *  next / previous window
 Mod4 + F1 / F2 / F3            *  max / h-split / v-split layout
 Mod4 + F4                      *  floating layout
 Mod4 + Ctrl + Space            *  make current window master
+Mod4 + P                       *  float and center the window
 Mod4 + F                       *  unfloat the window
 Mod4 + Ctrl + F                *  float the window
-Mod4 + P                       *  float and center the window
 Mod4 + Shift + F               *  unfloat all windows
 Mod4 + Ctrl + Shift + F        *  float all windows
-Mod4 + Ctrl + Shift + N        *  minimize all floating windows
+Mod4 + N                       *  minimize the window
+Mod4 + Shift + N               *  minimize all floating windows
+Mod4 + Ctrl + N                *  restore a minimized window
 Mod4 + Shift + C               *  close window
 -----------------------------------------------------------------
 
@@ -39,7 +40,6 @@ Mod4 + ]                       *  file manager
 Mod4 + F10                     *  youdao dict
 Mod4 + F11                     *  alsamixer
 Mod4 + F12                     *  lock screen
-
 -----------------------------------------------------------------
 
                          MISC CONTROLS
