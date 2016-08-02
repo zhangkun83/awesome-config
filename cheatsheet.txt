@@ -23,7 +23,6 @@ Mod4 + Ctrl + Space            *  make current window master
 Mod4 + F                       *  unfloat the window
 Mod4 + Ctrl + F                *  float the window
 Mod4 + P                       *  float and center the window
-Mod4 + Ctrl + P                *  unclutter all floating windows
 Mod4 + Shift + F               *  unfloat all windows
 Mod4 + Ctrl + Shift + F        *  float all windows
 Mod4 + Shift + C               *  close window

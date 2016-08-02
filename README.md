@@ -10,7 +10,6 @@ I am currently running it on awesome v3.5.6 on Ubuntu 14.04 (work profile) and M
   - Floating windows are always "on top", thus in front of tiling windows;
   - `Mod4+Ctrl+F` to tile all windows of the current tag;
   - `Mod4+P` to make a window float and place it in center nicely.
-  - `Mod4+Ctrl+P` to unclutter all floating windows
  - The 10th tag, binded to `Mod4+0`
  - Renaming the tag by `Mod4+Shift+=`. Tag names are saved so they survive reboots.
  - Additional shortcuts and changes to default key bindings. See the [cheatsheet](/cheatsheet.txt).
