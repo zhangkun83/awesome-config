@@ -292,6 +292,16 @@ function set_floating_for_all_clients(value)
     end
 end
 
+function minimize_all_floating_clients()
+   local clients = client.get(mouse.screen)
+   for k,c in pairs(clients) do
+      if (awful.client.floating.get(c)) then
+         c.minimized = true
+      end
+   end
+   raise_focus()
+end
+
 -- Place the window at one of the 9 pre-defined pivot points on the window
 -- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
 -- (1, 1) means down-right.
@@ -441,6 +451,7 @@ globalkeys = awful.util.table.join(
                 end
               end),
 
+    awful.key({ modkey, "Control", "Shift" }, "n", minimize_all_floating_clients),
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
