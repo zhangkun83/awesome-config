@@ -1,6 +1,6 @@
 # awesome-config
 This is the [awesome WM](http://awesome.naquadah.org/) config I have fined-tuned for my daily use.
-I am currently running it on awesome v3.5.6 on Ubuntu 14.04 (work profile) and Mint 17 (home profile).
+I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and Mint 17 (home profile).
 
 ## Features ##
  - Uses tiling for long-live windows (for writing, programing or reading etc),
