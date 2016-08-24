@@ -20,10 +20,10 @@ Mod4 + F1 / F2 / F3            *  max / h-split / v-split layout
 Mod4 + F4                      *  floating layout
 Mod4 + Ctrl + Space            *  make current window master
 Mod4 + P                       *  float and center the window
-Mod4 + F                       *  unfloat the window
-Mod4 + Ctrl + F                *  float the window
-Mod4 + Shift + F               *  unfloat all windows
-Mod4 + Ctrl + Shift + F        *  float all windows
+Mod4 + D                       *  dock the window
+Mod4 + Shift + D               *  dock all windows
+Mod4 + F                       *  float the window
+Mod4 + Shift + F               *  float all windows
 Mod4 + N                       *  minimize the window
 Mod4 + Shift + N               *  minimize all floating windows
 Mod4 + Ctrl + N                *  restore a minimized window

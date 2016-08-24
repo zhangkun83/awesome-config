@@ -488,8 +488,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
-    awful.key({ modkey, "Shift" }, "f", function() set_floating_for_all_clients(false) end),
-    awful.key({ modkey, "Control", "Shift" }, "f", function() set_floating_for_all_clients(true) end),
+    awful.key({ modkey, "Shift" }, "d", function() set_floating_for_all_clients(false) end),
+    awful.key({ modkey, "Shift" }, "f", function() set_floating_for_all_clients(true) end),
     awful.key({ modkey }, "KP_Add", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "KP_Subtract", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
     awful.key({ modkey }, "KP_Multiply", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
@@ -511,10 +511,9 @@ function on_floating_changed(c)
 end
 
 clientkeys = awful.util.table.join(
-    -- awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey,  },          "f",      function (c) awful.client.floating.set(c, false) end),
-    awful.key({ modkey, "Control"   }, "f",      function (c) awful.client.floating.set(c, true) end),
+    awful.key({ modkey,  },          "d",      function (c) awful.client.floating.set(c, false) end),
+    awful.key({ modkey,  },          "f",      function (c) awful.client.floating.set(c, true) end),
     awful.key({ modkey, "Control" }, "space", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
