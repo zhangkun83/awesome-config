@@ -15,7 +15,7 @@ Mod4 + Shift + =               *  rename tag
 
                             WINDOWS
 
-Mod4 + J / K                   *  next / previous window
+Mod4 + A / S                   *  previous / next window
 Mod4 + F1 / F2 / F3            *  max / h-split / v-split layout
 Mod4 + F4                      *  floating layout
 Mod4 + Ctrl + Space            *  make current window master
