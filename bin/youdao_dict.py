@@ -16,7 +16,7 @@ class youdao_dict:
         query = urllib.quote(self.input_box.get_text())
         print query
         if widget == self.youdao_button:
-          url = "http://www.iciba.com/" + query
+          url = "http://dict.youdao.com/search?q=" + query
         elif widget == self.jisho_button:
           url = "http://dictionary.goo.ne.jp/srch/all/" + query + "/m0u/"
         else:
@@ -80,7 +80,7 @@ class youdao_dict:
 
     
         # Creates a new button
-        self.youdao_button = gtk.Button("_Iciba")
+        self.youdao_button = gtk.Button("_Youdao")
         self.youdao_button.set_size_request(-1, -1)
         # let the button can be set as the default widget of the window
         self.youdao_button.set_flags(gtk.CAN_DEFAULT)
