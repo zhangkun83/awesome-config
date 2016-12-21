@@ -39,3 +39,7 @@ echo "ibusnotification = naughty.notify({"\
   "text = \"ibus: <b>$CURRENT_ENGINE</b>\","\
   "position = \"bottom_right\"})" |\
   awesome-client
+
+# Switching to xkb:us::eng will reset the mapping done by xmodmap.
+# Here we restore the maping.
+xmodmap ~/.config/awesome/Xmodmap

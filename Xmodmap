@@ -1,0 +1,17 @@
+! Remap Alt_R as Control_R
+
+! Valid modifier symbols are:
+! "shift", "lock" (aka Caps lock), "control",
+! "mod1" (aka Alt), "mod2" (aka Num lock), "mod4" (aka Super)
+! These are the first column of the output of "xmodmap -pm"
+
+! Keycodes are mapped to key symbols, which are "Shift_L", "Control_R", "Alt_L" etc.
+! These are found on the right column of "xmodmap -pm"
+
+! The mapping works as: keycode (e.g. 105) -> key symbol (e.g., Alt_L) -> modifier (e.g., mod1)
+! "keycode 105 = Alt_R" maps keycode to key symbol, if necessary
+
+! First, we stop the right Alt from being the "mod1" modifier
+remove Mod1 = Alt_R
+! Then, make the right Alt a "control" modifier
+add Control = Alt_R

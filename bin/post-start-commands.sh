@@ -3,4 +3,4 @@
 xset r rate 220 30
 # Make mouse move slower
 xset m 1/5 10
-
+xmodmap ~/.config/awesome/Xmodmap
