@@ -482,8 +482,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict
     awful.key({ modkey }, "F10", function () awful.util.spawn(config_home .. "bin/youdao_dict.py") end),
-    -- alsamixer
-    awful.key({ modkey }, "F11", function () awful.util.spawn(config_home .. "bin/mixer.sh") end),
+    -- pulse audio control panel
+    awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
     -- ZK: Open the cheat sheet
