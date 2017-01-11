@@ -491,8 +491,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "d", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Shift" }, "f", function() set_floating_for_all_clients(true) end),
     awful.key({ modkey }, "F7", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "F6", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
     awful.key({ modkey }, "F5", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
+    awful.key({ }, "XF86AudioMute", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
     -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
     -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
     -- as an notification.
