@@ -25,6 +25,7 @@ I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and M
 It uses the following applications / packages:
  - __xfce4-terminal__ as the terminal emulator (`Mod+Enter`)
  - __xscreensaver__ for screen lock (`Mod+F12`)
+ - __xbacklight__ for adjusting screen backlight
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
  - __pulseaudio-ctl__ for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
  - __ibus__ for Chinese input (`Ctrl+Space`)
