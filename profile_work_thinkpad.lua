@@ -22,7 +22,7 @@ function myautostarts()
     -- Shift the color a bit towards red to reduce eye strain
     run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
-    run_shell_command("xrdb <<< \"Xft.dpi: 105\"")
+    run_shell_command("xrdb -merge <<< \"Xft.dpi: 105\"")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     run_shell_command(config_home .. "bin/restart_ibus.sh")
