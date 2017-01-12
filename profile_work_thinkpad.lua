@@ -17,8 +17,9 @@ mykeybindings = awful.util.table.join(
 )
 
 function myautostarts()
-    -- Disable touchpad
-    run_shell_command("synclient TouchpadOff=1")
+    -- Disable touchpad tapping
+    run_shell_command("synclient TapButton1=0")
+    run_shell_command("synclient TapButton2=0")
     -- Shift the color a bit towards red to reduce eye strain
     run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger

@@ -19,6 +19,8 @@ mykeybindings = awful.util.table.join(
 function myautostarts()
     -- load nvidia settings
     run_shell_command("nvidia-settings -l")
+    -- Set mouse speed
+    run_shell_command("xset m 1/5 10")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     run_shell_command(config_home .. "bin/restart_ibus.sh")

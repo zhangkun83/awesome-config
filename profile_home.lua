@@ -21,4 +21,6 @@ mykeybindings = awful.key({ modkey }, "\\", function () run_shell_command(config
 
 function myautostarts()
 --    start_if_absent("nm-applet", "nm-applet")
+    -- Set mouse speed
+    run_shell_command("xset m 1/5 10")
 end
