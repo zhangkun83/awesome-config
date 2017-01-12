@@ -17,7 +17,7 @@ I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and M
  - Customized light-colored theme, with minimalist window title.
  - Doesn't use any third-party awesome extensions.
  - Support multiple profiles that let me have small tweaks (theming, autostarts
-   etc) on my differnt machines. Use `switch_profile.sh {work|home}` to swich
+   etc) on my differnt machines. Use `switch_profile.sh {work|work_thinkpad|home}` to swich
    between profiles.
  - Randomized wallpaper (from `jpg` files under `~/.config/awesome/runtime/wallpapers`).
 
@@ -31,6 +31,7 @@ It uses the following applications / packages:
  - __ibus__ for Chinese input (`Ctrl+Space`)
  - __thunar__ as the file manager (`Mod+]`)
  - __Google Chrome__ as the web browser (`Mod+\`)
+ - __redshift__ for adjusting color temperature
 
 ## Setting up
 Clone the repository to `~/.config/awesome`:

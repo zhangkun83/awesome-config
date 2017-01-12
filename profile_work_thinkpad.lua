@@ -19,6 +19,8 @@ mykeybindings = awful.util.table.join(
 function myautostarts()
     -- Disable touchpad
     run_shell_command("synclient TouchpadOff=1")
+    -- Shift the color a bit towards red to reduce eye strain
+    run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
     run_shell_command("xrdb <<< \"Xft.dpi: 105\"")
     -- something wrong with my workstation that I need to restart ibus-daemon
