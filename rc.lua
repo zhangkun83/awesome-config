@@ -319,19 +319,68 @@ function place_window_at_pivot(h, v, c)
   c:geometry(geo)
 end
 
-function float_and_center_window(c)
+function geo_equals(g1, g2)
+   -- Some applications, e.g., terminal emulators will snap their widths and heights to
+   -- the integral multiples of character width and height.  Therefore we allow larger
+   -- epsilons for widths and height.
+   return math.abs(g1.x - g2.x) < 2 and
+      math.abs(g1.y - g2.y) < 2 and
+      math.abs(g1.width - g2.width) < 10 and
+      math.abs(g1.height - g2.height) < 30
+end
+
+-- Float a window and apply a canonical geometry
+-- If not currently with any canonical geometry, will
+-- use the first one.  Otherwise, will use the next one.
+function float_window_canonically(c)
   if not is_floating(c) then
     awful.client.floating.set(c, true)
   end
-  local geo = c:geometry()
   local screen_geo = screen[c.screen].workarea
-  local xpadding = screen_geo.width / 10
-  local ypadding = screen_geo.height / 10
-  geo.x = xpadding
-  geo.width = screen_geo.width - 2 * xpadding
-  geo.y = ypadding
-  geo.height = screen_geo.height - 2 * ypadding
-  c:geometry(geo)
+  local x_padding_step = screen_geo.width / 20
+  local y_padding_step = screen_geo.height / 20
+  local min_padding_step = math.min(x_padding_step, y_padding_step)
+  local num_canonical_geos = 4
+  -- Generate canonical geometries
+  local canonical_geos = {}
+  local geo = {}
+  -- 1, 2 are centered
+  for i=1, 2 do
+     geo = {}
+     local xpadding = x_padding_step * 2 * i
+     local ypadding = y_padding_step * 2 * i
+     geo.x = xpadding
+     geo.y = ypadding
+     geo.width = screen_geo.width - 2 * xpadding
+     geo.height = screen_geo.height - 2 * ypadding
+     canonical_geos[i] = geo
+  end
+  -- 3: left
+  geo = {}
+  geo.x = min_padding_step
+  geo.y = min_padding_step
+  geo.width = screen_geo.width / 2 - 2 * min_padding_step
+  geo.height = screen_geo.height - 2 * min_padding_step
+  canonical_geos[3] = geo
+  -- 4: right
+  geo = {}
+  geo.x = screen_geo.width / 2 + min_padding_step
+  geo.y = min_padding_step
+  geo.width = screen_geo.width / 2 - 2 * min_padding_step
+  geo.height = screen_geo.height - 2 * min_padding_step
+  canonical_geos[4] = geo
+  -- Look for current geo among the canonical geos
+  local orig_geo = c:geometry()
+  local new_geo_index = 1
+  for i,geo in pairs(canonical_geos) do
+     if geo_equals(geo, orig_geo) then
+        new_geo_index = i + 1
+        if new_geo_index > num_canonical_geos then
+           new_geo_index = 1
+        end
+     end
+  end
+  c:geometry(canonical_geos[new_geo_index])
 end
 
 function change_window_geometry(dx, dy, dw, dh, c)
@@ -533,7 +582,7 @@ clientkeys = awful.util.table.join(
             c.minimized = true
             raise_focus()
         end),
-    awful.key({ modkey,           }, "p",      float_and_center_window),
+    awful.key({ modkey,           }, "p",      float_window_canonically),
     -- Resizing the window by keyboard
     awful.key({ modkey, "Shift" }, "KP_Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
