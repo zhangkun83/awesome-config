@@ -18,10 +18,10 @@ theme.wallpaper = config_dir .. "/runtime/current-wallpaper.jpg"
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.bg_focus                                  = '#333780'
-theme.bg_normal                                 = '#FFFFFF'
+theme.bg_focus                                  = '#607080'
+theme.bg_normal                                 = '#AAFFEE'
 theme.bg_urgent                                 = '#FCCBCC'
-theme.bg_minimize                               = '#FFFFFF'
+theme.bg_minimize                               = '#AAFFEE'
 theme.fg_normal                                 = '#000000'
 theme.fg_focus                                  = '#FFFFFF'
 theme.fg_urgent                                 = '#000000'
@@ -36,15 +36,15 @@ theme.tooltip_fg_color                          = '#000000'
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal                             = '#9C9EA0'
-theme.border_focus                              = '#333780'
+theme.border_normal                             = '#D4C0C8'
+theme.border_focus                              = '#607080'
 theme.border_marked                             = '#5278AE'
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#333780"
+theme.titlebar_bg_focus  = "#607080"
 theme.titlebar_fg_focus  = "#FFFFFF"
-theme.titlebar_bg_normal = "#9C9EA0"
+theme.titlebar_bg_normal = "#D4D0C8"
 -- }}}
 
 -- There are other variable sets
