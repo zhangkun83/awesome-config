@@ -631,12 +631,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "KP_Next",  function (c) place_window_at_pivot(1, 1, c) end),
     awful.key({ modkey, "Control" }, "KP_End",  function (c) place_window_at_pivot(-1, 1, c) end),
     awful.key({ modkey, "Control" }, "KP_Prior",  function (c) place_window_at_pivot(1, -1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Begin", function (c) place_window_at_pivot(0, 0, c) end),
-    awful.key({ modkey }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end)
+    awful.key({ modkey, "Control" }, "KP_Begin", function (c) place_window_at_pivot(0, 0, c) end)
 )
 
 -- Compute the maximum number of digit we need, limited to 10
