@@ -340,11 +340,11 @@ function float_window_canonically(c)
   local x_padding_step = screen_geo.width / 20
   local y_padding_step = screen_geo.height / 20
   local min_padding_step = math.min(x_padding_step, y_padding_step)
-  local num_canonical_geos = 4
+  local num_canonical_geos = 0
   -- Generate canonical geometries
   local canonical_geos = {}
   local geo = {}
-  -- 1, 2 are centered
+  -- Two centered
   for i=1, 2 do
      geo = {}
      local xpadding = x_padding_step * 2 * i
@@ -353,22 +353,31 @@ function float_window_canonically(c)
      geo.y = ypadding
      geo.width = screen_geo.width - 2 * xpadding
      geo.height = screen_geo.height - 2 * ypadding
-     canonical_geos[i] = geo
+     num_canonical_geos = num_canonical_geos + 1
+     canonical_geos[num_canonical_geos] = geo
   end
-  -- 3: left
-  geo = {}
-  geo.x = min_padding_step
-  geo.y = min_padding_step
-  geo.width = screen_geo.width / 2 - 2 * min_padding_step
-  geo.height = screen_geo.height - 2 * min_padding_step
-  canonical_geos[3] = geo
-  -- 4: right
-  geo = {}
-  geo.x = screen_geo.width / 2 + min_padding_step
-  geo.y = min_padding_step
-  geo.width = screen_geo.width / 2 - 2 * min_padding_step
-  geo.height = screen_geo.height - 2 * min_padding_step
-  canonical_geos[4] = geo
+  -- Two left
+  for i=1, 2 do
+     geo = {}
+     local padding = min_padding_step * i * 2
+     geo.x = padding
+     geo.y = padding
+     geo.width = screen_geo.width / 2 - padding * 2
+     geo.height = screen_geo.height - padding * 2
+     num_canonical_geos = num_canonical_geos + 1
+     canonical_geos[num_canonical_geos] = geo
+  end
+  -- Two right
+  for i=1, 2 do
+     geo = {}
+     local padding = min_padding_step * i * 2
+     geo.x = screen_geo.width / 2 + padding
+     geo.y = padding
+     geo.width = screen_geo.width / 2 - padding * 2
+     geo.height = screen_geo.height - padding * 2
+     num_canonical_geos = num_canonical_geos + 1
+     canonical_geos[num_canonical_geos] = geo
+  end
   -- Look for current geo among the canonical geos
   local orig_geo = c:geometry()
   local new_geo_index = 1
