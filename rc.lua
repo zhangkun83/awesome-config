@@ -320,19 +320,28 @@ function place_window_at_pivot(h, v, c)
 end
 
 function geo_equals(g1, g2)
-   -- Some applications, e.g., terminal emulators will snap their widths and heights to
-   -- the integral multiples of character width and height.  Therefore we allow larger
-   -- epsilons for widths and height.
-   return math.abs(g1.x - g2.x) < 2 and
-      math.abs(g1.y - g2.y) < 2 and
-      math.abs(g1.width - g2.width) < 20 and
-      math.abs(g1.height - g2.height) < 50
+   -- Some applications, e.g., terminal emulators will snap their
+   -- widths and heights to the integral multiples of character width
+   -- and height.  Therefore we only check x and y, and ignore widths
+   -- and height.
+   return math.abs(g1.x - g2.x) < 2 and math.abs(g1.y - g2.y) < 2
 end
 
 -- Float a window and apply a canonical geometry
 -- If not currently with any canonical geometry, will
 -- use the first one.  Otherwise, will use the next one.
 function float_window_canonically(c)
+  float_window_canonically_impl(c, 1)
+end
+
+-- Float a window and apply a canonical geometry
+-- If not currently with any canonical geometry, will
+-- use the first one.  Otherwise, will use the previous one.
+function float_window_canonically_reverse(c)
+  float_window_canonically_impl(c, -1)
+end
+
+function float_window_canonically_impl(c, dir)
   if not is_floating(c) then
     awful.client.floating.set(c, true)
   end
@@ -383,9 +392,11 @@ function float_window_canonically(c)
   local new_geo_index = 1
   for i,geo in pairs(canonical_geos) do
      if geo_equals(geo, orig_geo) then
-        new_geo_index = i + 1
+        new_geo_index = i + dir
         if new_geo_index > num_canonical_geos then
            new_geo_index = 1
+        elseif new_geo_index < 1 then
+           new_geo_index = num_canonical_geos
         end
      end
   end
@@ -592,6 +603,7 @@ clientkeys = awful.util.table.join(
             raise_focus()
         end),
     awful.key({ modkey,           }, "p",      float_window_canonically),
+    awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
     -- Resizing the window by keyboard
     awful.key({ modkey, "Shift" }, "KP_Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
