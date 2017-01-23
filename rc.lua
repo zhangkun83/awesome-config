@@ -325,8 +325,8 @@ function geo_equals(g1, g2)
    -- epsilons for widths and height.
    return math.abs(g1.x - g2.x) < 2 and
       math.abs(g1.y - g2.y) < 2 and
-      math.abs(g1.width - g2.width) < 10 and
-      math.abs(g1.height - g2.height) < 30
+      math.abs(g1.width - g2.width) < 20 and
+      math.abs(g1.height - g2.height) < 50
 end
 
 -- Float a window and apply a canonical geometry
