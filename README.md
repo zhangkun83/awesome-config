@@ -52,6 +52,10 @@ $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 
 ## Screenshots ##
 
+Vertically split, a common set-up:
+
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/split.jpg" width="640">
+
 Tiling windows in the background, with a window just brought to front by `Mod+P`:
 
 <img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/place_center.jpg" width="640">
