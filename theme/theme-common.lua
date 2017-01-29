@@ -19,9 +19,9 @@ theme.font      = "sans 12"
 
 -- {{{ Colors
 theme.bg_focus                                  = '#607080'
-theme.bg_normal                                 = '#AAFFEE'
+theme.bg_normal                                 = '#EEEEEE'
 theme.bg_urgent                                 = '#FCCBCC'
-theme.bg_minimize                               = '#AAFFEE'
+theme.bg_minimize                               = '#EEEEEE'
 theme.fg_normal                                 = '#000000'
 theme.fg_focus                                  = '#FFFFFF'
 theme.fg_urgent                                 = '#000000'
