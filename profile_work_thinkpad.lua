@@ -3,6 +3,7 @@ mythememod = config_home .. "theme/theme-work.lua"
 myawesomemenu = {
     { "cheat sheet", cheatsheet_command },
     { "edit config", terminal .. " --default-working-directory .config/awesome" },
+    { "lock screen", function() run_shell_command(config_home .. "bin/xlock.sh") end },
     { "restart", awesome.restart },
     { "quit", {
         { "yes", awesome.quit },
