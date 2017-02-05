@@ -44,6 +44,9 @@ message="$(ac_status)<br><br>$(battery_status)<br><br>$(nm_status)"
 # all \n characters
 message="$(sed ':a;N;$!ba;s/\n/<br>/g' <<< "$message")"
 
+# Escape additional characters to make it valid HTML text
+message="$(sed 's/&/&amp;/g' <<< "$message")"
+
 echo "systemstatusnotification = naughty.notify({"\
      "text = \"$message\","\
      "position = \"bottom_right\"})" |\
