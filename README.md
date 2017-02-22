@@ -10,11 +10,10 @@ I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and M
   - Floating windows are always "on top", thus in front of tiling windows;
   - `Mod4+Ctrl+F` to tile all windows of the current tag;
   - `Mod4+P` to make a window float and place it in center nicely.
- - The 10th tag, binded to `Mod4+0`
+ - The 10th tag, bound to `Mod4+0`
  - Renaming the tag by `Mod4+Shift+=`. Tag names are saved so they survive reboots.
  - Additional shortcuts and changes to default key bindings. See the [cheatsheet](/cheatsheet.txt).
  - My personalized minimalist awesome menu.
- - Customized light-colored theme, with minimalist window title.
  - Doesn't use any third-party awesome extensions.
  - Support multiple profiles that let me have small tweaks (theming, autostarts
    etc) on my differnt machines. Use `switch_profile.sh {work|work_thinkpad|home}` to swich
@@ -27,7 +26,7 @@ It uses the following applications / packages:
  - __xscreensaver__ for screen lock (`Mod+F12`)
  - __xbacklight__ for adjusting screen backlight
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
- - __pulseaudio-ctl__ for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
+ - [__pulseaudio-ctl__](https://github.com/graysky2/pulseaudio-ctl) for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
  - __ibus__ for Chinese input (`Ctrl+Space`)
  - __thunar__ as the file manager (`Mod+]`)
  - __Google Chrome__ as the web browser (`Mod+\`)
@@ -52,11 +51,13 @@ $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 
 ## Screenshots ##
 
-Vertically split, a common set-up:
+Vertically split, with the layout menu shown at the top-right:
 
 <img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/split.jpg" width="640">
 
-Tiling windows in the background, with a window just brought to front by `Mod+P`:
+Tiling windows in the background, with a window floating on top.  The
+battery and wifi status are shown as notification by pressing the
+`X86Tools` key:
 
 <img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/place_center.jpg" width="640">
 
