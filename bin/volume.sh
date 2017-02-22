@@ -42,5 +42,5 @@ fi
 echo "naughty.destroy(volumenotification)" | awesome-client
 echo "volumenotification = naughty.notify({"\
   "text = \"$message\","\
-  "position = \"bottom_right\"})" |\
+  "position = \"top_right\"})" |\
   awesome-client

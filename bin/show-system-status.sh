@@ -49,5 +49,5 @@ message="$(sed 's/&/&amp;/g' <<< "$message")"
 
 echo "systemstatusnotification = naughty.notify({"\
      "text = \"$message\","\
-     "position = \"bottom_right\"})" |\
+     "position = \"top_right\"})" |\
     awesome-client

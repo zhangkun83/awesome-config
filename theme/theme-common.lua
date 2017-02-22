@@ -18,14 +18,14 @@ theme.wallpaper = config_dir .. "/runtime/current-wallpaper.jpg"
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.bg_focus                                  = '#607080'
-theme.bg_normal                                 = '#EEEEEE'
+theme.bg_focus                                  = '#525252'
+theme.bg_normal                                 = '#333333'
 theme.bg_urgent                                 = '#FCCBCC'
-theme.bg_minimize                               = '#EEEEEE'
-theme.fg_normal                                 = '#000000'
+theme.bg_minimize                               = '#333333'
+theme.fg_normal                                 = '#CCCCCC'
 theme.fg_focus                                  = '#FFFFFF'
 theme.fg_urgent                                 = '#000000'
-theme.fg_minimize                               = '#C1BCB7'
+theme.fg_minimize                               = '#666666'
 theme.bg_widget                                 = '#FFFFFF'
 theme.fg_widget                                 = '#000000'
 theme.fg_center_widget                          = '#000000'
@@ -35,9 +35,9 @@ theme.tooltip_fg_color                          = '#000000'
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = "2"
-theme.border_normal                             = '#D4C0C8'
-theme.border_focus                              = '#607080'
+theme.border_width  = "4"
+theme.border_normal                             = '#DCDCDC'
+theme.border_focus                              = '#0099EE'
 theme.border_marked                             = '#5278AE'
 -- }}}
 
@@ -80,7 +80,7 @@ theme.mouse_finder_color = "#CC9393"
 theme.menu_height = "28"
 theme.menu_width  = "200"
 theme.menu_border_color = "#434750"
-theme.menu_border_with = "1"
+theme.menu_border_width = "1"
 -- }}}
 
 -- {{{ Icons

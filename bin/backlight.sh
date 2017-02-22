@@ -19,5 +19,5 @@ message="backlight: $current_level%"
 echo "naughty.destroy(backlightnotification)" | awesome-client
 echo "backlightnotification = naughty.notify({"\
   "text = \"$message\","\
-  "position = \"bottom_right\"})" |\
+  "position = \"top_right\"})" |\
   awesome-client

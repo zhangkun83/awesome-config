@@ -217,7 +217,7 @@ for s = 1, screen.count() do
         s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox(awful.util.table.join({ position = "bottom", screen = s }, mywiboxprops))
+    mywibox[s] = awful.wibox(awful.util.table.join({ position = "top", screen = s }, mywiboxprops))
     mywibox[s].border_color = "#434750"
 
     -- Widgets that are aligned to the left
@@ -709,6 +709,58 @@ awful.rules.rules = {
 }
 -- }}}
 
+function create_title_bar(c)
+   if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
+      -- buttons for the titlebar
+      local buttons = awful.util.table.join(
+         awful.button({ }, 1, function()
+                         client.focus = c
+                         c:raise()
+                         awful.mouse.client.move(c)
+                              end),
+         awful.button({ }, 3, function()
+                         client.focus = c
+                         c:raise()
+                         awful.mouse.client.resize(c)
+                              end)
+      )
+
+      -- Widgets that are aligned to the left
+      local left_layout = wibox.layout.fixed.horizontal()
+      left_layout:add(awful.titlebar.widget.iconwidget(c))
+      left_layout:buttons(buttons)
+
+      -- Widgets that are aligned to the right
+      local right_layout = wibox.layout.fixed.horizontal()
+      right_layout:add(awful.titlebar.widget.minimizebutton(c))
+      right_layout:add(awful.titlebar.widget.floatingbutton(c))
+      --right_layout:add(awful.titlebar.widget.maximizedbutton(c))
+      --right_layout:add(awful.titlebar.widget.stickybutton(c))
+      --right_layout:add(awful.titlebar.widget.ontopbutton(c))
+      right_layout:add(awful.titlebar.widget.closebutton(c))
+
+      -- The title goes in the middle
+      local middle_layout = wibox.layout.flex.horizontal()
+      local title = awful.titlebar.widget.titlewidget(c)
+      title:set_align("center")
+      middle_layout:add(title)
+      middle_layout:buttons(buttons)
+
+      -- Now bring it all together
+      local layout = wibox.layout.align.horizontal()
+      layout:set_left(left_layout)
+      layout:set_right(right_layout)
+      layout:set_middle(middle_layout)
+
+      awful.titlebar(c, { size = titlebar_height }):set_widget(layout)
+      awful.titlebar.show(c)
+
+      -- At least, make space for the window title, and do not extend over
+      -- the borders of the screen
+      place_window_sanely(c)
+   end
+end
+
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c, startup)
@@ -730,56 +782,7 @@ client.connect_signal("manage", function (c, startup)
     -- New windows are always floating, but have "floating" state only when necessary.
     awful.client.floating.set(c, not is_in_floating_layout(c))
 
-    -- Create titlebar
-    if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
-        -- buttons for the titlebar
-        local buttons = awful.util.table.join(
-                awful.button({ }, 1, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.move(c)
-                end),
-                awful.button({ }, 3, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.resize(c)
-                end)
-                )
-
-        -- Widgets that are aligned to the left
-        local left_layout = wibox.layout.fixed.horizontal()
-        left_layout:add(awful.titlebar.widget.iconwidget(c))
-        left_layout:buttons(buttons)
-
-        -- Widgets that are aligned to the right
-        local right_layout = wibox.layout.fixed.horizontal()
-        right_layout:add(awful.titlebar.widget.minimizebutton(c))
-        right_layout:add(awful.titlebar.widget.floatingbutton(c))
-        --right_layout:add(awful.titlebar.widget.maximizedbutton(c))
-        --right_layout:add(awful.titlebar.widget.stickybutton(c))
-        --right_layout:add(awful.titlebar.widget.ontopbutton(c))
-        right_layout:add(awful.titlebar.widget.closebutton(c))
-
-        -- The title goes in the middle
-        local middle_layout = wibox.layout.flex.horizontal()
-        local title = awful.titlebar.widget.titlewidget(c)
-        title:set_align("center")
-        middle_layout:add(title)
-        middle_layout:buttons(buttons)
-
-        -- Now bring it all together
-        local layout = wibox.layout.align.horizontal()
-        layout:set_left(left_layout)
-        layout:set_right(right_layout)
-        layout:set_middle(middle_layout)
-
-        awful.titlebar(c, { size = titlebar_height }):set_widget(layout)
-        awful.titlebar.show(c)
-
-        -- At least, make space for the window title, and do not extend over
-        -- the borders of the screen
-        place_window_sanely(c)
-    end
+    -- create_title_bar(c)
     on_floating_changed(c)
 end)
 
