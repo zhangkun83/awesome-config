@@ -291,13 +291,63 @@ function minimize_all_floating_clients()
    raise_focus()
 end
 
--- Place the window at one of the 9 pre-defined pivot points on the window
--- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
--- (1, 1) means down-right.
+-- Place the window at one of the 9 pre-defined pivot points on the screen
+-- as defined by get_pivot_point()
 function place_window_at_pivot(h, v, c)
   if not is_floating(c) then
     return
   end
+  c:geometry(get_pivot_geo(h, v, c))
+end
+
+-- Move the window to the closest pivot to the direction defined by
+-- (dh, dv). d?==-1(1) means moving left(right) on that dimension. 0 means
+-- no movement on that dimension.
+function move_window_to_pivot(dh, dv, c)
+   if not is_floating(c) then
+      return
+   end
+   local current_geo = c:geometry()
+   local screen_geo = screen[c.screen].workarea
+
+   if dh ~= 0 then
+      for h=-dh, dh, dh do
+         local geo = get_pivot_geo(h, 0, c)
+         if get_sign(geo.x - current_geo.x, 2) == dh then
+            current_geo.x = geo.x
+            break
+         end
+      end
+   end
+   if dv ~= 0 then
+      for v=-dv, dv, dv do
+         local geo = get_pivot_geo(0, v, c)
+         if get_sign(geo.y - current_geo.y, 2) == dv then
+            current_geo.y = geo.y
+            break
+         end
+      end
+   end
+   c:geometry(current_geo)
+end
+
+-- Get the sign of the given number.
+-- 1 for positive, -1 for negative, or 0.
+-- If abs(a) < epsilon, return 0.
+function get_sign(a, epsilon)
+   if math.abs(a) < epsilon then
+      return 0
+   end
+   if a > 0 then
+      return 1
+   end
+   return -1
+end
+
+-- Return one of the 9 pre-defined pivot geos of the client.
+-- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
+-- (1, 1) means down-right.
+function get_pivot_geo(h, v, c)
   local geo = c:geometry()
   local screen_geo = screen[c.screen].workarea
   local win_center = {}
@@ -305,7 +355,7 @@ function place_window_at_pivot(h, v, c)
   win_center.y = screen_geo.height * (0.5 + v * 0.33)
   geo.x = math.min(math.max(0, win_center.x - geo.width / 2), screen_geo.width - geo.width)
   geo.y = math.min(math.max(0, win_center.y - geo.height / 2), screen_geo.height - geo.height)
-  c:geometry(geo)
+  return geo
 end
 
 function geo_equals(g1, g2)
@@ -448,16 +498,6 @@ end
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",
-        function ()
-            awful.tag.viewprev()
-            raise_focus()
-        end),
-    awful.key({ modkey,           }, "Right",
-        function ()
-            awful.tag.viewnext()
-            raise_focus()
-        end),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "s",
@@ -595,18 +635,26 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
     -- Resizing the window by keyboard
     awful.key({ modkey, "Shift" }, "KP_Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Left",  function (c) change_window_geometry(0, 0, -window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Left",  function (c) change_window_geometry(0, 0, -window_move_step, 0, c) end),
     awful.key({ modkey, "Shift" }, "KP_Right",  function (c) change_window_geometry(0, 0, window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Right",  function (c) change_window_geometry(0, 0, window_move_step, 0, c) end),
     awful.key({ modkey, "Shift" }, "KP_Home",  function (c) change_window_geometry(0, 0, -window_move_step, -window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Next",  function (c) change_window_geometry(0, 0, window_move_step, window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_End",  function (c) change_window_geometry(0, 0, -window_move_step, window_move_step, c) end),
     awful.key({ modkey, "Shift" }, "KP_Prior",  function (c) change_window_geometry(0, 0, window_move_step, -window_move_step, c) end),
     -- Moving the window by keyboard
     awful.key({ modkey }, "KP_Up",  function (c) change_window_geometry(0, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Up",  function (c) change_window_geometry(0, -window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_Down",  function (c) change_window_geometry(0, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Down",  function (c) change_window_geometry(0, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_Left",  function (c) change_window_geometry(-window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "Left",  function (c) change_window_geometry(-window_move_step, 0, 0, 0, c) end),
     awful.key({ modkey }, "KP_Right",  function (c) change_window_geometry(window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "Right",  function (c) change_window_geometry(window_move_step, 0, 0, 0, c) end),
     awful.key({ modkey }, "KP_Home",  function (c) change_window_geometry(-window_move_step, -window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_Next",  function (c) change_window_geometry(window_move_step, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "KP_End",  function (c) change_window_geometry(-window_move_step, window_move_step, 0, 0, c) end),
@@ -621,6 +669,10 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "KP_End",  function (c) place_window_at_pivot(-1, 1, c) end),
     awful.key({ modkey, "Control" }, "KP_Prior",  function (c) place_window_at_pivot(1, -1, c) end),
     awful.key({ modkey, "Control" }, "KP_Begin", function (c) place_window_at_pivot(0, 0, c) end),
+    awful.key({ modkey, "Control" }, "Up",  function (c) move_window_to_pivot(0, -1, c) end),
+    awful.key({ modkey, "Control" }, "Down",  function (c) move_window_to_pivot(0, 1, c) end),
+    awful.key({ modkey, "Control" }, "Right",  function (c) move_window_to_pivot(1, 0, c) end),
+    awful.key({ modkey, "Control" }, "Left",  function (c) move_window_to_pivot(-1, 0, c) end),
     awful.key({ modkey }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
