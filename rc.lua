@@ -344,14 +344,18 @@ end
 -- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
 -- (1, 1) means down-right.
 function get_pivot_geo(h, v, c)
-  local geo = c:geometry()
-  local screen_geo = screen[c.screen].workarea
-  local win_center = {}
-  win_center.x = screen_geo.width * (0.5 + h * 0.33)
-  win_center.y = screen_geo.height * (0.5 + v * 0.33)
-  geo.x = math.min(math.max(0, win_center.x - geo.width / 2), screen_geo.width - geo.width)
-  geo.y = math.min(math.max(0, win_center.y - geo.height / 2), screen_geo.height - geo.height)
-  return geo
+   local geo = c:geometry()
+   -- geo doesn't count in the border size, but we want to include it when calculating
+   -- the size of the window
+   local client_width = geo.width + 2 * beautiful.border_width
+   local client_height = geo.height + 2 * beautiful.border_width
+   local workarea = screen[c.screen].workarea
+   local win_center = {}
+   win_center.x = workarea.width * (0.5 + h * 0.33)
+   win_center.y = workarea.height * (0.5 + v * 0.33)
+   geo.x = math.min(math.max(0, win_center.x - client_width / 2), workarea.width - client_width) + workarea.x
+   geo.y = math.min(math.max(0, win_center.y - client_height / 2), workarea.height - client_height) + workarea.y
+   return geo
 end
 
 function geo_equals(g1, g2)
