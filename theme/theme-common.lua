@@ -18,7 +18,7 @@ theme.wallpaper = config_dir .. "/runtime/current-wallpaper.jpg"
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.bg_focus                                  = '#525252'
+theme.bg_focus                                  = '#5F5F5F'
 theme.bg_normal                                 = '#333333'
 theme.bg_urgent                                 = '#FCCBCC'
 theme.bg_minimize                               = '#333333'
