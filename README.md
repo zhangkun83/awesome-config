@@ -31,6 +31,7 @@ It uses the following applications / packages:
  - __thunar__ as the file manager (`Mod+]`)
  - __Google Chrome__ as the web browser (`Mod+\`)
  - __redshift__ for adjusting color temperature
+ - __feh__ for setting the wallpaper
 
 ## Setting up
 Clone the repository to `~/.config/awesome`:

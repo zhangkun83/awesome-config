@@ -12,8 +12,6 @@ local config_dir = os.getenv("HOME") .. "/.config/awesome/"
 local theme_dir = config_dir .. "/theme/"
 -- }}}
 
-theme.wallpaper = config_dir .. "/runtime/current-wallpaper.jpg"
-
 -- {{{ Styles
 theme.font      = "sans 12"
 
