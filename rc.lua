@@ -145,6 +145,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock(" %a %b %d, %H:%M ", 1)
+mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end))
 
 function move_and_switch_to_tag(t)
    awful.client.movetotag(t)
