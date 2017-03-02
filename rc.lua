@@ -133,7 +133,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "web browser", config_home .. "bin/chrome-default-user.sh"},
                                     { "file manager", "thunar"},
                                     { "dictionary", config_home .. "bin/youdao_dict.py" },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+                                    { "alternate wallpaper", config_home .. "bin/prepare-wallpaper.sh" }
                                   }
                         })
 
