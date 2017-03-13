@@ -4,6 +4,7 @@ myawesomemenu = {
     { "cheat sheet", cheatsheet_command },
     { "edit config", terminal .. " --default-working-directory .config/awesome" },
     { "lock screen", function() run_shell_command(config_home .. "bin/xlock.sh") end },
+    { "sleep", config_home .. "bin/sleepnlock.sh" },
     { "restart", awesome.restart },
     { "quit", {
         { "yes", awesome.quit },

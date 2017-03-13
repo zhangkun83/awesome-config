@@ -1,2 +1,5 @@
 #!/bin/bash
-xterm -geometry 66x37+800+300 -fa 'Monospace' -fs 11 -e 'sudo pm-suspend ; xscreensaver-command -lock'
+xscreensaver-command -lock
+sleep 2
+dbus-send --system --print-reply --dest="org.freedesktop.UPower" \
+          /org/freedesktop/UPower org.freedesktop.UPower.Suspend
