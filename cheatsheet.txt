@@ -40,7 +40,7 @@ Mod4 + Shift + \               *  chrome (alt. profile)
 Mod4 + ]                       *  file manager
 Mod4 + F10                     *  youdao dict
 Mod4 + F11                     *  pavucontrol
-Mod4 + F12                     *  lock screen
+Mod4 + (Shift) + F12           *  lock screen (and sleep)
 -----------------------------------------------------------------
 
                          MISC CONTROLS
