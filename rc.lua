@@ -134,7 +134,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "file manager", "thunar"},
                                     { "dictionary", config_home .. "bin/youdao_dict.py" },
                                     { "open terminal", terminal },
-                                    { "alternate wallpaper", config_home .. "bin/prepare-wallpaper.sh" }
+                                    { "switch wallpaper", config_home .. "bin/prepare-wallpaper.sh" }
                                   }
                         })
 
@@ -586,6 +586,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
+    awful.key({ modkey, "Shift" }, "F12", function () awful.util.spawn(config_home .. "bin/sleepnlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
     awful.key({ modkey, "Shift" }, "d", function() set_floating_for_all_clients(false) end),
