@@ -16,7 +16,7 @@ local theme_dir = config_dir .. "/theme/"
 theme.font      = "sans 12"
 
 -- {{{ Colors
-theme.bg_focus                                  = '#5F5F5F'
+theme.bg_focus                                  = '#0099EE'
 theme.bg_normal                                 = '#333333'
 theme.bg_urgent                                 = '#FCCBCC'
 theme.bg_minimize                               = '#333333'
@@ -54,6 +54,7 @@ theme.titlebar_bg_normal = "#D4D0C8"
 -- Example:
 --theme.taglist_bg_focus = "#CC9393"
 -- }}}
+theme.taglist_bg_focus = "#5F5F5F"
 
 -- {{{ Widgets
 -- You can add as many variables as
@@ -79,6 +80,7 @@ theme.menu_height = "28"
 theme.menu_width  = "200"
 theme.menu_border_color = "#434750"
 theme.menu_border_width = "1"
+theme.menu_bg_focus = "#5F5F5F"
 -- }}}
 
 -- {{{ Icons
