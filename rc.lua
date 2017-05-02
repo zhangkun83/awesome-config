@@ -799,8 +799,10 @@ function create_title_bar(c)
       layout:set_right(right_layout)
       layout:set_middle(middle_layout)
 
-      awful.titlebar(c, { size = titlebar_height }):set_widget(layout)
-      awful.titlebar.show(c)
+      -- The titlebar position has to be passed to both titlebar() and titlebar.show(),
+      -- otherwise the implementation will mess up.
+      awful.titlebar(c, { size = titlebar_height, position = "bottom" }):set_widget(layout)
+      awful.titlebar.show(c, "bottom")
 
       -- At least, make space for the window title, and do not extend over
       -- the borders of the screen
@@ -829,7 +831,7 @@ client.connect_signal("manage", function (c, startup)
     -- New windows are always floating, but have "floating" state only when necessary.
     awful.client.floating.set(c, not is_in_floating_layout(c))
 
-    -- create_title_bar(c)
+    create_title_bar(c)
     on_floating_changed(c)
 end)
 
