@@ -56,7 +56,7 @@ modkey = "Mod4"
 
 local floatingWindowAlwaysOnTop = true
 config_home = os.getenv("HOME") .. "/.config/awesome/"
-titlebar_height = 24
+titlebar_height = 12
 terminal = "xfce4-terminal"
 local window_move_step = 50
 cheatsheet_command = config_home .. "bin/cheatsheet.sh"
@@ -772,32 +772,9 @@ function create_title_bar(c)
                               end)
       )
 
-      -- Widgets that are aligned to the left
-      local left_layout = wibox.layout.fixed.horizontal()
-      left_layout:add(awful.titlebar.widget.iconwidget(c))
-      left_layout:buttons(buttons)
-
-      -- Widgets that are aligned to the right
-      local right_layout = wibox.layout.fixed.horizontal()
-      right_layout:add(awful.titlebar.widget.minimizebutton(c))
-      right_layout:add(awful.titlebar.widget.floatingbutton(c))
-      --right_layout:add(awful.titlebar.widget.maximizedbutton(c))
-      --right_layout:add(awful.titlebar.widget.stickybutton(c))
-      --right_layout:add(awful.titlebar.widget.ontopbutton(c))
-      right_layout:add(awful.titlebar.widget.closebutton(c))
-
-      -- The title goes in the middle
-      local middle_layout = wibox.layout.flex.horizontal()
-      local title = awful.titlebar.widget.titlewidget(c)
-      title:set_align("center")
-      middle_layout:add(title)
-      middle_layout:buttons(buttons)
-
-      -- Now bring it all together
+      -- Create a layout without widgets, just to bind the mouse buttons
       local layout = wibox.layout.align.horizontal()
-      layout:set_left(left_layout)
-      layout:set_right(right_layout)
-      layout:set_middle(middle_layout)
+      layout:buttons(buttons)
 
       -- The titlebar position has to be passed to both titlebar() and titlebar.show(),
       -- otherwise the implementation will mess up.

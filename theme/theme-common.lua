@@ -33,16 +33,16 @@ theme.tooltip_fg_color                          = '#000000'
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = "4"
+theme.border_width  = "2"
 theme.border_normal                             = '#DCDCDC'
 theme.border_focus                              = '#0099EE'
 theme.border_marked                             = '#5278AE'
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#607080"
+theme.titlebar_bg_focus  = "#0099EE"
 theme.titlebar_fg_focus  = "#FFFFFF"
-theme.titlebar_bg_normal = "#D4D0C8"
+theme.titlebar_bg_normal = "#DCDCDC"
 -- }}}
 
 -- There are other variable sets
