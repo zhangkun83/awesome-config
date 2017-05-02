@@ -54,14 +54,14 @@ $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 
 Vertically split, with the layout menu shown at the top-right:
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/split.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-split.jpg" width="640">
 
 Tiling windows in the background, with a window floating on top.  The
 battery and wifi status are shown as notification by pressing the
 `X86Tools` key:
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/place_center.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-floating-on-top.jpg" width="640">
 
-The floating layout:
+The floating layout. The blue bottom bar can be used to move (left button) and resize (right button) the window.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/floating.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-floating.jpg" width="640">
