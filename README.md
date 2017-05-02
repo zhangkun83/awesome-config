@@ -2,23 +2,58 @@
 This is the [awesome WM](http://awesome.naquadah.org/) config I have fined-tuned for my daily use.
 I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and Mint 17 (home profile).
 
-## Features ##
- - Uses tiling for long-live windows (for writing, programing or reading etc),
-   while floating for temporary windows (file manager, IM, settings etc).
-   Following features are to accommodate such idea:
-  - Windows are initially floating;
-  - Floating windows are always "on top", thus in front of tiling windows;
-  - `Mod4+Ctrl+F` to tile all windows of the current tag;
-  - `Mod4+P` to make a window float and place it in center nicely.
- - The 10th tag, bound to `Mod4+0`
- - Renaming the tag by `Mod4+Shift+=`. Tag names are saved so they survive reboots.
- - Additional shortcuts and changes to default key bindings. See the [cheatsheet](/cheatsheet.txt).
- - My personalized minimalist awesome menu.
+## Design highlights ##
+
+Uses tiling for long-lived windows (for writing, programing or reading
+etc), while floating for temporary windows (dialogs, file manager, IM,
+settings etc).  Based on that idea:
+
+  - All windows are initially floating, and
+  - Floating windows are always "on top", thus in front of tiling windows
+
+Use tags (a.k.a., workspaces, virtual desktops) to group windows
+related to the same task.  A tag's name should reflect the task, thus
+should be able to easily changed.
+
+  - Make a key binding for changing the tag name in-place.
+
+The interface should be clean while informative and functional.
+
+  - Removed the traditional top titlebar that has window title text
+    and buttons etc.  Window title is already displayed in the task
+    bar.
+  - The color scheme is designed to best highlight the focus window,
+    and build a strong visual connection between it and its task bar
+    entry.
+  - Use a no-content title bar at the bottom as an extension to the
+    border, which enhances the highlighting for the focus, and also
+    serves as a more natural moving and resizing handle than the
+    original top title bar.
+
+Most essential functionality should be easily accessible from both
+keyboard and mouse.
+
+  - Provide both menu entries and shortcuts for most actions, e.g.,
+    launching the terminal and browser, changing the layout etc.
+  - Allow moving and resizing windows with keyboard only.
+  - Re-assign window-switching bindings from `Mod4-J/K` to `Mod4-A/S`
+    to allow single-handed operation.
+
+Responses to user inputs should be deterministic.
+
+  - Avoid toggle-type key-bindings.  For example, assign separate keys
+    for floating and or tiling a window, instead of assign one key to
+    toggle floating state.
+
+Additional shortcuts and changes to default key bindings can be found
+in the [cheatsheet](/cheatsheet.txt).
+
+## Other features ##
  - Doesn't use any third-party awesome extensions.
  - Support multiple profiles that let me have small tweaks (theming, autostarts
    etc) on my differnt machines. Use `switch_profile.sh {work|work_thinkpad|home}` to swich
    between profiles.
- - Randomized wallpaper (from `jpg` files under `~/.config/awesome/runtime/wallpapers`).
+ - Randomized wallpaper (link `~/.config/awesome/runtime/wallpapers` to where the wallpapers are).
 
 ## Dependencies ##
 It uses the following applications / packages:
