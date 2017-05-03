@@ -398,31 +398,20 @@ function float_window_canonically_impl(c, dir)
   for i=1, 2 do
      geo = {}
      local xpadding = x_padding_step * 2 * i
-     local ypadding = y_padding_step * 2 * i
+     local ypadding = y_padding_step * (2 * i - 1)
      geo.x = xpadding
-     geo.y = ypadding
+     geo.y = ypadding + screen_geo.y
      geo.width = screen_geo.width - 2 * xpadding
      geo.height = screen_geo.height - 2 * ypadding
      num_canonical_geos = num_canonical_geos + 1
      canonical_geos[num_canonical_geos] = geo
   end
-  -- Two left
+  -- Left and right
   for i=1, 2 do
      geo = {}
-     local padding = min_padding_step * i * 2
-     geo.x = padding
-     geo.y = padding
-     geo.width = screen_geo.width / 2 - padding * 2
-     geo.height = screen_geo.height - padding * 2
-     num_canonical_geos = num_canonical_geos + 1
-     canonical_geos[num_canonical_geos] = geo
-  end
-  -- Two right
-  for i=1, 2 do
-     geo = {}
-     local padding = min_padding_step * i * 2
-     geo.x = screen_geo.width / 2 + padding
-     geo.y = padding
+     local padding = min_padding_step * 2
+     geo.x = (screen_geo.width / 2) * (i - 1) + padding
+     geo.y = padding + screen_geo.y
      geo.width = screen_geo.width / 2 - padding * 2
      geo.height = screen_geo.height - padding * 2
      num_canonical_geos = num_canonical_geos + 1
