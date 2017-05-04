@@ -39,5 +39,5 @@ function myautostarts()
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     run_shell_command(config_home .. "bin/restart_ibus.sh")
-    start_if_absent(config_home .. "bin/laptopboxes-updater.sh", "laptopboxes-updater.sh")
+    start_if_absent("laptopboxes-updater.sh", config_home .. "bin/laptopboxes-updater.sh")
 end
