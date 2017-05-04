@@ -1,9 +1,7 @@
 #!/bin/bash
 
 get_current_engine() {
-  current_engine=$(ibus engine) ||\
-    (echo "naughty.notify({ preset = naughty.config.presets.critical,"\
-    "  text = \"Failed to query ibus engine\"})" | awesome-client)
+  current_engine=$(ibus engine) || exit 1
   if [ -z "$current_engine" ]; then
     exit 1
   fi
@@ -11,19 +9,24 @@ get_current_engine() {
 }
 
 declare -a ENGINES=('xkb:us::eng' 'pinyin')
+declare -a ENGINE_SYMBOLS=('英' '拼')
+NUM_ENGINES=${#ENGINES[@]}
+let LAST_INDEX=NUM_ENGINES-1
 
-if [ "$#" -lt 1 ]; then
-  NUM_ENGINES=${#ENGINES[@]}
-  CURRENT_ENGINE=$(get_current_engine) || exit 1
-
-  let LAST_INDEX=NUM_ENGINES-1
-  INDEX=0
-  while [ $INDEX -lt $LAST_INDEX ]; do
-    if [ "$CURRENT_ENGINE" == ${ENGINES[$INDEX]} ]; then
+function get_current_index() {
+  local index=0
+  local current_engine=$(get_current_engine)
+  while [[ $index -lt $LAST_INDEX ]]; do
+    if [[ "$current_engine" == ${ENGINES[$index]} ]]; then
       break
     fi
-    let INDEX+=1
+    let index+=1
   done
+  echo $index
+}
+
+if [ "$#" -lt 1 ]; then
+  INDEX=$(get_current_index)
   let INDEX+=1
   if [ $INDEX -gt $LAST_INDEX ]; then
     INDEX=0
@@ -33,9 +36,5 @@ else
 fi
 
 ibus engine ${ENGINES[$INDEX]}
-CURRENT_ENGINE=$(get_current_engine) || exit 1
-echo "naughty.destroy(ibusnotification)" | awesome-client
-echo "ibusnotification = naughty.notify({"\
-  "text = \"ibus: <b>$CURRENT_ENGINE</b>\","\
-  "position = \"top_right\"})" |\
-  awesome-client
+current_index=$(get_current_index) || exit 1
+echo "myibusbox:set_text(\"${ENGINE_SYMBOLS[$current_index]}\")" | awesome-client

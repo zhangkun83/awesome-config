@@ -67,6 +67,7 @@ cheatsheet_command = config_home .. "bin/cheatsheet.sh"
 --- * mywiboxprops
 --- * mykeybindings
 --- * myautostarts
+--- * mycustomwidgets
 dofile(config_home .. "runtime/current_profile.lua")
 -- }}}
 
@@ -144,8 +145,11 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock(" %a %b %d, %H:%M ", 1)
+mytextclock = awful.widget.textclock("%H:%M ", 1)
 mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end))
+
+separatorbox = wibox.widget.textbox("│")
+myibusbox = wibox.widget.textbox("")
 
 function move_and_switch_to_tag(t)
    awful.client.movetotag(t)
@@ -220,7 +224,18 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    -- if s == 1 then right_layout:add(wibox.widget.systray()) end
+
+    right_layout:add(separatorbox)
+
+    if mycustomwidgets then
+       for _, v in mycustomwidgets do
+          right_layout:add(v)
+          right_layout:add(separatorbox)
+       end
+    end
+
+    right_layout:add(myibusbox)
+    right_layout:add(separatorbox)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -808,8 +823,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 start_if_absent("xscreensaver", "xscreensaver")
 
-run_shell_command(config_home .. "bin/post-start-commands.sh ")
+run_shell_command(config_home .. "bin/post-start-commands.sh")
 
 myautostarts()
 
 restore_tag_names()
+run_shell_command(config_home .. "bin/ibus-cycle-engine.sh 0")
