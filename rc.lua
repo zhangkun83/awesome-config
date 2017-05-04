@@ -8,7 +8,7 @@ beautiful = require("beautiful")
 -- Notification library
 naughty = require("naughty")
 -- Widget and layout library
-local wibox = require("wibox")
+wibox = require("wibox")
 
 function raise_focus()
   if client.focus then client.focus:raise() end
@@ -146,10 +146,9 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock("%H:%M ", 1)
-mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end))
 
 separatorbox = wibox.widget.textbox("│")
-myibusbox = wibox.widget.textbox("")
+myibusbox = wibox.widget.textbox("?ibus?")
 
 function move_and_switch_to_tag(t)
    awful.client.movetotag(t)
@@ -228,7 +227,7 @@ for s = 1, screen.count() do
     right_layout:add(separatorbox)
 
     if mycustomwidgets then
-       for _, v in mycustomwidgets do
+       for _, v in ipairs(mycustomwidgets) do
           right_layout:add(v)
           right_layout:add(separatorbox)
        end
@@ -603,7 +602,6 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioMute", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
     awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn(config_home .. "bin/backlight.sh up") end),
     awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn(config_home .. "bin/backlight.sh down") end),
-    awful.key({ }, "XF86Tools", function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end),
     -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
     -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
     -- as an notification.

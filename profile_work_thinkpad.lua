@@ -13,9 +13,19 @@ myawesomemenu = {
 
 mywiboxprops = { height = 26, border_width = "0" }
 
+mybatterybox = wibox.widget.textbox("?battery?")
+mybatterybox:set_font("Liberation Mono 12")
+mybatterybox:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end))
+
+mynetworkbox = wibox.widget.textbox("?network?")
+mynetworkbox:set_font("Liberation Mono 12")
+
+mycustomwidgets = { mynetworkbox, mybatterybox }
+
 mykeybindings = awful.util.table.join(
     awful.key({ modkey }, "\\", function () run_shell_command(config_home .. "bin/chrome-default-user.sh") end),
-    awful.key({ modkey, "Shift" }, "\\", function () run_shell_command(config_home .. "bin/chrome-personal.sh") end)
+    awful.key({ modkey, "Shift" }, "\\", function () run_shell_command(config_home .. "bin/chrome-personal.sh") end),
+    awful.key({ }, "XF86Tools", function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end)
 )
 
 function myautostarts()
@@ -29,4 +39,5 @@ function myautostarts()
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     run_shell_command(config_home .. "bin/restart_ibus.sh")
+    start_if_absent(config_home .. "bin/laptopboxes-updater.sh", "laptopboxes-updater.sh")
 end
