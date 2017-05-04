@@ -3,6 +3,11 @@
 
 BATTERY_UTF8="\xf0\x9f\x94\x8b"
 POWERPLUG_UTF8="\xf0\x9f\x94\x8c"
+
+NETWORK_UP_UTF8="\xe2\x98\xb0"
+NETWORK_CONNECTING_UTF8="\xe2\x98\xb3"
+NETWORK_DOWN_UTF8="\xe2\x98\xb7"
+
 BATTERY_STATUS_FILE="/sys/class/power_supply/BAT0/status"
 BATTERY_CAPACITY_FILE="/sys/class/power_supply/BAT0/capacity"
 AC_FILE="/sys/class/power_supply/AC/online"
@@ -37,8 +42,16 @@ function network_status() {
 
     local alldevicestates="$(nmcli -t --fields DEVICE,STATE device status)"
     local devicestate="$(echo "$alldevicestates" | grep "${device}")"
-    local text="${connection}:${devicestate}"
-    echo "mynetworkbox:set_text(\"${text}\")" | awesome-client
+
+    local network_status_symbol="${NETWORK_DOWN_UTF8}"
+    if [[ "$devicestate" =~ .*connecting.* ]]; then
+        network_status_symbol="${NETWORK_CONNECTING_UTF8}"
+    elif [[ "$devicestate" =~ .*connected.* ]]; then
+        network_status_symbol="${NETWORK_UP_UTF8}"
+    fi
+
+    local text="${network_status_symbol}${connection}"
+    echo -e "mynetworkbox:set_text(\"${text}\")" | awesome-client
 }
 
 while true; do

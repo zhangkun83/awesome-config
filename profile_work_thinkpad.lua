@@ -19,6 +19,7 @@ mybatterybox:buttons(awful.button({ }, 1, function() awful.util.spawn(config_hom
 
 mynetworkbox = wibox.widget.textbox("?network?")
 mynetworkbox:set_font("Liberation Mono 12")
+mynetworkbox:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-system-status.sh") end))
 
 mycustomwidgets = { mynetworkbox, mybatterybox }
 
