@@ -37,8 +37,8 @@ function battery_status() {
 
 function network_status() {
     local allstatus="$(nmcli -m multiline con status)"
-    local connection="$(echo "$allstatus" | grep '^NAME:' | awk '{print $2}')"
-    local device="$(echo "$allstatus" | grep '^DEVICES:' | awk '{print $2}')"
+    local connection="$(echo "$allstatus" | grep '^NAME:' | sed 's/^NAME: */ /g')"
+    local device="$(echo "$allstatus" | grep '^DEVICES:' | sed 's/^DEVICES: *//g')"
 
     local alldevicestates="$(nmcli -t --fields DEVICE,STATE device status)"
     local devicestate="$(echo "$alldevicestates" | grep "${device}")"
