@@ -47,6 +47,25 @@ do
 end
 -- }}}
 
+function mynotify(text, last_notification)
+   if last_notification then
+      naughty.destroy(last_notification)
+   end
+   return naughty.notify({ text = text,
+                           position = "top_right",
+                           timeout = 10})
+end
+
+function mynotifymonospace(text, last_notification)
+   if last_notification then
+      naughty.destroy(last_notification)
+   end
+   return naughty.notify({ text = text,
+                           font = "Liberation Mono 12",
+                           position = "top_right",
+                           timeout = 10})
+end
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -146,6 +165,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock("%H:%M ", 1)
+mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-calendar-notification.sh") end))
 
 separatorbox = wibox.widget.textbox("│")
 myibusbox = wibox.widget.textbox("?ibus?")

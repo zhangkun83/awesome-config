@@ -1,11 +1,4 @@
 #!/bin/bash
-which pulseaudio-ctl > /dev/null
-if [ $? -ne 0 ]; then
-  echo "naughty.notify({ preset = naughty.config.presets.critical,"\
-    "  text = \"pulseaudio-ctl not installed\"})" | awesome-client
-  exit 1
-fi
-
 get_status() {
   declare -a status=($(pulseaudio-ctl full-status))
   level=${status[0]}
@@ -39,8 +32,4 @@ else
   message="volume: <b>${level}%</b>"
 fi
 
-echo "naughty.destroy(volumenotification)" | awesome-client
-echo "volumenotification = naughty.notify({"\
-  "text = \"$message\","\
-  "position = \"top_right\"})" |\
-  awesome-client
+echo "volumenotification = mynotify(\"$message\", volumenotification)" | awesome-client
