@@ -29,8 +29,6 @@ function nm_status() {
     nmcli -t -f NAME,DEVICES con status
 }
 
-echo "naughty.destroy(systemstatusnotification)" | awesome-client
-
 message="$(ac_status)<br><br>$(battery_status)<br><br>$(nm_status)"
 
 # Replace all new lines with <br>
@@ -47,7 +45,4 @@ message="$(sed ':a;N;$!ba;s/\n/<br>/g' <<< "$message")"
 # Escape additional characters to make it valid HTML text
 message="$(sed 's/&/&amp;/g' <<< "$message")"
 
-echo "systemstatusnotification = naughty.notify({"\
-     "text = \"$message\","\
-     "position = \"top_right\"})" |\
-    awesome-client
+echo "systemstatusnotification = mynotify(\"$message\", systemstatusnotification)" | awesome-client
