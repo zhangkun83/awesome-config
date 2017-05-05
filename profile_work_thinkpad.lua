@@ -40,5 +40,12 @@ function myautostarts()
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     run_shell_command(config_home .. "bin/restart_ibus.sh")
-    start_if_absent("laptopboxes-updater.sh", config_home .. "bin/laptopboxes-updater.sh")
+    -- laptopboxes-updater.sh does not exit when awesome exits,
+    -- because somehow awesome is not the parent of th spawned
+    -- process.  The left-over seems to become nonfunctional after
+    -- re-login, thus it's best to just kill it.
+    --
+    -- TODO: make consider re-implementing this script with
+    -- awful.spawn.with_line_callback and timer
+    run_shell_command("killall laptopboxes-updater.sh; " .. config_home .. "bin/laptopboxes-updater.sh &")
 end
