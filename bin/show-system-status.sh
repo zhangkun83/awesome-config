@@ -45,4 +45,4 @@ message="$(sed ':a;N;$!ba;s/\n/<br>/g' <<< "$message")"
 # Escape additional characters to make it valid HTML text
 message="$(sed 's/&/&amp;/g' <<< "$message")"
 
-echo "systemstatusnotification = mynotify(\"$message\", systemstatusnotification)" | awesome-client
+echo "systemstatusnotification = zk.notify(\"$message\", systemstatusnotification)" | awesome-client

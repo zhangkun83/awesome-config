@@ -32,4 +32,4 @@ else
   message="volume: <b>${level}%</b>"
 fi
 
-echo "volumenotification = mynotify(\"$message\", volumenotification)" | awesome-client
+echo "volumenotification = zk.notify(\"$message\", volumenotification)" | awesome-client

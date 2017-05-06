@@ -10,17 +10,7 @@ naughty = require("naughty")
 -- Widget and layout library
 wibox = require("wibox")
 
-function raise_focus()
-  if client.focus then client.focus:raise() end
-end
-
-function run_shell_command(command)
-    awful.util.spawn_with_shell(command)
-end
-
-function start_if_absent(name, command)
-    run_shell_command(config_home .. "bin/start_if_absent.sh " .. name .. " " .. command)
-end
+zk = require("zk")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -47,24 +37,6 @@ do
 end
 -- }}}
 
-function mynotify(text, last_notification)
-   if last_notification then
-      naughty.destroy(last_notification)
-   end
-   return naughty.notify({ text = text,
-                           position = "top_right",
-                           timeout = 10})
-end
-
-function mynotifymonospace(text, last_notification)
-   if last_notification then
-      naughty.destroy(last_notification)
-   end
-   return naughty.notify({ text = text,
-                           font = "Liberation Mono 12",
-                           position = "top_right",
-                           timeout = 10})
-end
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -74,11 +46,10 @@ end
 modkey = "Mod4"
 
 local floatingWindowAlwaysOnTop = true
-config_home = os.getenv("HOME") .. "/.config/awesome/"
 titlebar_height = 12
 terminal = "xfce4-terminal"
 local window_move_step = 50
-cheatsheet_command = config_home .. "bin/cheatsheet.sh"
+cheatsheet_command = zk.config_home .. "bin/cheatsheet.sh"
 
 -- {{{ provides the following variables / functions
 --- * mythememod
@@ -87,16 +58,16 @@ cheatsheet_command = config_home .. "bin/cheatsheet.sh"
 --- * mykeybindings
 --- * myautostarts
 --- * mycustomwidgets
-dofile(config_home .. "runtime/current_profile.lua")
+dofile(zk.config_home .. "runtime/current_profile.lua")
 -- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-os.execute("mkdir -p " .. config_home .. "/runtime")
-os.execute(config_home .. "bin/prepare-wallpaper.sh")
-os.execute("cat " .. config_home .. "theme/theme-common.lua " .. mythememod ..
-    " > " .. config_home .. "runtime/theme.lua")
-beautiful.init(config_home .. "runtime/theme.lua")
+os.execute("mkdir -p " .. zk.config_home .. "/runtime")
+os.execute(zk.config_home .. "bin/prepare-wallpaper.sh")
+os.execute("cat " .. zk.config_home .. "theme/theme-common.lua " .. mythememod ..
+    " > " .. zk.config_home .. "runtime/theme.lua")
+beautiful.init(zk.config_home .. "runtime/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "x-terminal-emulator"
@@ -150,11 +121,11 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "web browser", config_home .. "bin/chrome-default-user.sh"},
+                                    { "web browser", zk.config_home .. "bin/chrome-default-user.sh"},
                                     { "file manager", "thunar"},
-                                    { "dictionary", config_home .. "bin/youdao_dict.py" },
+                                    { "dictionary", zk.config_home .. "bin/youdao_dict.py" },
                                     { "open terminal", terminal },
-                                    { "switch wallpaper", config_home .. "bin/prepare-wallpaper.sh" }
+                                    { "switch wallpaper", zk.config_home .. "bin/prepare-wallpaper.sh" }
                                   }
                         })
 
@@ -165,7 +136,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock("%H:%M ", 1)
-mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(config_home .. "bin/show-calendar-notification.sh") end))
+mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-calendar-notification.sh") end))
 
 separatorbox = wibox.widget.textbox("│")
 myibusbox = wibox.widget.textbox("?ibus?")
@@ -184,7 +155,7 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1,
                         function (t)
                             awful.tag.viewonly(t)
-                            raise_focus()
+                            zk.raise_focus_client()
                         end),
                     awful.button({ modkey }, 1, move_and_switch_to_tag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
@@ -195,7 +166,7 @@ mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
                                                   c.minimized = true
-                                                  raise_focus()
+                                                  zk.raise_focus_client()
                                               else
                                                   if not c:isvisible() then
                                                       awful.tag.viewonly(c:tags()[1])
@@ -208,11 +179,11 @@ mytasklist.buttons = awful.util.table.join(
                                           end),
                      awful.button({ }, 2, function ()
                                      awful.client.focus.byidx(-1)
-                                     raise_focus()
+                                     zk.raise_focus_client()
                                           end),
                      awful.button({ }, 3, function ()
                                      awful.client.focus.byidx(1)
-                                     raise_focus()
+                                     zk.raise_focus_client()
                                           end))
 
 for s = 1, screen.count() do
@@ -274,7 +245,7 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
-local saved_tags_file = config_home .. "runtime/saved_tags"
+local saved_tags_file = zk.config_home .. "runtime/saved_tags"
 
 -- ZK: save tag names so that they survive after restart
 function save_tag_names()
@@ -320,7 +291,7 @@ function minimize_all_floating_clients()
          c.minimized = true
       end
    end
-   raise_focus()
+   zk.raise_focus_client()
 end
 
 -- Place the window at one of the 9 pre-defined pivot points on the screen
@@ -528,12 +499,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "s",
         function ()
             awful.client.focus.byidx( 1)
-            raise_focus()
+            zk.raise_focus_client()
         end),
     awful.key({ modkey,           }, "a",
         function ()
             awful.client.focus.byidx(-1)
-            raise_focus()
+            zk.raise_focus_client()
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
@@ -546,7 +517,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
-            raise_focus()
+            zk.raise_focus_client()
         end),
 
     -- Standard program
@@ -570,7 +541,7 @@ globalkeys = awful.util.table.join(
                 local c = awful.client.restore()
                 if c then
                   client.focus = c
-                  raise_focus()
+                  zk.raise_focus_client()
                 end
               end),
 
@@ -604,30 +575,30 @@ globalkeys = awful.util.table.join(
     -- ZK: File manager
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict
-    awful.key({ modkey }, "F10", function () awful.util.spawn(config_home .. "bin/youdao_dict.py") end),
+    awful.key({ modkey }, "F10", function () awful.util.spawn(zk.config_home .. "bin/youdao_dict.py") end),
     -- pulse audio control panel
     awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end),
     -- ZK: Lock screen
-    awful.key({ modkey }, "F12", function () awful.util.spawn(config_home .. "bin/xlock.sh") end),
-    awful.key({ modkey, "Shift" }, "F12", function () awful.util.spawn(config_home .. "bin/sleepnlock.sh") end),
+    awful.key({ modkey }, "F12", function () awful.util.spawn(zk.config_home .. "bin/xlock.sh") end),
+    awful.key({ modkey, "Shift" }, "F12", function () awful.util.spawn(zk.config_home .. "bin/sleepnlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
     awful.key({ modkey, "Shift" }, "d", function() set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Shift" }, "f", function() set_floating_for_all_clients(true) end),
-    awful.key({ modkey }, "F7", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn(config_home .. "bin/volume.sh up") end),
-    awful.key({ modkey }, "F6", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
-    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn(config_home .. "bin/volume.sh down") end),
-    awful.key({ modkey }, "F5", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
-    awful.key({ }, "XF86AudioMute", function() awful.util.spawn(config_home .. "bin/volume.sh mute") end),
-    awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn(config_home .. "bin/backlight.sh up") end),
-    awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn(config_home .. "bin/backlight.sh down") end),
+    awful.key({ modkey }, "F7", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
+    awful.key({ modkey }, "F6", function() awful.util.spawn(zk.config_home .. "bin/volume.sh down") end),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn(zk.config_home .. "bin/volume.sh down") end),
+    awful.key({ modkey }, "F5", function() awful.util.spawn(zk.config_home .. "bin/volume.sh mute") end),
+    awful.key({ }, "XF86AudioMute", function() awful.util.spawn(zk.config_home .. "bin/volume.sh mute") end),
+    awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn(zk.config_home .. "bin/backlight.sh up") end),
+    awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn(zk.config_home .. "bin/backlight.sh down") end),
     -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
     -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
     -- as an notification.
-    awful.key({ modkey }, "space", function() awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh") end),
-    awful.key({ modkey }, ",", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 0") end),
-    awful.key({ modkey }, ".", function () awful.util.spawn(config_home .. "bin/ibus-cycle-engine.sh 1") end),
+    awful.key({ modkey }, "space", function() awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh") end),
+    awful.key({ modkey }, ",", function () awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh 0") end),
+    awful.key({ modkey }, ".", function () awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh 1") end),
     mykeybindings
 )
 
@@ -635,7 +606,7 @@ globalkeys = awful.util.table.join(
 function on_floating_changed(c)
   if floatingWindowAlwaysOnTop then
     c.ontop = awful.client.floating.get(c)
-    raise_focus()
+    zk.raise_focus_client()
   end
 end
 
@@ -654,7 +625,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "n",
         function (c)
             c.minimized = true
-            raise_focus()
+            zk.raise_focus_client()
         end),
     awful.key({ modkey,           }, "p",      float_window_canonically),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
@@ -721,7 +692,7 @@ for i = 1, keynumber do
                         local screen = mouse.screen
                         if tags[screen][i] then
                             awful.tag.viewonly(tags[screen][i])
-                            raise_focus()
+                            zk.raise_focus_client()
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
@@ -729,21 +700,21 @@ for i = 1, keynumber do
                       local screen = mouse.screen
                       if tags[screen][i] then
                           awful.tag.viewtoggle(tags[screen][i])
-                          raise_focus()
+                          zk.raise_focus_client()
                       end
                   end),
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           move_and_switch_to_tag(tags[client.focus.screen][i])
-                          raise_focus()
+                          zk.raise_focus_client()
                       end
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.toggletag(tags[client.focus.screen][i])
-                          raise_focus()
+                          zk.raise_focus_client()
                       end
                   end))
 end
@@ -839,11 +810,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- }}}
 
-start_if_absent("xscreensaver", "xscreensaver")
-
-run_shell_command(config_home .. "bin/post-start-commands.sh")
-
+zk.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
 myautostarts()
-
 restore_tag_names()
-run_shell_command(config_home .. "bin/ibus-cycle-engine.sh 0")
+zk.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
