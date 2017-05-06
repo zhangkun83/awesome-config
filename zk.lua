@@ -2,6 +2,8 @@ local zk = {}
 
 zk.config_home = os.getenv("HOME") .. "/.config/awesome/"
 
+local saved_tags_file = zk.config_home .. "runtime/saved_tags"
+
 -- Run whenver the floating status of a window changes
 local function on_floating_changed(c)
   c.ontop = awful.client.floating.get(c)
@@ -126,8 +128,81 @@ local function create_title_bar(c)
    end
 end
 
+local function restore_tag_names()
+  local f = assert(io.open(saved_tags_file, "r"))
+  local savedTags = tags[mouse.screen]
+  for i = 1, table.getn(savedTags) do
+    savedTags[i].name = f:read()
+  end
+  f:close()
+end
+
+-- Save tag names so that they survive after restart
+local function save_tag_names()
+  local f = assert(io.open(saved_tags_file, "w"))
+  local savedTags = tags[mouse.screen]
+  for i = 1, table.getn(savedTags) do
+    f:write(savedTags[i].name)
+    f:write("\n")
+  end
+  f:close()
+end
+
+function zk.client_manage_hook(c, startup)
+  c:connect_signal("property::floating", on_floating_changed)
+
+  if not startup then
+    -- Put windows in a smart way, only if they does not set an initial position.
+    if not c.size_hints.user_position and not c.size_hints.program_position then
+      awful.placement.under_mouse(c)
+      awful.placement.no_overlap(c)
+      awful.placement.no_offscreen(c)
+    end
+  end
+
+  -- New windows are always floating, but have "floating" state only when necessary.
+  awful.client.floating.set(c, not is_in_floating_layout(c))
+
+  create_title_bar(c)
+  on_floating_changed(c)
+end
+
+function zk.rename_tag()
+   awful.prompt.run({ prompt = " [Rename tag]: " },
+                    mypromptbox[mouse.screen].widget,
+                    function (s)
+                       local tag = awful.tag.selected(mouse.screen)
+                       local index = awful.tag.getidx(tag)
+                       if s == "" then
+                          tag.name = index
+                       else
+                          tag.name = index .. ":" .. s
+                       end
+                       save_tag_names()
+                    end)
+end
+
+function zk.set_floating_for_all_clients(value)
+    local clients = client.get(mouse.screen)
+    for k,c in pairs(clients) do
+        if (c:isvisible()) then
+            awful.client.floating.set(c, value)
+        end
+    end
+end
+
+function zk.minimize_all_floating_clients()
+   local clients = client.get(mouse.screen)
+   for k,c in pairs(clients) do
+      if (awful.client.floating.get(c)) then
+         c.minimized = true
+      end
+   end
+   zk.raise_focus_client()
+end
+
 -- Place the window at one of the 9 pre-defined pivot points on the screen
--- as defined by get_pivot_point()
+-- as defined by get_pivot_geo()
 function zk.place_window_at_pivot(h, v, c)
   if not is_floating(c) then
     return
@@ -231,25 +306,6 @@ function zk.float_window_canonically(c, dir)
   c:geometry(canonical_geos[new_geo_index])
 end
 
-function zk.client_manage_hook(c, startup)
-  c:connect_signal("property::floating", on_floating_changed)
-
-  if not startup then
-    -- Put windows in a smart way, only if they does not set an initial position.
-    if not c.size_hints.user_position and not c.size_hints.program_position then
-      awful.placement.under_mouse(c)
-      awful.placement.no_overlap(c)
-      awful.placement.no_offscreen(c)
-    end
-  end
-
-  -- New windows are always floating, but have "floating" state only when necessary.
-  awful.client.floating.set(c, not is_in_floating_layout(c))
-
-  create_title_bar(c)
-  on_floating_changed(c)
-end
-
 function zk.raise_focus_client()
   if client.focus then client.focus:raise() end
 end
@@ -275,6 +331,12 @@ function zk.notify_monospace(text, last_notification)
                            font = "Liberation Mono 12",
                            position = "top_right",
                            timeout = 10})
+end
+
+function zk.init()
+   zk.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
+   restore_tag_names()
+   zk.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
 end
 
 return zk

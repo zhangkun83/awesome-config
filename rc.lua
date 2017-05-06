@@ -84,9 +84,9 @@ function layoutFloating()
    awful.layout.set(awful.layout.suit.floating)
    -- Floating all clients will restore their positions when they were
    -- previously floating, which is favorable here.
-   set_floating_for_all_clients(true)
+   zk.set_floating_for_all_clients(true)
    -- But we don't really need them to be in floating state.
-   set_floating_for_all_clients(false)
+   zk.set_floating_for_all_clients(false)
 end
 
 layoutMenu = awful.menu({ items = {
@@ -239,47 +239,6 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
-local saved_tags_file = zk.config_home .. "runtime/saved_tags"
-
--- ZK: save tag names so that they survive after restart
-function save_tag_names()
-  local f = assert(io.open(saved_tags_file, "w"))
-  local savedTags = tags[mouse.screen]
-  for i = 1, table.getn(savedTags) do
-    f:write(savedTags[i].name)
-    f:write("\n")
-  end
-  f:close()
-end
-
-function restore_tag_names()
-  local f = assert(io.open(saved_tags_file, "r"))
-  local savedTags = tags[mouse.screen]
-  for i = 1, table.getn(savedTags) do
-    savedTags[i].name = f:read()
-  end
-  f:close()
-end
-
-function set_floating_for_all_clients(value)
-    local clients = client.get(mouse.screen)
-    for k,c in pairs(clients) do
-        if (c:isvisible()) then
-            awful.client.floating.set(c, value)
-        end
-    end
-end
-
-function minimize_all_floating_clients()
-   local clients = client.get(mouse.screen)
-   for k,c in pairs(clients) do
-      if (awful.client.floating.get(c)) then
-         c.minimized = true
-      end
-   end
-   zk.raise_focus_client()
-end
-
 -- Float a window and apply a canonical geometry
 -- If not currently with any canonical geometry, will
 -- use the first one.  Otherwise, will use the next one.
@@ -347,7 +306,7 @@ globalkeys = awful.util.table.join(
                 end
               end),
 
-    awful.key({ modkey, "Shift" }, "n", minimize_all_floating_clients),
+    awful.key({ modkey, "Shift" }, "n", zk.minimize_all_floating_clients),
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
@@ -359,21 +318,7 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- ZK: Prompt to rename the current tag
-    awful.key({ modkey, "Shift" }, "=",
-              function ()
-                  awful.prompt.run({ prompt = " [Rename tag]: " },
-                  mypromptbox[mouse.screen].widget,
-                  function (s)
-                    local tag = awful.tag.selected(mouse.screen)
-                    local index = awful.tag.getidx(tag)
-                    if s == "" then
-                      tag.name = index
-                    else
-                      tag.name = index .. ":" .. s
-                    end
-                    save_tag_names()
-                  end)
-              end),
+    awful.key({ modkey, "Shift" }, "=", zk.rename_tag),
     -- ZK: File manager
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict
@@ -385,8 +330,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "F12", function () awful.util.spawn(zk.config_home .. "bin/sleepnlock.sh") end),
     -- ZK: Open the cheat sheet
     awful.key({ modkey }, "/", function () awful.util.spawn(cheatsheet_command) end),
-    awful.key({ modkey, "Shift" }, "d", function() set_floating_for_all_clients(false) end),
-    awful.key({ modkey, "Shift" }, "f", function() set_floating_for_all_clients(true) end),
+    awful.key({ modkey, "Shift" }, "d", function() zk.set_floating_for_all_clients(false) end),
+    awful.key({ modkey, "Shift" }, "f", function() zk.set_floating_for_all_clients(true) end),
     awful.key({ modkey }, "F7", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "F6", function() awful.util.spawn(zk.config_home .. "bin/volume.sh down") end),
@@ -545,14 +490,10 @@ awful.rules.rules = {
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.connect_signal("manage", zk.client_manage_hook)
-
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
+client.connect_signal("manage", zk.client_manage_hook)
 -- }}}
 
-zk.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
 myautostarts()
-restore_tag_names()
-zk.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
+zk.init()
