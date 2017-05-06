@@ -61,13 +61,14 @@ cheatsheet_command = zk.config_home .. "bin/cheatsheet.sh"
 dofile(zk.config_home .. "runtime/current_profile.lua")
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
-os.execute("mkdir -p " .. zk.config_home .. "/runtime")
-os.execute(zk.config_home .. "bin/prepare-wallpaper.sh")
-os.execute("cat " .. zk.config_home .. "theme/theme-common.lua " .. mythememod ..
-    " > " .. zk.config_home .. "runtime/theme.lua")
-beautiful.init(zk.config_home .. "runtime/theme.lua")
+beautiful.init(zk.config_home .. "theme/theme.lua")
+
+-- Profile can override parts of the theme
+if mythememod then
+   for k,v in pairs(mythememod) do
+      beautiful.get()[k] = v
+   end
+end
 
 function layoutMaximized()
    awful.layout.set(awful.layout.suit.max)
@@ -95,14 +96,6 @@ layoutMenu = awful.menu({ items = {
                              { "horizontal split", layoutHSplit, beautiful.layout_tilebottom},
                              { "vertical split", layoutVSplit, beautiful.layout_tile},
                              { "floating", layoutFloating, beautiful.layout_floating}}})
-
--- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
-end
--- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
@@ -497,4 +490,4 @@ client.connect_signal("manage", zk.client_manage_hook)
 -- }}}
 
 myautostarts()
-zk.init()
+zk.post_starts()

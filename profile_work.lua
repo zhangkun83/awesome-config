@@ -1,4 +1,8 @@
-mythememod = zk.config_home .. "theme/theme-work.lua"
+mythememod = {
+   font = "Liberation Sans 12",
+   font_monospace = "Liberation Mono 12",
+   menu_height = "28"
+}
 
 myawesomemenu = {
     { "cheat sheet", cheatsheet_command },

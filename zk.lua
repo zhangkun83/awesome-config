@@ -290,20 +290,21 @@ function zk.notify(text, last_notification)
    if last_notification then
       aal.delete_notification(last_notification)
    end
-   return aal.create_notification(text, "top_right", "Liberation Sans 12")
+   return aal.create_notification(text, "top_right", beautiful.font)
 end
 
 function zk.notify_monospace(text, last_notification)
    if last_notification then
       aal.delete_notification(last_notification)
    end
-   return aal.create_notification(text, "top_right", "Liberation Mono 12")
+   return aal.create_notification(text, "top_right", beautiful.font_monospace)
 end
 
-function zk.init()
-   aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
+function zk.post_starts()
    restore_tag_names()
+   aal.run_shell_command(zk.config_home .. "bin/prepare-wallpaper.sh")
    aal.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
+   aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
 end
 
 return zk

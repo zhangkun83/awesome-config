@@ -1,4 +1,8 @@
-mythememod = zk.config_home .. "theme/theme-work.lua"
+mythememod = {
+   font = "Liberation Sans 12",
+   font_monospace = "Liberation Mono 12",
+   menu_height = "28"
+}
 
 myawesomemenu = {
     { "cheat sheet", cheatsheet_command },
@@ -14,14 +18,16 @@ myawesomemenu = {
 mywiboxprops = { height = 26, border_width = "0" }
 
 mybatterybox = wibox.widget.textbox("?battery?")
-mybatterybox:set_font("Liberation Mono 12")
 mybatterybox:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end))
 
 mynetworkbox = wibox.widget.textbox("?network?")
-mynetworkbox:set_font("Liberation Mono 12")
 mynetworkbox:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end))
 
 mycustomwidgets = { mynetworkbox, mybatterybox }
+
+for _,v in ipairs(mycustomwidgets) do
+   v:set_font(mythememod.font)
+end
 
 mykeybindings = awful.util.table.join(
     awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end),
@@ -31,8 +37,7 @@ mykeybindings = awful.util.table.join(
 
 function myautostarts()
     -- Disable touchpad tapping
-    aal.run_shell_command("synclient TapButton1=0")
-    aal.run_shell_command("synclient TapButton2=0")
+    aal.run_shell_command("synclient TapButton1=0 TapButton2=0")
     -- Shift the color a bit towards red to reduce eye strain
     aal.run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger

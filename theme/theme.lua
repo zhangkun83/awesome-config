@@ -139,3 +139,5 @@ theme.titlebar_minimize_button_focus_inactive  = theme_dir .. "titlebar/minimize
 theme.titlebar_minimize_button_normal_inactive = theme_dir .. "titlebar/minimize_normal.png"
 -- }}}
 -- }}}
+
+return theme
