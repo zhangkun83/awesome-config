@@ -36,7 +36,7 @@ keyboard and mouse.
   - Provide both menu entries and shortcuts for most actions, e.g.,
     launching the terminal and browser, changing the layout etc.
   - Allow moving and resizing windows with keyboard only.
-  - Re-assign window-switching bindings from `Mod4-J/K` to `Mod4-A/S`
+  - Re-assign window-switching bindings from `Mod-J/K` to `Mod-A/S`
     to allow single-handed operation.
 
 Responses to user inputs should be deterministic.
@@ -87,16 +87,20 @@ $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 
 ## Screenshots ##
 
-Vertically split, with the layout menu shown at the top-right:
+Vertically split, with the layout menu shown at the top-right by
+clicking the layout icon.  On the top-right there is also the clock
+widget and the current input method (英 for English, 拼 for Chinese
+Pinyin).  There are also the WiFi status and power status when the
+`work_thinkpad` is chosen.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-split.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-split.jpg" width="640">
 
-Tiling windows in the background, with a window floating on top.  The
-battery and wifi status are shown as notification by pressing the
-`X86Tools` key:
+Tiling windows in the background, with a window (the Quick Search box
+summoned by `Mod+F10`) floating on top.  A 3-month calendar is shown
+when the clock is clicked.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-floating-on-top.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating-on-top.jpg" width="640">
 
 The floating layout. The blue bottom bar can be used to move (left button) and resize (right button) the window.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/2-floating.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating.jpg" width="640">
