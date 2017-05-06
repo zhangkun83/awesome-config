@@ -72,4 +72,8 @@ function aal.delete_notification(notification)
    naughty.destroy(notification)
 end
 
+function aal.run_shell_command(command)
+   awful.util.spawn_with_shell(command)
+end
+
 return aal

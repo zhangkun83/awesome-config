@@ -10,6 +10,7 @@ naughty = require("naughty")
 -- Widget and layout library
 wibox = require("wibox")
 
+aal = require("aal")
 zk = require("zk")
 
 -- {{{ Error handling

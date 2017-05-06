@@ -286,10 +286,6 @@ function zk.raise_focus_client()
   if client.focus then client.focus:raise() end
 end
 
-function zk.run_shell_command(command)
-    awful.util.spawn_with_shell(command)
-end
-
 function zk.notify(text, last_notification)
    if last_notification then
       aal.delete_notification(last_notification)
@@ -305,9 +301,9 @@ function zk.notify_monospace(text, last_notification)
 end
 
 function zk.init()
-   zk.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
+   aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
    restore_tag_names()
-   zk.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
+   aal.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
 end
 
 return zk

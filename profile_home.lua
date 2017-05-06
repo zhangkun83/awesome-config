@@ -17,9 +17,9 @@ myawesomemenu = {
 
 mywiboxprops = { height = 24, border_width = "0" }
 
-mykeybindings = awful.key({ modkey }, "\\", function () zk.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end)
+mykeybindings = awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end)
 
 function myautostarts()
     -- Set mouse speed
-    zk.run_shell_command("xset m 1/5 10")
+    aal.run_shell_command("xset m 1/5 10")
 end

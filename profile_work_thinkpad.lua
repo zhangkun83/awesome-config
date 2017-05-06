@@ -3,7 +3,7 @@ mythememod = zk.config_home .. "theme/theme-work.lua"
 myawesomemenu = {
     { "cheat sheet", cheatsheet_command },
     { "edit config", terminal .. " --default-working-directory .config/awesome" },
-    { "lock screen", function() zk.run_shell_command(zk.config_home .. "bin/xlock.sh") end },
+    { "lock screen", function() aal.run_shell_command(zk.config_home .. "bin/xlock.sh") end },
     { "sleep", zk.config_home .. "bin/sleepnlock.sh" },
     { "restart", awesome.restart },
     { "quit", {
@@ -24,22 +24,22 @@ mynetworkbox:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_
 mycustomwidgets = { mynetworkbox, mybatterybox }
 
 mykeybindings = awful.util.table.join(
-    awful.key({ modkey }, "\\", function () zk.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end),
-    awful.key({ modkey, "Shift" }, "\\", function () zk.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end),
+    awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end),
+    awful.key({ modkey, "Shift" }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end),
     awful.key({ }, "XF86Tools", function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end)
 )
 
 function myautostarts()
     -- Disable touchpad tapping
-    zk.run_shell_command("synclient TapButton1=0")
-    zk.run_shell_command("synclient TapButton2=0")
+    aal.run_shell_command("synclient TapButton1=0")
+    aal.run_shell_command("synclient TapButton2=0")
     -- Shift the color a bit towards red to reduce eye strain
-    zk.run_shell_command("redshift -O 6100")
+    aal.run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
-    zk.run_shell_command("xrdb -merge <<< \"Xft.dpi: 105\"")
+    aal.run_shell_command("xrdb -merge <<< \"Xft.dpi: 105\"")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
-    zk.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
+    aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
     -- laptopboxes-updater.sh does not exit when awesome exits,
     -- because somehow awesome is not the parent of th spawned
     -- process.  The left-over seems to become nonfunctional after
@@ -47,5 +47,5 @@ function myautostarts()
     --
     -- TODO: make consider re-implementing this script with
     -- awful.spawn.with_line_callback and timer
-    zk.run_shell_command("killall laptopboxes-updater.sh; " .. zk.config_home .. "bin/laptopboxes-updater.sh &")
+    aal.run_shell_command("killall laptopboxes-updater.sh; " .. zk.config_home .. "bin/laptopboxes-updater.sh &")
 end
