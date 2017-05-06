@@ -45,7 +45,6 @@ end
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-local floatingWindowAlwaysOnTop = true
 titlebar_height = 12
 terminal = "xfce4-terminal"
 local window_move_step = 50
@@ -68,11 +67,6 @@ os.execute(zk.config_home .. "bin/prepare-wallpaper.sh")
 os.execute("cat " .. zk.config_home .. "theme/theme-common.lua " .. mythememod ..
     " > " .. zk.config_home .. "runtime/theme.lua")
 beautiful.init(zk.config_home .. "runtime/theme.lua")
-
--- This is used later as the default terminal and editor to run.
---terminal = "x-terminal-emulator"
--- ZK: changed default terminal
-editor = os.getenv("EDITOR") or "editor"
 
 function layoutMaximized()
    awful.layout.set(awful.layout.suit.max)
@@ -267,14 +261,6 @@ function restore_tag_names()
   f:close()
 end
 
-function is_in_floating_layout(c)
-  return awful.layout.get(c.screen) == awful.layout.suit.floating
-end
-
-function is_floating(c)
-  return is_in_floating_layout(c) or awful.client.floating.get(c)
-end
-
 function set_floating_for_all_clients(value)
     local clients = client.get(mouse.screen)
     for k,c in pairs(clients) do
@@ -294,202 +280,18 @@ function minimize_all_floating_clients()
    zk.raise_focus_client()
 end
 
--- Place the window at one of the 9 pre-defined pivot points on the screen
--- as defined by get_pivot_point()
-function place_window_at_pivot(h, v, c)
-  if not is_floating(c) then
-    return
-  end
-  c:geometry(get_pivot_geo(h, v, c))
-end
-
--- Move the window to the closest pivot to the direction defined by
--- (dh, dv). d?==-1(1) means moving left(right) on that dimension. 0 means
--- no movement on that dimension.
-function move_window_to_pivot(dh, dv, c)
-   if not is_floating(c) then
-      return
-   end
-   local current_geo = c:geometry()
-   local screen_geo = screen[c.screen].workarea
-
-   if dh ~= 0 then
-      for h=-dh, dh, dh do
-         local geo = get_pivot_geo(h, 0, c)
-         if get_sign(geo.x - current_geo.x, 2) == dh then
-            current_geo.x = geo.x
-            break
-         end
-      end
-   end
-   if dv ~= 0 then
-      for v=-dv, dv, dv do
-         local geo = get_pivot_geo(0, v, c)
-         if get_sign(geo.y - current_geo.y, 2) == dv then
-            current_geo.y = geo.y
-            break
-         end
-      end
-   end
-   c:geometry(current_geo)
-end
-
--- Get the sign of the given number.
--- 1 for positive, -1 for negative, or 0.
--- If abs(a) < epsilon, return 0.
-function get_sign(a, epsilon)
-   if math.abs(a) < epsilon then
-      return 0
-   end
-   if a > 0 then
-      return 1
-   end
-   return -1
-end
-
--- Return one of the 9 pre-defined pivot geos of the client.
--- For example (h, v) = (0, 0) means center, (-1, 0) means center-left
--- (1, 1) means down-right.
-function get_pivot_geo(h, v, c)
-   local geo = c:geometry()
-   -- geo doesn't count in the border size, but we want to include it when calculating
-   -- the size of the window
-   local client_width = geo.width + 2 * beautiful.border_width
-   local client_height = geo.height + 2 * beautiful.border_width
-   local workarea = screen[c.screen].workarea
-   local win_center = {}
-   win_center.x = workarea.width * (0.5 + h * 0.33)
-   win_center.y = workarea.height * (0.5 + v * 0.33)
-   geo.x = math.min(math.max(0, win_center.x - client_width / 2), workarea.width - client_width) + workarea.x
-   geo.y = math.min(math.max(0, win_center.y - client_height / 2), workarea.height - client_height) + workarea.y
-   return geo
-end
-
-function geo_equals(g1, g2)
-   -- Some applications, e.g., terminal emulators will snap their
-   -- widths and heights to the integral multiples of character width
-   -- and height.  Therefore we only check x and y, and ignore widths
-   -- and height.
-   return math.abs(g1.x - g2.x) < 2 and math.abs(g1.y - g2.y) < 2
-end
-
 -- Float a window and apply a canonical geometry
 -- If not currently with any canonical geometry, will
 -- use the first one.  Otherwise, will use the next one.
 function float_window_canonically(c)
-  float_window_canonically_impl(c, 1)
+  zk.float_window_canonically(c, 1)
 end
 
 -- Float a window and apply a canonical geometry
 -- If not currently with any canonical geometry, will
 -- use the first one.  Otherwise, will use the previous one.
 function float_window_canonically_reverse(c)
-  float_window_canonically_impl(c, -1)
-end
-
-function float_window_canonically_impl(c, dir)
-  if not is_floating(c) then
-    awful.client.floating.set(c, true)
-  end
-  local screen_geo = screen[c.screen].workarea
-  local x_padding_step = screen_geo.width / 20
-  local y_padding_step = screen_geo.height / 20
-  local min_padding_step = math.min(x_padding_step, y_padding_step)
-  local num_canonical_geos = 0
-  -- Generate canonical geometries
-  local canonical_geos = {}
-  local geo = {}
-  -- Two centered
-  for i=1, 2 do
-     geo = {}
-     local xpadding = x_padding_step * 2 * i
-     local ypadding = y_padding_step * (2 * i - 1)
-     geo.x = xpadding
-     geo.y = ypadding + screen_geo.y
-     geo.width = screen_geo.width - 2 * xpadding
-     geo.height = screen_geo.height - 2 * ypadding
-     num_canonical_geos = num_canonical_geos + 1
-     canonical_geos[num_canonical_geos] = geo
-  end
-  -- Left and right
-  for i=1, 2 do
-     geo = {}
-     local padding = min_padding_step * 2
-     geo.x = (screen_geo.width / 2) * (i - 1) + padding
-     geo.y = padding + screen_geo.y
-     geo.width = screen_geo.width / 2 - padding * 2
-     geo.height = screen_geo.height - padding * 2
-     num_canonical_geos = num_canonical_geos + 1
-     canonical_geos[num_canonical_geos] = geo
-  end
-  -- Look for current geo among the canonical geos
-  local orig_geo = c:geometry()
-  local new_geo_index = 1
-  for i,geo in pairs(canonical_geos) do
-     if geo_equals(geo, orig_geo) then
-        new_geo_index = i + dir
-        if new_geo_index > num_canonical_geos then
-           new_geo_index = 1
-        elseif new_geo_index < 1 then
-           new_geo_index = num_canonical_geos
-        end
-     end
-  end
-  c:geometry(canonical_geos[new_geo_index])
-end
-
-function change_window_geometry(dx, dy, dw, dh, c)
-  -- Only floating windows can be moved
-  if not is_floating(c) then
-    return
-  end
-  local geo = c:geometry()
-  local screen_geo = screen[c.screen].workarea
-  geo.x = math.min(math.max(0, geo.x + dx), screen_geo.width - 50)
-  geo.y = math.min(math.max(0, geo.y + dy), screen_geo.height - 50)
-  geo.width = math.min(math.max(100, geo.width + dw), screen_geo.width)
-  geo.height = math.min(math.max(100, geo.height + dh), screen_geo.height)
-  c:geometry(geo)
-end
-
--- Adjust a range [initial_offset, initial_offset + initial_length), so that it
--- fit in the range [0, limit), with the minimum padding on both sides
--- (min_padding1 and min_padding2) and a minimum length (min_length).
--- min_length has a higher
--- priority than min_paddings and limit.
--- Returns a table {offset, length}.
-function get_sane_offset_and_length(initial_offset, initial_length,
-  min_padding1, min_padding2, min_length, limit)
-    local offset = initial_offset
-    local length = initial_length
-    if offset < min_padding1 then
-        offset = min_padding1
-    end
-    if offset + length > limit - min_padding2 then
-        length = limit - min_padding2 - offset
-    end
-    if length < min_length then
-        length = min_length
-    end
-    local result = {}
-    result.offset = offset
-    result.length = length
-    return result
-end
-
-function place_window_sanely(c)
-  local screen_geo = screen[mouse.screen].geometry
-  local geo = c:geometry()
-  local xgeo = get_sane_offset_and_length(
-      geo.x, geo.width, 0, 0, screen_geo.width / 10, screen_geo.width)
-  local ygeo = get_sane_offset_and_length(
-      geo.y, geo.height, 10, beautiful.menu_height + 10,
-      screen_geo.height / 10, screen_geo.height)
-  geo.x = xgeo.offset
-  geo.width = xgeo.length
-  geo.y = ygeo.offset
-  geo.height = ygeo.length
-  c:geometry(geo)
+  zk.float_window_canonically(c, -1)
 end
 
 -- {{{ Key bindings
@@ -602,14 +404,6 @@ globalkeys = awful.util.table.join(
     mykeybindings
 )
 
--- Run whenver the floating status of a window changes
-function on_floating_changed(c)
-  if floatingWindowAlwaysOnTop then
-    c.ontop = awful.client.floating.get(c)
-    zk.raise_focus_client()
-  end
-end
-
 clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey,  },          "d",      function (c)
@@ -630,45 +424,45 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "p",      float_window_canonically),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
     -- Resizing the window by keyboard
-    awful.key({ modkey, "Shift" }, "KP_Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "Up",  function (c) change_window_geometry(0, 0, 0, -window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "Down",  function (c) change_window_geometry(0, 0, 0, window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Left",  function (c) change_window_geometry(0, 0, -window_move_step, 0, c) end),
-    awful.key({ modkey, "Shift" }, "Left",  function (c) change_window_geometry(0, 0, -window_move_step, 0, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Right",  function (c) change_window_geometry(0, 0, window_move_step, 0, c) end),
-    awful.key({ modkey, "Shift" }, "Right",  function (c) change_window_geometry(0, 0, window_move_step, 0, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Home",  function (c) change_window_geometry(0, 0, -window_move_step, -window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Next",  function (c) change_window_geometry(0, 0, window_move_step, window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "KP_End",  function (c) change_window_geometry(0, 0, -window_move_step, window_move_step, c) end),
-    awful.key({ modkey, "Shift" }, "KP_Prior",  function (c) change_window_geometry(0, 0, window_move_step, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Up",  function (c) zk.change_window_geometry(0, 0, 0, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Up",  function (c) zk.change_window_geometry(0, 0, 0, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Down",  function (c) zk.change_window_geometry(0, 0, 0, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Down",  function (c) zk.change_window_geometry(0, 0, 0, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Left",  function (c) zk.change_window_geometry(0, 0, -window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Left",  function (c) zk.change_window_geometry(0, 0, -window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Right",  function (c) zk.change_window_geometry(0, 0, window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Right",  function (c) zk.change_window_geometry(0, 0, window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Home",  function (c) zk.change_window_geometry(0, 0, -window_move_step, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Next",  function (c) zk.change_window_geometry(0, 0, window_move_step, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_End",  function (c) zk.change_window_geometry(0, 0, -window_move_step, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "KP_Prior",  function (c) zk.change_window_geometry(0, 0, window_move_step, -window_move_step, c) end),
     -- Moving the window by keyboard
-    awful.key({ modkey }, "KP_Up",  function (c) change_window_geometry(0, -window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "Up",  function (c) change_window_geometry(0, -window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Down",  function (c) change_window_geometry(0, window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "Down",  function (c) change_window_geometry(0, window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Left",  function (c) change_window_geometry(-window_move_step, 0, 0, 0, c) end),
-    awful.key({ modkey }, "Left",  function (c) change_window_geometry(-window_move_step, 0, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Right",  function (c) change_window_geometry(window_move_step, 0, 0, 0, c) end),
-    awful.key({ modkey }, "Right",  function (c) change_window_geometry(window_move_step, 0, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Home",  function (c) change_window_geometry(-window_move_step, -window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Next",  function (c) change_window_geometry(window_move_step, window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_End",  function (c) change_window_geometry(-window_move_step, window_move_step, 0, 0, c) end),
-    awful.key({ modkey }, "KP_Prior",  function (c) change_window_geometry(window_move_step, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Up",  function (c) zk.change_window_geometry(0, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Up",  function (c) zk.change_window_geometry(0, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Down",  function (c) zk.change_window_geometry(0, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Down",  function (c) zk.change_window_geometry(0, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Left",  function (c) zk.change_window_geometry(-window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "Left",  function (c) zk.change_window_geometry(-window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Right",  function (c) zk.change_window_geometry(window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "Right",  function (c) zk.change_window_geometry(window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Home",  function (c) zk.change_window_geometry(-window_move_step, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Next",  function (c) zk.change_window_geometry(window_move_step, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_End",  function (c) zk.change_window_geometry(-window_move_step, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "KP_Prior",  function (c) zk.change_window_geometry(window_move_step, -window_move_step, 0, 0, c) end),
     -- Placing the window at pivot points
-    awful.key({ modkey, "Control" }, "KP_Up",  function (c) place_window_at_pivot(0, -1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Down",  function (c) place_window_at_pivot(0, 1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Left",  function (c) place_window_at_pivot(-1, 0, c) end),
-    awful.key({ modkey, "Control" }, "KP_Right",  function (c) place_window_at_pivot(1, 0, c) end),
-    awful.key({ modkey, "Control" }, "KP_Home",  function (c) place_window_at_pivot(-1, -1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Next",  function (c) place_window_at_pivot(1, 1, c) end),
-    awful.key({ modkey, "Control" }, "KP_End",  function (c) place_window_at_pivot(-1, 1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Prior",  function (c) place_window_at_pivot(1, -1, c) end),
-    awful.key({ modkey, "Control" }, "KP_Begin", function (c) place_window_at_pivot(0, 0, c) end),
-    awful.key({ modkey, "Control" }, "Up",  function (c) move_window_to_pivot(0, -1, c) end),
-    awful.key({ modkey, "Control" }, "Down",  function (c) move_window_to_pivot(0, 1, c) end),
-    awful.key({ modkey, "Control" }, "Right",  function (c) move_window_to_pivot(1, 0, c) end),
-    awful.key({ modkey, "Control" }, "Left",  function (c) move_window_to_pivot(-1, 0, c) end),
+    awful.key({ modkey, "Control" }, "KP_Up",  function (c) zk.place_window_at_pivot(0, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Down",  function (c) zk.place_window_at_pivot(0, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Left",  function (c) zk.place_window_at_pivot(-1, 0, c) end),
+    awful.key({ modkey, "Control" }, "KP_Right",  function (c) zk.place_window_at_pivot(1, 0, c) end),
+    awful.key({ modkey, "Control" }, "KP_Home",  function (c) zk.place_window_at_pivot(-1, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Next",  function (c) zk.place_window_at_pivot(1, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_End",  function (c) zk.place_window_at_pivot(-1, 1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Prior",  function (c) zk.place_window_at_pivot(1, -1, c) end),
+    awful.key({ modkey, "Control" }, "KP_Begin", function (c) zk.place_window_at_pivot(0, 0, c) end),
+    awful.key({ modkey, "Control" }, "Up",  function (c) zk.move_window_to_pivot(0, -1, c) end),
+    awful.key({ modkey, "Control" }, "Down",  function (c) zk.move_window_to_pivot(0, 1, c) end),
+    awful.key({ modkey, "Control" }, "Right",  function (c) zk.move_window_to_pivot(1, 0, c) end),
+    awful.key({ modkey, "Control" }, "Left",  function (c) zk.move_window_to_pivot(-1, 0, c) end),
     awful.key({ modkey }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
@@ -749,61 +543,9 @@ awful.rules.rules = {
 }
 -- }}}
 
-function create_title_bar(c)
-   if c.type == "normal" or c.type == "dialog" or c.type == "utility" then
-      -- buttons for the titlebar
-      local buttons = awful.util.table.join(
-         awful.button({ }, 1, function()
-                         client.focus = c
-                         c:raise()
-                         awful.mouse.client.move(c)
-                              end),
-         awful.button({ }, 3, function()
-                         client.focus = c
-                         c:raise()
-                         awful.mouse.client.resize(c)
-                              end)
-      )
-
-      -- Create a layout without widgets, just to bind the mouse buttons
-      local layout = wibox.layout.align.horizontal()
-      layout:buttons(buttons)
-
-      -- The titlebar position has to be passed to both titlebar() and titlebar.show(),
-      -- otherwise the implementation will mess up.
-      awful.titlebar(c, { size = titlebar_height, position = "bottom" }):set_widget(layout)
-      awful.titlebar.show(c, "bottom")
-
-      -- At least, make space for the window title, and do not extend over
-      -- the borders of the screen
-      place_window_sanely(c)
-   end
-end
-
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.connect_signal("manage", function (c, startup)
-    c:connect_signal("property::floating", on_floating_changed)
-
-    if not startup then
-        -- Set the windows at the slave,
-        -- i.e. put it at the end of others instead of setting it master.
-        -- awful.client.setslave(c)
-
-        -- Put windows in a smart way, only if they does not set an initial position.
-        if not c.size_hints.user_position and not c.size_hints.program_position then
-            awful.placement.under_mouse(c)
-            awful.placement.no_overlap(c)
-            awful.placement.no_offscreen(c)
-        end
-    end
-
-    -- New windows are always floating, but have "floating" state only when necessary.
-    awful.client.floating.set(c, not is_in_floating_layout(c))
-
-    create_title_bar(c)
-    on_floating_changed(c)
-end)
+client.connect_signal("manage", zk.client_manage_hook)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
