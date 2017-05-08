@@ -44,9 +44,9 @@ function network_status() {
     local devicestate="$(echo "$alldevicestates" | grep "${device}")"
 
     local network_status_symbol="${NETWORK_DOWN_UTF8}"
-    if [[ "$devicestate" =~ .*connecting.* ]]; then
+    if [[ "$devicestate" =~ .*:connecting.* ]]; then
         network_status_symbol="${NETWORK_CONNECTING_UTF8}"
-    elif [[ "$devicestate" =~ .*connected.* ]]; then
+    elif [[ "$devicestate" =~ .*:connected.* ]]; then
         network_status_symbol="${NETWORK_UP_UTF8}"
     fi
 
