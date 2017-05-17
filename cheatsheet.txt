@@ -23,8 +23,10 @@ Mod4 + (Shift) + P             *  float window and apply
                                *  a canonical geomoetry
 Mod4 + D                       *  dock the window
 Mod4 + Shift + D               *  dock all windows
+Mod4 + Alt + D                 *  switch to next docked window
 Mod4 + F                       *  float the window
 Mod4 + Shift + F               *  float all windows
+Mod4 + Alt + F                 *  switch to next floating window
 Mod4 + N                       *  minimize the window
 Mod4 + Shift + N               *  minimize all floating windows
 Mod4 + Ctrl + N                *  restore a minimized window

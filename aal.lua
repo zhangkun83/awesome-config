@@ -38,6 +38,18 @@ function aal.should_have_title_bar(c)
    return c.type == "normal" or c.type == "dialog" or c.type == "utility"
 end
 
+function aal.get_focus_client()
+   return client.focus
+end
+
+function aal.get_next_client(relative_idx, c)
+   return awful.client.next(relative_idx, c)
+end
+
+function aal.focus_client(c)
+   awful.client.focus.byidx(0, c)
+end
+
 function aal.create_title_bar(c)
    -- buttons for the titlebar
    local buttons = awful.util.table.join(

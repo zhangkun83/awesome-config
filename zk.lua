@@ -307,4 +307,24 @@ function zk.post_starts()
    aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
 end
 
+-- Switch to the next client that is floating or not-floating
+function zk.next_client_by_floating(floating)
+   local current_c = aal.get_focus_client()
+   if not current_c then
+      return
+   end
+   local next_c = current_c
+   while true do
+      next_c = aal.get_next_client(1, next_c)
+      if next_c == current_c then
+         -- Has iterated all clients, and no desired client was found
+         return
+      end
+      if is_floating(next_c) == floating then
+         aal.focus_client(next_c)
+         return
+      end
+   end
+end
+
 return zk

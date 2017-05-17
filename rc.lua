@@ -45,6 +45,7 @@ end
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+altkey = "Mod1"
 
 titlebar_height = 12
 terminal = "xfce4-terminal"
@@ -261,6 +262,8 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             zk.raise_focus_client()
         end),
+    awful.key({ modkey, altkey    }, "f", function () zk.next_client_by_floating(true) end),
+    awful.key({ modkey, altkey    }, "d", function () zk.next_client_by_floating(false) end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
     -- Layout manipulation
