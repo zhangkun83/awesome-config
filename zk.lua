@@ -322,6 +322,7 @@ function zk.next_client_by_floating(floating)
       end
       if is_floating(next_c) == floating then
          aal.focus_client(next_c)
+         zk.raise_focus_client()
          return
       end
    end
