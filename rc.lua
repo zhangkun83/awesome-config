@@ -262,8 +262,8 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             zk.raise_focus_client()
         end),
-    awful.key({ modkey, altkey    }, "f", function () zk.next_client_by_floating(true) end),
-    awful.key({ modkey, altkey    }, "d", function () zk.next_client_by_floating(false) end),
+    awful.key({ modkey,           }, "`", function () zk.next_client_by_floating(true) end),
+    awful.key({ modkey,           }, "Tab", function () zk.next_client_by_floating(false) end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
     -- Layout manipulation
@@ -272,11 +272,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "s", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "a", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            zk.raise_focus_client()
-        end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
