@@ -1,2 +1,2 @@
 #!/bin/bash
-google-chrome --profile-directory=Default $*
+google-chrome --profile-directory=Default $* &
