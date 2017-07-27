@@ -285,7 +285,20 @@ end
 function zk.raise_focus_client()
    if client.focus then
       if client.focus.type == "dock" then
+         -- xfce4-panel will steal focus after switching tag. Try to
+         -- restore to the previous focus.
          awful.client.focus.history.previous()
+         -- If previous focus is still the panel, try to find a
+         -- non-panel window
+         local clients = client.get(mouse.screen)
+         -- Try at most the number of client's times
+         for k,c in pairs(clients) do
+            if client.focus and client.focus.type == "dock" then
+               awful.client.focus.byidx(1)
+            else
+               break
+            end
+         end
       else
          client.focus:raise()
       end
