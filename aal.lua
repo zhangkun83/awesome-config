@@ -8,7 +8,10 @@ end
 
 -- Change the floating flag of a client
 function aal.set_client_floating(c, floating)
-   awful.client.floating.set(c, floating)
+   -- Dock windows are always floating. Do not change it.
+   if (c.type ~= "dock") then
+      awful.client.floating.set(c, floating)
+   end
 end
 
 -- Set the client's ontop flag

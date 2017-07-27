@@ -123,13 +123,6 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock("%H:%M ", 1)
-mytextclock:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-calendar-notification.sh") end))
-
-separatorbox = wibox.widget.textbox("│")
-myibusbox = wibox.widget.textbox("?ibus?")
-
 function move_and_switch_to_tag(t)
    awful.client.movetotag(t)
    awful.tag.viewonly(t)
@@ -204,18 +197,6 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
 
-    right_layout:add(separatorbox)
-
-    if mycustomwidgets then
-       for _, v in ipairs(mycustomwidgets) do
-          right_layout:add(v)
-          right_layout:add(separatorbox)
-       end
-    end
-
-    right_layout:add(myibusbox)
-    right_layout:add(separatorbox)
-    right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -325,19 +306,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "d", function() zk.set_floating_for_all_clients(false) end),
     awful.key({ modkey, "Shift" }, "f", function() zk.set_floating_for_all_clients(true) end),
     awful.key({ modkey }, "F7", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn(zk.config_home .. "bin/volume.sh up") end),
     awful.key({ modkey }, "F6", function() awful.util.spawn(zk.config_home .. "bin/volume.sh down") end),
-    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn(zk.config_home .. "bin/volume.sh down") end),
     awful.key({ modkey }, "F5", function() awful.util.spawn(zk.config_home .. "bin/volume.sh mute") end),
-    awful.key({ }, "XF86AudioMute", function() awful.util.spawn(zk.config_home .. "bin/volume.sh mute") end),
     awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn(zk.config_home .. "bin/backlight.sh up") end),
     awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn(zk.config_home .. "bin/backlight.sh down") end),
-    -- As we have removed mysystray, there no easy way to tell the current ibus input engine,
-    -- We intercept the ibus hotkey and switch engine manually, so that we can display the current engine
-    -- as an notification.
-    awful.key({ modkey }, "space", function() awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh") end),
-    awful.key({ modkey }, ",", function () awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh 0") end),
-    awful.key({ modkey }, ".", function () awful.util.spawn(zk.config_home .. "bin/ibus-cycle-engine.sh 1") end),
     mykeybindings
 )
 
@@ -477,6 +449,11 @@ awful.rules.rules = {
     -- HOW-TO: use xprop to get window properties. "class" is the second value in WM_CLASS.
     { rule = { class = "XTerm" },
       properties = { ontop = true } },
+    -- Do not let panels steal the focus
+    { rule = { type = "normal" },
+      properties = {focus = true }},
+    { rule = { type = "dock" },
+      properties = {focusable = false, focus = false }}
 }
 -- }}}
 

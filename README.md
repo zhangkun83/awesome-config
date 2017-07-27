@@ -58,6 +58,10 @@ in the [cheatsheet](/cheatsheet.txt).
 ## Dependencies ##
 It uses the following applications / packages:
  - __xfce4-terminal__ as the terminal emulator (`Mod+Enter`)
+ - __xfce4-panel__ to display the notification icons, because GTK+2 applications may
+   [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891)
+ - __xfce4-power-manager__ for the battery icon on laptops
+ - __nm-applet__ the NetworkManager applet
  - __xscreensaver__ for screen lock (`Mod+F12`)
  - __xbacklight__ for adjusting screen backlight
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
@@ -85,7 +89,7 @@ the default wallpaper will be used.
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
 
-## Screenshots ##
+## Screenshots (outdated) ##
 
 Vertically split, with the layout menu shown at the top-right by
 clicking the layout icon.  On the top-right there is also the clock

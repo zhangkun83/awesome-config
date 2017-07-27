@@ -17,13 +17,7 @@ myawesomemenu = {
 
 mywiboxprops = { height = 26, border_width = "0" }
 
-mybatterybox = wibox.widget.textbox("?battery?")
-mybatterybox:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end))
-
-mynetworkbox = wibox.widget.textbox("?network?")
-mynetworkbox:buttons(awful.button({ }, 1, function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end))
-
-mycustomwidgets = { mynetworkbox, mybatterybox }
+mycustomwidgets = { }
 
 for _,v in ipairs(mycustomwidgets) do
    v:set_font(mythememod.font)
@@ -31,8 +25,7 @@ end
 
 mykeybindings = awful.util.table.join(
     awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end),
-    awful.key({ modkey, "Shift" }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end),
-    awful.key({ }, "XF86Tools", function() awful.util.spawn(zk.config_home .. "bin/show-system-status.sh") end)
+    awful.key({ modkey, "Shift" }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end)
 )
 
 function myautostarts()
@@ -42,15 +35,9 @@ function myautostarts()
     aal.run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
     aal.run_shell_command("xrdb -merge <<< \"Xft.dpi: 105\"")
+    aal.run_shell_command("nm-applet")
+    aal.run_shell_command("xfce4-power-manager")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
-    -- laptopboxes-updater.sh does not exit when awesome exits,
-    -- because somehow awesome is not the parent of th spawned
-    -- process.  The left-over seems to become nonfunctional after
-    -- re-login, thus it's best to just kill it.
-    --
-    -- TODO: make consider re-implementing this script with
-    -- awful.spawn.with_line_callback and timer
-    aal.run_shell_command("killall laptopboxes-updater.sh; " .. zk.config_home .. "bin/laptopboxes-updater.sh &")
 end

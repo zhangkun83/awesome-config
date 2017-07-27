@@ -47,8 +47,5 @@ Mod4 + (Shift) + F12           *  lock screen (and sleep)
 
                          MISC CONTROLS
 
-Mod4 + , (comma)               * English input
-Mod4 + . (dot)                 * Chinese (Pinyin) input
-Mod4 + Space                   * Cycle input methods
 Mod4 + F6 / F7                 * volume down / up
 Mod4 + F5                      * mute / unmute

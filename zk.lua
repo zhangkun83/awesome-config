@@ -302,8 +302,8 @@ end
 
 function zk.post_starts()
    restore_tag_names()
+   aal.run_shell_command("xfce4-panel")
    aal.run_shell_command(zk.config_home .. "bin/prepare-wallpaper.sh")
-   aal.run_shell_command(zk.config_home .. "bin/ibus-cycle-engine.sh 0")
    aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
 end
 
