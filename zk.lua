@@ -283,7 +283,13 @@ function zk.float_window_canonically(c, dir)
 end
 
 function zk.raise_focus_client()
-  if client.focus then client.focus:raise() end
+   if client.focus then
+      if client.focus.type == "dock" then
+         awful.client.focus.history.previous()
+      else
+         client.focus:raise()
+      end
+   end
 end
 
 function zk.notify(text, last_notification)

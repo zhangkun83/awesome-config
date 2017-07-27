@@ -448,12 +448,7 @@ awful.rules.rules = {
     -- window always on top.
     -- HOW-TO: use xprop to get window properties. "class" is the second value in WM_CLASS.
     { rule = { class = "XTerm" },
-      properties = { ontop = true } },
-    -- Do not let panels steal the focus
-    { rule = { type = "normal" },
-      properties = {focus = true }},
-    { rule = { type = "dock" },
-      properties = {focusable = false, focus = false }}
+      properties = { ontop = true } }
 }
 -- }}}
 
