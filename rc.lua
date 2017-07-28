@@ -231,7 +231,10 @@ end
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+   awful.key({ modkey,           }, "Escape", function ()
+                awful.tag.history.restore()
+                zk.raise_focus_client()
+                                              end),
 
     awful.key({ modkey,           }, "s",
         function ()
@@ -319,9 +322,9 @@ clientkeys = awful.util.table.join(
                  if awful.layout.get(c.screen) == awful.layout.suit.floating then
                     layoutMaximized()
                  end
-                 awful.client.floating.set(c, false)
+                 aal.set_client_floating(c, false)
                                                end),
-    awful.key({ modkey,  },          "f",      function (c) awful.client.floating.set(c, true) end),
+    awful.key({ modkey,  },          "f",      function (c) aal.set_client_floating(c, true) end),
     awful.key({ modkey, "Control" }, "space", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),

@@ -161,9 +161,9 @@ end
 function zk.set_floating_for_all_clients(value)
     local clients = client.get(mouse.screen)
     for k,c in pairs(clients) do
-        if (c:isvisible()) then
-           aal.set_client_floating(c, value)
-        end
+       if c:isvisible() then
+          aal.set_client_floating(c, value)
+       end
     end
 end
 
@@ -284,7 +284,7 @@ end
 
 function zk.raise_focus_client()
    if client.focus then
-      if client.focus.type == "dock" then
+      if aal.is_panel(client.focus) then
          -- xfce4-panel will steal focus after switching tag. Try to
          -- restore to the previous focus.
          awful.client.focus.history.previous()
@@ -293,7 +293,7 @@ function zk.raise_focus_client()
          local clients = client.get(mouse.screen)
          -- Try at most the number of client's times
          for k,c in pairs(clients) do
-            if client.focus and client.focus.type == "dock" then
+            if client.focus and aal.is_panel(client.focus) then
                awful.client.focus.byidx(1)
             else
                break

@@ -9,7 +9,7 @@ end
 -- Change the floating flag of a client
 function aal.set_client_floating(c, floating)
    -- Dock windows are always floating. Do not change it.
-   if (c.type ~= "dock") then
+   if (not aal.is_panel(c)) then
       awful.client.floating.set(c, floating)
    end
 end
@@ -39,6 +39,10 @@ end
 
 function aal.should_have_title_bar(c)
    return c.type == "normal" or c.type == "dialog" or c.type == "utility"
+end
+
+function aal.is_panel(c)
+   return c.type == "dock"
 end
 
 function aal.get_focus_client()
