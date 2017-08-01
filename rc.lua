@@ -449,6 +449,9 @@ awful.rules.rules = {
                      buttons = clientbuttons },
       -- ZK: new windows are set as slave, so the existing master window can stay master
       callback = awful.client.setslave },
+    -- ZK: do not show border for xfce4-panel
+    { rule = { type = "dock" },
+      properties = { border_width = 0 }},
     -- ZK: I use xterm to launch short-lived console programs. This makes the
     -- window always on top.
     -- HOW-TO: use xprop to get window properties. "class" is the second value in WM_CLASS.
