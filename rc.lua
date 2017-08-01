@@ -329,10 +329,12 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
-        function (c)
-            c.minimized = true
-            zk.raise_focus_client()
-        end),
+              function (c)
+                 if not aal.is_panel(c) then
+                    c.minimized = true
+                    zk.raise_focus_client()
+                 end
+              end),
     awful.key({ modkey,           }, "p",      float_window_canonically),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
     -- Resizing the window by keyboard

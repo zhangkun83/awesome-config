@@ -170,7 +170,7 @@ end
 function zk.minimize_all_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
-      if (aal.is_client_floating(c)) then
+      if (aal.is_client_floating(c) and not aal.is_panel(c)) then
          c.minimized = true
       end
    end
