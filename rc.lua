@@ -182,7 +182,7 @@ for s = 1, screen.count() do
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(
-        s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+        s, zk.task_list_filter_exclude_minimized, mytasklist.buttons)
 
     -- Create the wibox
     mywibox[s] = awful.wibox(awful.util.table.join({ position = "top", screen = s }, mywiboxprops))
@@ -466,3 +466,14 @@ client.connect_signal("manage", zk.client_manage_hook)
 
 myautostarts()
 zk.post_starts()
+
+-- ZK: To allow xfce4 taskbar to restore minimized windows. xfce4
+-- taskbar would "activate" the minimized window when clicked, but
+-- awesome by default only mark the window as urgent without restoring
+-- it (see https://github.com/awesomeWM/awesome/issues/927)
+client.connect_signal("request::activate",
+                      function(c)
+                         c.minimized = false
+                         client.focus = c
+                         zk.raise_focus_client()
+                      end)

@@ -1,4 +1,5 @@
 aal = require("aal")
+tasklist = require("awful.widget.tasklist")
 
 local zk = {}
 
@@ -345,6 +346,10 @@ function zk.next_client_by_floating(floating)
          return
       end
    end
+end
+
+function zk.task_list_filter_exclude_minimized(c, screen)
+   return tasklist.filter.currenttags(c, screen) and not c.minimized
 end
 
 return zk
