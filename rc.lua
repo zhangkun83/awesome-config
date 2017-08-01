@@ -147,7 +147,6 @@ mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
-                                                  c.minimized = true
                                                   zk.raise_focus_client()
                                               else
                                                   if not c:isvisible() then
@@ -159,12 +158,12 @@ mytasklist.buttons = awful.util.table.join(
                                                   c:raise()
                                               end
                                           end),
-                     awful.button({ }, 2, function ()
-                                     awful.client.focus.byidx(-1)
+                     awful.button({ }, 2, function (c)
+                                     c.minimized = true
                                      zk.raise_focus_client()
                                           end),
-                     awful.button({ }, 3, function ()
-                                     awful.client.focus.byidx(1)
+                     awful.button({ }, 3, function (c)
+                                     aal.set_client_floating(c, not aal.is_client_floating(c))
                                      zk.raise_focus_client()
                                           end))
 
