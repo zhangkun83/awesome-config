@@ -168,14 +168,29 @@ function zk.set_floating_for_all_clients(value)
     end
 end
 
-function zk.minimize_all_floating_clients()
+function zk.minimize_all_other_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
-      if (aal.is_client_floating(c) and not aal.is_panel(c)) then
+      if aal.is_client_floating(c) and (not aal.is_panel(c)) and (client.focus ~=c) then
          c.minimized = true
       end
    end
    zk.raise_focus_client()
+end
+
+function zk.restore_and_float_all_minimized_clients()
+   zk.set_floating_for_all_clients(false)
+   local c
+   while true do
+      c = awful.client.restore()
+      if c then
+         aal.set_client_floating(c, true)
+         client.focus = c
+         zk.raise_focus_client()
+      else
+         break
+      end
+   end
 end
 
 -- Place the window at one of the 9 pre-defined pivot points on the screen
@@ -340,7 +355,7 @@ function zk.next_client_by_floating(floating)
          -- Has iterated all clients, and no desired client was found
          return
       end
-      if is_floating(next_c) == floating then
+      if aal.is_client_floating(next_c) == floating then
          aal.focus_client(next_c)
          zk.raise_focus_client()
          return

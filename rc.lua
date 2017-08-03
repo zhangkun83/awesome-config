@@ -272,16 +272,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "F3",    layoutVSplit),
     awful.key({ modkey,           }, "F4",    layoutFloating),
 
-    awful.key({ modkey, "Control" }, "n",
-              function()
-                local c = awful.client.restore()
-                if c then
-                  client.focus = c
-                  zk.raise_focus_client()
-                end
-              end),
+    awful.key({ modkey, "Control" }, "n", zk.restore_and_float_all_minimized_clients),
 
-    awful.key({ modkey, "Shift" }, "n", zk.minimize_all_floating_clients),
+    awful.key({ modkey, "Shift" }, "n", zk.minimize_all_other_floating_clients),
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
@@ -318,9 +311,6 @@ globalkeys = awful.util.table.join(
 clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey,  },          "d",      function (c)
-                 if awful.layout.get(c.screen) == awful.layout.suit.floating then
-                    layoutMaximized()
-                 end
                  aal.set_client_floating(c, false)
                                                end),
     awful.key({ modkey,  },          "f",      function (c) aal.set_client_floating(c, true) end),

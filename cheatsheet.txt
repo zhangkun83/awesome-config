@@ -5,7 +5,6 @@ Mod4 + /                       *  open this cheat sheet
 
                              TAGS
 
-Mod4 + -> / <-                 *  switch to next / previous tag
 Mod4 + <num>                   *  switch to tag
 Mod4 + Ctrl + <num>            *  toggle tag on display
 Mod4 + Shift + <num>           *  move window to tag
@@ -28,8 +27,9 @@ Mod4 + Shift + D               *  dock all windows
 Mod4 + F                       *  float the window
 Mod4 + Shift + F               *  float all windows
 Mod4 + N                       *  minimize the window
-Mod4 + Shift + N               *  minimize all floating windows
-Mod4 + Ctrl + N                *  restore a minimized window
+Mod4 + Shift + N               *  minimize all other floating windows
+Mod4 + Ctrl + N                *  dock all visible windows, and
+                                  restore and float all minimized windows
 Mod4 + Shift + C               *  close window
 -----------------------------------------------------------------
 
