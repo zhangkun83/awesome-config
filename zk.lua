@@ -179,17 +179,18 @@ function zk.minimize_all_other_floating_clients()
 end
 
 function zk.restore_and_float_all_minimized_clients()
-   zk.set_floating_for_all_clients(false)
-   local c
-   while true do
-      c = awful.client.restore()
-      if c then
-         aal.set_client_floating(c, true)
-         client.focus = c
-         zk.raise_focus_client()
-      else
-         break
-      end
+   local mcls = aal.get_minimized_clients_current_tag()
+   -- If there are two or more minimized windows, dock the current
+   -- windows first to make it easier to navigate the just restored
+   -- windows as they will be floating.
+   if table.getn(mcls) > 1 then
+      zk.set_floating_for_all_clients(false)
+   end
+   for k, c in pairs(mcls) do
+      c.minimized = false
+      aal.set_client_floating(c, true)
+      client.focus = c
+      zk.raise_focus_client()
    end
 end
 

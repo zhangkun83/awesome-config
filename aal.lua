@@ -1,4 +1,6 @@
 -- The Awesome Abstract Layer that abstracts out the awesome API
+local util = require("awful.util")
+local tag = require("awful.tag")
 local aal = {}
 
 -- Returns true if the client's floating flag is set
@@ -93,6 +95,25 @@ end
 
 function aal.run_shell_command(command)
    awful.util.spawn_with_shell(command)
+end
+
+function aal.get_minimized_clients_current_tag()
+    local s = mouse.screen
+    local cls = client.get(s)
+    local tags = tag.selectedlist(s)
+    local mcls = {}
+    for k, c in pairs(cls) do
+        local ctags = c:tags()
+        if c.minimized then
+            for k, t in ipairs(tags) do
+                if util.table.hasitem(ctags, t) then
+                   table.insert(mcls, c)
+                   break
+                end
+            end
+        end
+    end
+    return mcls
 end
 
 return aal

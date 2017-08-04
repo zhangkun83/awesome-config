@@ -28,8 +28,7 @@ Mod4 + F                       *  float the window
 Mod4 + Shift + F               *  float all windows
 Mod4 + N                       *  minimize the window
 Mod4 + Shift + N               *  minimize all other floating windows
-Mod4 + Ctrl + N                *  dock all visible windows, and
-                                  restore and float all minimized windows
+Mod4 + Ctrl + N                *  restore and float all minimized windows
 Mod4 + Shift + C               *  close window
 -----------------------------------------------------------------
 
