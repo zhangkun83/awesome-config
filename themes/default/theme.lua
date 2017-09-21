@@ -13,7 +13,7 @@ local theme = {}
 
 theme.master_fill_policy = "master_with_factor"
 
-theme.font          = "sans 10"
+theme.font          = "Liberation Sans 11"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
