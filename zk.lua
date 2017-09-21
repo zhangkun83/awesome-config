@@ -338,7 +338,7 @@ function zk.notify_monospace(text, last_notification)
 end
 
 function zk.post_starts()
-   restore_tag_names()
+   -- restore_tag_names()
    aal.run_shell_command(zk.config_home .. "bin/start-xfce4-panel.sh")
    aal.run_shell_command(zk.config_home .. "bin/prepare-wallpaper.sh")
    aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
