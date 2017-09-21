@@ -14,8 +14,26 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+terminal = "xfce4-terminal"
+-- Default modkey.
+-- Usually, Mod4 is the key with a logo between Control and Alt.
+-- If you do not like this or do not have such a key,
+-- I suggest you to remap Mod4 to another key using xmodmap or other tools.
+-- However, you can use another modifier like Mod1, but it may interact with others.
+modkey = "Mod4"
+
 aal = require("aal")
 zk = require("zk")
+
+-- {{{ provides the following variables / functions
+--- * mythememod
+--- * myawesomemenu
+--- * mywiboxprops
+--- * mykeybindings
+--- * myautostarts
+--- * mycustomwidgets
+dofile(zk.config_home .. "runtime/current_profile.lua")
+-- }}}
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -47,16 +65,8 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xfce4-terminal"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -335,7 +345,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/xlock.sh") end,
               {description = "lock the screen", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "F12", function () aal.spawn(zk.config_home .. "bin/sleepnlock.sh") end,
-              {description = "lock the screen and sleep", group = "awesome"})
+              {description = "lock the screen and sleep", group = "awesome"}),
+    mykeybindings
 )
 
 clientkeys = gears.table.join(
@@ -558,3 +569,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 zk.post_starts()
+myautostarts()

@@ -1,3 +1,5 @@
+local awful = require("awful")
+
 mythememod = {
    font = "Liberation Sans 12",
    font_monospace = "Liberation Mono 12",
@@ -24,8 +26,10 @@ for _,v in ipairs(mycustomwidgets) do
 end
 
 mykeybindings = awful.util.table.join(
-    awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end),
-    awful.key({ modkey, "Shift" }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end)
+    awful.key({ modkey }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-default-user.sh") end,
+              {description = "Chrome (work profile)", group = "launcher"}),
+    awful.key({ modkey, "Shift" }, "\\", function () aal.run_shell_command(zk.config_home .. "bin/chrome-personal.sh") end,
+              {description = "Chrome (personal profile)", group = "launcher"})
 )
 
 function myautostarts()
