@@ -1,9 +1,10 @@
 aal = require("aal")
+gears = require("gears")
 tasklist = require("awful.widget.tasklist")
 
 local zk = {}
 
-zk.config_home = os.getenv("HOME") .. "/.config/awesome/"
+zk.config_home = gears.filesystem.get_configuration_dir()
 
 local saved_tags_file = zk.config_home .. "runtime/saved_tags"
 

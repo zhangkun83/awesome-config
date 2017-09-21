@@ -1,5 +1,5 @@
 -- The Awesome Abstract Layer that abstracts out the awesome API
-local util = require("awful.util")
+local awful = require("awful")
 local tag = require("awful.tag")
 local aal = {}
 
@@ -93,8 +93,12 @@ function aal.delete_notification(notification)
    naughty.destroy(notification)
 end
 
+function aal.spawn(command)
+   awful.spawn(command)
+end
+
 function aal.run_shell_command(command)
-   awful.util.spawn_with_shell(command)
+   awful.spawn.with_shell(command)
 end
 
 function aal.get_minimized_clients_current_tag()
@@ -106,7 +110,7 @@ function aal.get_minimized_clients_current_tag()
         local ctags = c:tags()
         if c.minimized then
             for k, t in ipairs(tags) do
-                if util.table.hasitem(ctags, t) then
+                if awful.util.table.hasitem(ctags, t) then
                    table.insert(mcls, c)
                    break
                 end
