@@ -71,6 +71,7 @@ It uses the following applications / packages:
  - __Google Chrome__ as the web browser (`Mod+\`)
  - __redshift__ for adjusting color temperature
  - __feh__ for setting the wallpaper
+ - __compton__ for drop shadows
 
 ## Setting up
 Clone the repository to `~/.config/awesome`:
