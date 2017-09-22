@@ -440,6 +440,9 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
+                     -- ZK: otherwise terminal window may insist on multiples of font size
+                     -- and its size may not be exactly what the WM set it to be.
+                     size_hints_honor = false,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
