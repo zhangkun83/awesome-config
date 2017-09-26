@@ -11,7 +11,8 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.master_fill_policy = "master_with_factor"
+--theme.master_fill_policy = "master_with_factor"
+theme.master_fill_policy = "expand"
 
 theme.font          = "Liberation Sans 11"
 
