@@ -65,6 +65,40 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
+-- Profile can override parts of the theme
+if mythememod then
+   for k,v in pairs(mythememod) do
+      beautiful.get()[k] = v
+   end
+end
+
+function layoutMaximized()
+   awful.layout.set(awful.layout.suit.max)
+end
+
+function layoutHSplit()
+   awful.layout.set(awful.layout.suit.tile.bottom)
+end
+
+function layoutVSplit()
+   awful.layout.set(awful.layout.suit.tile)
+end
+
+function layoutFloating()
+   awful.layout.set(awful.layout.suit.floating)
+   -- Floating all clients will restore their positions when they were
+   -- previously floating, which is favorable here.
+   zk.set_floating_for_all_clients(true)
+   -- But we don't really need them to be in floating state.
+   zk.set_floating_for_all_clients(false)
+end
+
+layoutMenu = awful.menu({ items = {
+                             { "maximized", layoutMaximized, beautiful.layout_max },
+                             { "horizontal split", layoutHSplit, beautiful.layout_tilebottom},
+                             { "vertical split", layoutVSplit, beautiful.layout_tile},
+                             { "floating", layoutFloating, beautiful.layout_floating}}})
+
 -- This is used later as the default terminal and editor to run.
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
@@ -195,10 +229,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(gears.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+                           awful.button({ }, 1, function () awful.menu.toggle(layoutMenu) end),
+                           awful.button({ }, 3, function () awful.menu.toggle(layoutMenu) end)))
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 

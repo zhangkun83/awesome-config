@@ -5,14 +5,14 @@ local aal = {}
 
 -- Returns true if the client's floating flag is set
 function aal.is_client_floating(c)
-   return awful.client.floating.get(c)
+   return c.floating
 end
 
 -- Change the floating flag of a client
 function aal.set_client_floating(c, floating)
    -- Dock windows are always floating. Do not change it.
    if (not aal.is_panel(c)) then
-      awful.client.floating.set(c, floating)
+      c.floating = floating
    end
 end
 
