@@ -45,6 +45,10 @@ theme.border_marked = '#5278AE'
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
+theme.hotkeys_fg = "#FFFFFF"
+theme.hotkeys_modifiers_fg = "#CCCCCC"
+theme.hotkeys_font = "Liberation Sans 12"
+
 -- {{{ Titlebars
 theme.titlebar_bg_focus  = "#0099EE"
 theme.titlebar_fg_focus  = "#FFFFFF"

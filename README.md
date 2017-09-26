@@ -45,8 +45,7 @@ Responses to user inputs should be deterministic.
     for floating and or tiling a window, instead of assign one key to
     toggle floating state.
 
-Additional shortcuts and changes to default key bindings can be found
-in the [cheatsheet](/cheatsheet.txt).
+Additional shortcuts and changes to default key bindings.
 
 ## Other features ##
  - Doesn't use any third-party awesome extensions.
