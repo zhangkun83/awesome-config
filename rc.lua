@@ -423,8 +423,7 @@ for i = 1, 9 do
                         if tag then
                            tag:view_only()
                         end
-                  end,
-                  {description = "view tag #"..i, group = "tag"}),
+                  end),
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
@@ -433,8 +432,7 @@ for i = 1, 9 do
                       if tag then
                          awful.tag.viewtoggle(tag)
                       end
-                  end,
-                  {description = "toggle tag #" .. i, group = "tag"}),
+                  end),
         -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
@@ -444,8 +442,7 @@ for i = 1, 9 do
                               client.focus:move_to_tag(tag)
                           end
                      end
-                  end,
-                  {description = "move focused client to tag #"..i, group = "tag"}),
+                  end),
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
@@ -455,8 +452,7 @@ for i = 1, 9 do
                               client.focus:toggle_tag(tag)
                           end
                       end
-                  end,
-                  {description = "toggle focused client on tag #" .. i, group = "tag"})
+                  end)
     )
 end
 
@@ -584,3 +580,34 @@ client.connect_signal("request::activate",
                          client.focus = c
                          zk.raise_focus_client()
                       end)
+
+-- ZK: generalized hotkeys
+hotkeys_popup.add_hotkeys(
+   {
+      ["tag"] = {
+         {
+            modifiers = {modkey},
+            keys = {
+               ["&lt;num&gt;"] = "view tag"
+            }
+         },
+         {
+            modifiers = {modkey, "Control"},
+            keys = {
+               ["&lt;num&gt;"] = "toggle tag"
+            }
+         },
+         {
+            modifiers = {modkey, "Shift"},
+            keys = {
+               ["&lt;num&gt;"] = "move focused client to tag"
+            }
+         },
+         {
+            modifiers = {modkey, "Control", "Shift"},
+            keys = {
+               ["&lt;num&gt;"] = "toggle focused client on tag"
+            }
+         }
+      }
+   })
