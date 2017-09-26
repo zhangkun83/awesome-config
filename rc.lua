@@ -119,7 +119,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibar
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
-                    awful.button({ }, 1, function(t) t:view_only() end),
+                    awful.button({ }, 1,
+                        function(t)
+                           t:view_only()
+                           zk.raise_focus_client()
+                        end),
                     awful.button({ modkey }, 1, function(t)
                                               if client.focus then
                                                   client.focus:move_to_tag(t)
@@ -138,7 +142,7 @@ local taglist_buttons = gears.table.join(
 local tasklist_buttons = gears.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
-                                                  c.minimized = true
+                                                  zk.raise_focus_client()
                                               else
                                                   -- Without this, the following
                                                   -- :isvisible() makes no sense
@@ -152,7 +156,10 @@ local tasklist_buttons = gears.table.join(
                                                   c:raise()
                                               end
                                           end),
-                     awful.button({ }, 3, client_menu_toggle_fn()),
+                     awful.button({ }, 2, function (c)
+                                     c.minimized = true
+                                     zk.raise_focus_client()
+                                          end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                           end),
@@ -196,7 +203,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
     -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
+    s.mytasklist = awful.widget.tasklist(s, zk.task_list_filter_exclude_minimized, tasklist_buttons)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -346,7 +353,10 @@ clientkeys = gears.table.join(
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
+           if not aal.is_panel(c) then
+              c.minimized = true
+              zk.raise_focus_client()
+           end
         end ,
         {description = "minimize", group = "client"}),
     awful.key({ modkey,           }, "m",
@@ -532,3 +542,14 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 zk.post_starts()
 myautostarts()
+
+-- ZK: To allow xfce4 taskbar to restore minimized windows. xfce4
+-- taskbar would "activate" the minimized window when clicked, but
+-- awesome by default only mark the window as urgent without restoring
+-- it (see https://github.com/awesomeWM/awesome/issues/927)
+client.connect_signal("request::activate",
+                      function(c)
+                         c.minimized = false
+                         client.focus = c
+                         zk.raise_focus_client()
+                      end)

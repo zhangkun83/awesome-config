@@ -1,4 +1,5 @@
 aal = require("aal")
+awful = require("awful")
 gears = require("gears")
 tasklist = require("awful.widget.tasklist")
 
@@ -309,17 +310,14 @@ function zk.raise_focus_client()
          -- If previous focus is still the panel, try to find a
          -- non-panel window
          local clients = client.get(mouse.screen)
-         -- Try at most the number of client's times
          for k,c in pairs(clients) do
-            if client.focus and aal.is_panel(client.focus) then
-               awful.client.focus.byidx(1)
-            else
+            if not aal.is_panel(c) then
+               client.focus = c
                break
             end
          end
-      else
-         client.focus:raise()
       end
+      client.focus:raise()
    end
 end
 
