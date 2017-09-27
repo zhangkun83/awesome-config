@@ -477,15 +477,19 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
+                     titlebars_enabled = true,
                      -- ZK: otherwise terminal window may insist on multiples of font size
                      -- and its size may not be exactly what the WM set it to be.
                      size_hints_honor = false,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
-    -- ZK: do not show border for xfce4-panel
+    -- ZK: do not show border and titlebar for xfce4-panel
     { rule = { type = "dock" },
-      properties = { border_width = 0 }},
+      properties = {
+         border_width = 0,
+         titlebars_enabled = false
+      }},
     -- Floating clients.
     { rule_any = {
         instance = {
@@ -511,12 +515,6 @@ awful.rules.rules = {
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
       }, properties = { floating = true }},
-
-    -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
-    },
-
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
