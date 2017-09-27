@@ -90,22 +90,25 @@ the default wallpaper will be used.
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
 
-## Screenshots (outdated) ##
+## Screenshots ##
 
 Vertically split, with the layout menu shown at the top-right by
-clicking the layout icon.  On the top-right there is also the clock
-widget and the current input method (英 for English, 拼 for Chinese
-Pinyin).  There are also the WiFi status and power status when the
-`work_thinkpad` is chosen.
+clicking the layout icon.  xfce4-panel at the bottom hosts the systray
+(as a workaround for
+[#891](https://github.com/awesomeWM/awesome/issues/891)), and
+conveniently other xfce4 widgets.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-split.jpg" width="640">
+The wibox tasklist (top) doesn't display minimized windows.  Instead,
+minimized windows are shown in the xfce4-panel tasklist (bottom).
+
+<img src="https://github.com/zhangkun83/awesome-config/blob/3.5/screenshots/4-split.png" width="640">
 
 Tiling windows in the background, with a window (the Quick Search box
-summoned by `Mod+F10`) floating on top.  A 3-month calendar is shown
-when the clock is clicked.
+summoned by `Mod+F10`) floating on top.  A window menu is activated by
+right-clicking on the taskbar.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating-on-top.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/3.5/screenshots/4-floating-on-top.png" width="640">
 
 The floating layout. The blue bottom bar can be used to move (left button) and resize (right button) the window.
 
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating.jpg" width="640">
+<img src="https://github.com/zhangkun83/awesome-config/blob/3.5/screenshots/4-floating.png" width="640">
