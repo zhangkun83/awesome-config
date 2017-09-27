@@ -92,11 +92,30 @@ function layoutFloating()
    zk.set_floating_for_all_clients(false)
 end
 
-layoutMenu = awful.menu({ items = {
+local layoutMenu = awful.menu({ items = {
                              { "maximized", layoutMaximized, beautiful.layout_max },
                              { "horizontal split", layoutHSplit, beautiful.layout_tilebottom},
                              { "vertical split", layoutVSplit, beautiful.layout_tile},
                              { "floating", layoutFloating, beautiful.layout_floating}}})
+
+local tasklistMenuTarget = nil
+local tasklistMenu = awful.menu({ items = {
+                                     { "dock / float", function()
+                                          if tasklistMenuTarget then
+                                             aal.set_client_floating(tasklistMenuTarget, not aal.is_client_floating(tasklistMenuTarget))
+                                             zk.raise_focus_client()
+                                          end
+                                               end},
+                                     { "minimize", function()
+                                          if tasklistMenuTarget then
+                                             zk.minimize_client(tasklistMenuTarget)
+                                          end
+                                                   end},
+                                     { "close", function()
+                                          if tasklistMenuTarget then
+                                             tasklistMenuTarget:kill()
+                                          end
+                                                end}}})
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
@@ -163,8 +182,8 @@ mytasklist.buttons = awful.util.table.join(
                                      zk.raise_focus_client()
                                           end),
                      awful.button({ }, 3, function (c)
-                                     aal.set_client_floating(c, not aal.is_client_floating(c))
-                                     zk.raise_focus_client()
+                                     tasklistMenuTarget = c
+                                     awful.menu.toggle(tasklistMenu)
                                           end))
 
 for s = 1, screen.count() do
@@ -317,13 +336,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "space", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-              function (c)
-                 if not aal.is_panel(c) then
-                    c.minimized = true
-                    zk.raise_focus_client()
-                 end
-              end),
+    awful.key({ modkey,           }, "n", zk.minimize_client),
     awful.key({ modkey,           }, "p",      float_window_canonically),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse),
     -- Resizing the window by keyboard

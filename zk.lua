@@ -168,6 +168,13 @@ function zk.set_floating_for_all_clients(value)
     end
 end
 
+function zk.minimize_client(c)
+   if not aal.is_panel(c) then
+      c.minimized = true
+      zk.raise_focus_client()
+   end
+end
+
 function zk.minimize_all_other_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
