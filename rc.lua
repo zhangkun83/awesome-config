@@ -48,7 +48,7 @@ modkey = "Mod4"
 altkey = "Mod1"
 
 titlebar_height = 12
-terminal = "xfce4-terminal"
+terminal = zk.config_home .. "bin/urxvt.sh"
 local window_move_step = 50
 cheatsheet_command = zk.config_home .. "bin/cheatsheet.sh"
 

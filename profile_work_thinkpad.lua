@@ -6,7 +6,6 @@ mythememod = {
 
 myawesomemenu = {
     { "cheat sheet", cheatsheet_command },
-    { "edit config", terminal .. " --default-working-directory .config/awesome" },
     { "lock screen", function() aal.run_shell_command(zk.config_home .. "bin/xlock.sh") end },
     { "sleep", zk.config_home .. "bin/sleepnlock.sh" },
     { "restart", awesome.restart },
