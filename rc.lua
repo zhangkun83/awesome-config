@@ -101,15 +101,14 @@ local layoutMenu = awful.menu({ items = {
 local tasklistMenuTarget = nil
 local tasklistMenu = awful.menu({ items = {
                                      { "dock / float", function()
-                                          if tasklistMenuTarget then
-                                             aal.set_client_floating(tasklistMenuTarget, not aal.is_client_floating(tasklistMenuTarget))
-                                             zk.raise_focus_client()
-                                          end
-                                               end},
+                                          aal.set_client_floating(tasklistMenuTarget, not aal.is_client_floating(tasklistMenuTarget))
+                                          zk.raise_focus_client()
+                                                       end},
+                                     { "float canonically", function()
+                                          float_window_canonically(tasklistMenuTarget)
+                                                       end},
                                      { "minimize", function()
-                                          if tasklistMenuTarget then
-                                             zk.minimize_client(tasklistMenuTarget)
-                                          end
+                                          zk.minimize_client(tasklistMenuTarget)
                                                    end},
                                      { "close", function()
                                           if tasklistMenuTarget then
