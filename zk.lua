@@ -178,7 +178,7 @@ end
 function zk.minimize_all_other_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
-      if aal.is_client_floating(c) and (not aal.is_panel(c)) and (client.focus ~=c) then
+      if c:isvisible() and aal.is_client_floating(c) and (not aal.is_panel(c)) and (client.focus ~=c) then
          c.minimized = true
       end
    end
