@@ -1,4 +1,4 @@
 #!/bin/bash
 xscreensaver-command -lock
-dbus-send --system --print-reply --dest="org.freedesktop.UPower" \
-          /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+sleep 2
+systemctl suspend -i
