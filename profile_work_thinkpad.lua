@@ -34,7 +34,9 @@ mykeybindings = awful.util.table.join(
 
 function myautostarts()
     -- Disable touchpad tapping
-    aal.run_shell_command("synclient TapButton1=0 TapButton2=0")
+    -- TODO: synclient no longer works with the newer libinput driver
+    -- See xserver-xorg-input-synaptics
+    -- aal.run_shell_command("synclient TapButton1=0 TapButton2=0")
     aal.run_shell_command("xfce4-power-manager")
     -- Shift the color a bit towards red to reduce eye strain
     aal.run_shell_command("redshift -O 6100")
