@@ -1,6 +1,6 @@
 # awesome-config
 This is the [awesome WM](http://awesome.naquadah.org/) config I have fined-tuned for my daily use.
-I am currently running it on awesome v3.5.9 on Ubuntu 14.04 (work profile) and Mint 17 (home profile).
+I am currently running it on awesome v4.2 on Debian sid (work profile) and Mint 17 (home profile).
 
 ## Design highlights ##
 
@@ -78,11 +78,39 @@ Clone the repository to `~/.config/awesome`:
 $ cd ~/.config
 $ git clone https://github.com/zhangkun83/awesome-config.git awesome
 ```
+
 Choose between the `work` and the `home` profile:
 ```
 $ cd ~/.config/awesome
 $ ./switch_profile.sh home
 ```
+
+Set up `awesome.sh` as the awesome startup script:
+```
+$ sudo cp ~/.config/awesome/awesome.sh /usr/local/bin
+$ sudo chmod a+rx /usr/local/bin/awesome.sh
+```
+
+To add desktop menu entry in display manager, create
+`/usr/share/xsessions/awesome-local.desktop`:
+```
+[Desktop Entry]
+Encoding=UTF-8
+Name=awesome-local
+Comment=Highly configurable framework window manager
+TryExec=/usr/local/bin/awesome.sh
+Exec=/usr/local/bin/awesome.sh
+Type=Application
+```
+
+To set up environment variables, put it in `~/.xsessionrc`, e.g.:
+```
+export PATH=$HOME/bin:$HOME/.emacs.d/bin:$PATH
+CLUTTER_IM_MODULE=ibus
+QT4_IM_MODULE=ibus
+GTK_IM_MODULE=ibus
+```
+
 (Optional) link the wallpaper directory as the source of randomized wallpapers. If you skip this step,
 the default wallpaper will be used.
 ```
