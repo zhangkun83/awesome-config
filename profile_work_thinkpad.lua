@@ -39,7 +39,6 @@ function myautostarts()
     aal.run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
     aal.run_shell_command("xrdb -merge <<< \"Xft.dpi: 105\"")
-    aal.run_shell_command("killall nm-applet; nm-applet")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
