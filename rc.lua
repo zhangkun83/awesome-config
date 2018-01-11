@@ -12,6 +12,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 terminal = "xfce4-terminal"
+local window_move_step = 50
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -267,13 +268,8 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "/",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
-              {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
-              {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
-
     awful.key({ modkey,           }, "s",
         function ()
             awful.client.focus.byidx( 1)
@@ -413,7 +409,15 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+    awful.key({ modkey }, "Up",  function (c) zk.change_window_geometry(0, -window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Down",  function (c) zk.change_window_geometry(0, window_move_step, 0, 0, c) end),
+    awful.key({ modkey }, "Left",  function (c) zk.change_window_geometry(-window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey }, "Right",  function (c) zk.change_window_geometry(window_move_step, 0, 0, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Up",  function (c) zk.change_window_geometry(0, 0, 0, -window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Down",  function (c) zk.change_window_geometry(0, 0, 0, window_move_step, c) end),
+    awful.key({ modkey, "Shift" }, "Left",  function (c) zk.change_window_geometry(0, 0, -window_move_step, 0, c) end),
+    awful.key({ modkey, "Shift" }, "Right",  function (c) zk.change_window_geometry(0, 0, window_move_step, 0, c) end)
 )
 
 -- Bind all key numbers to tags.
@@ -588,6 +592,20 @@ client.connect_signal("request::activate",
 -- ZK: generalized hotkeys
 hotkeys_popup.add_hotkeys(
    {
+      ["client"] = {
+         {
+            modifiers = {modkey},
+            keys = {
+               ["&lt;arrow&gt;"] = "move client"
+            }
+         },
+         {
+            modifiers = {modkey, "Shift"},
+            keys = {
+               ["&lt;arrow&gt;"] = "resize client"
+            }
+         }
+      },
       ["tag"] = {
          {
             modifiers = {modkey},

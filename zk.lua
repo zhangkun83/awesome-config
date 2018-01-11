@@ -237,17 +237,17 @@ function zk.move_window_to_pivot(dh, dv, c)
 end
 
 function zk.change_window_geometry(dx, dy, dw, dh, c)
-  -- Only floating windows can be moved
-  if not is_floating(c) then
-    return
-  end
-  local geo = aal.get_client_geometry(c)
-  local screen_geo = aal.get_workarea(c)
-  geo.x = math.min(math.max(0, geo.x + dx), screen_geo.width - 50)
-  geo.y = math.min(math.max(0, geo.y + dy), screen_geo.height - 50)
-  geo.width = math.min(math.max(100, geo.width + dw), screen_geo.width)
-  geo.height = math.min(math.max(100, geo.height + dh), screen_geo.height)
-  aal.set_client_geometry(c, geo)
+   if not is_floating(c) then
+      awful.client.incwfact(0.05 * get_sign(dw + dh, 0.1))
+   else
+      local geo = aal.get_client_geometry(c)
+      local screen_geo = aal.get_workarea(c)
+      geo.x = math.min(math.max(0, geo.x + dx), screen_geo.width - 50)
+      geo.y = math.min(math.max(0, geo.y + dy), screen_geo.height - 50)
+      geo.width = math.min(math.max(100, geo.width + dw), screen_geo.width)
+      geo.height = math.min(math.max(100, geo.height + dh), screen_geo.height)
+      aal.set_client_geometry(c, geo)
+   end
 end
 
 function zk.float_window_canonically(c, dir)
