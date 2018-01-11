@@ -60,17 +60,15 @@ It uses the following applications / packages:
  - __xfce4-panel__ to display the notification icons, because GTK+2 applications may
    [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891)
  - __xfce4-power-manager__ for the battery icon on laptops
- - __nm-applet__ the NetworkManager applet
  - __xscreensaver__ for screen lock (`Mod+F12`)
  - __xbacklight__ for adjusting screen backlight
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
  - [__pulseaudio-ctl__](https://github.com/graysky2/pulseaudio-ctl) for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
- - __ibus__ for Chinese input (`Ctrl+Space`)
+ - __ibus__ for Chinese input (`Mod+Space`)
  - __thunar__ as the file manager (`Mod+]`)
  - __Google Chrome__ as the web browser (`Mod+\`)
  - __redshift__ for adjusting color temperature
  - __feh__ for setting the wallpaper
- - __compton__ for drop shadows
 
 ## Setting up
 Clone the repository to `~/.config/awesome`:
