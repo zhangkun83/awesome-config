@@ -17,12 +17,12 @@ theme.master_fill_policy = "expand"
 theme.font          = "Liberation Sans 11"
 
 theme.bg_focus      = '#0099EE'
-theme.bg_normal     = '#333333'
+theme.bg_normal     = '#E8E8E7'
 theme.bg_urgent     = '#FCCBCC'
-theme.bg_minimize   = '#333333'
+theme.bg_minimize   = '#E8E8E7'
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = '#CCCCCC'
+theme.fg_normal     = '#000000'
 theme.fg_focus      = '#FFFFFF'
 theme.fg_urgent     = '#000000'
 theme.fg_minimize   = '#666666'
@@ -44,9 +44,11 @@ theme.border_marked = '#5278AE'
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 -- Example:
---theme.taglist_bg_focus = "#ff0000"
+
+theme.taglist_bg_focus = "#8F8F8F"
 
 theme.hotkeys_fg = "#FFFFFF"
+theme.hotkeys_bg = "#333333"
 theme.hotkeys_modifiers_fg = "#CCCCCC"
 theme.hotkeys_font = "Liberation Sans 12"
 
@@ -77,7 +79,7 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_border_color = "#434750"
 theme.menu_border_width = "1"
-theme.menu_bg_focus = "#5F5F5F"
+theme.menu_bg_focus = "#0099EE"
 theme.menu_height = dpi(25)
 theme.menu_width  = dpi(200)
 
