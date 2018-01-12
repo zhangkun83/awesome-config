@@ -3,7 +3,7 @@ local awful = require("awful")
 mythememod = {
    font = "Liberation Sans 12",
    font_monospace = "Liberation Mono 12",
-   menu_height = "28"
+   menu_height = "24"
 }
 
 myawesomemenu = {
@@ -17,7 +17,7 @@ myawesomemenu = {
         { "no", function() end } } }
 }
 
-mywiboxprops = { height = 26, border_width = "0" }
+mywiboxprops = { height = 20, border_width = "0" }
 
 mycustomwidgets = { }
 
