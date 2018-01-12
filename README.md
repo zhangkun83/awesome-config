@@ -56,7 +56,7 @@ Additional shortcuts and changes to default key bindings.
 
 ## Dependencies ##
 It uses the following applications / packages:
- - __xfce4-terminal__ as the terminal emulator (`Mod+Enter`)
+ - __urxvt__ as the terminal emulator (`Mod+Enter`)
  - __xfce4-panel__ to display the notification icons, because GTK+2 applications may
    [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891)
  - __xfce4-power-manager__ for the battery icon on laptops

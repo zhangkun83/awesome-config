@@ -11,7 +11,6 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
-terminal = "xfce4-terminal"
 local window_move_step = 50
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -24,6 +23,7 @@ titlebar_height = 12
 aal = require("aal")
 zk = require("zk")
 
+terminal = zk.config_home .. "bin/urxvt.sh"
 -- {{{ provides the following variables / functions
 --- * mythememod
 --- * myawesomemenu

@@ -8,3 +8,6 @@ xscreensaver -no-splash &
 
 # Change key repeat rate
 xset r rate 220 30
+
+killall urxvtd
+urxvtd -q -o -f
