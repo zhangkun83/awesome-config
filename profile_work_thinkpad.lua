@@ -33,9 +33,12 @@ mykeybindings = awful.util.table.join(
 )
 
 function myautostarts()
-    -- Do not disable touchpad while typing
     -- Use "xinput list-props 'SynPS/2 Synaptics TouchPad'" to view all properties
-    aal.run_shell_command("xinput set-prop 'SynPS/2 Synaptics TouchPad' --type=int --format=8 297 0")
+    -- Do not disable touchpad while typing
+    aal.run_shell_command("xinput set-prop 'SynPS/2 Synaptics TouchPad' --type=int 297 0")
+    -- Enable both vertical and horizontal scrolling
+    aal.run_shell_command("xinput set-prop 'SynPS/2 Synaptics TouchPad' --type=int 283 1 1")
+
     aal.run_shell_command("xfce4-power-manager")
     -- Shift the color a bit towards red to reduce eye strain
     aal.run_shell_command("redshift -O 6100")
