@@ -16,8 +16,8 @@ theme.master_fill_policy = "expand"
 
 theme.font          = "Liberation Sans 11"
 
-theme.bg_focus      = '#0099EE'
-theme.bg_normal     = '#DCDAD5'
+theme.bg_focus      = '#0100A8'
+theme.bg_normal     = '#FFFFFF'
 theme.bg_urgent     = '#FCCBCC'
 theme.bg_minimize   = '#DCDAD5'
 theme.bg_systray    = theme.bg_normal
@@ -29,9 +29,15 @@ theme.fg_minimize   = '#666666'
 
 theme.useless_gap   = dpi(0)
 theme.border_width  = dpi(2)
-theme.border_normal = '#DCDCDC'
-theme.border_focus  = '#0099EE'
+theme.border_normal = '#C3C6CB'
+theme.border_focus  = '#0100A8'
 theme.border_marked = '#5278AE'
+
+-- {{{ Titlebars
+theme.titlebar_bg_focus  = theme.border_focus
+theme.titlebar_fg_focus  = "#FFFFFF"
+theme.titlebar_bg_normal = theme.border_normal
+-- }}}
 
 -- There are other variable sets
 -- overriding the default one when
@@ -53,16 +59,10 @@ theme.hotkeys_bg = "#333333"
 theme.hotkeys_modifiers_fg = "#CCCCCC"
 theme.hotkeys_font = "Liberation Sans 12"
 
--- {{{ Titlebars
-theme.titlebar_bg_focus  = "#0099EE"
-theme.titlebar_fg_focus  = "#FFFFFF"
-theme.titlebar_bg_normal = "#DCDCDC"
--- }}}
-
 -- Generate taglist squares:
 local taglist_square_size = dpi(6)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.taglist_fg_focus
+    taglist_square_size, theme.taglist_fg_normal
 )
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
     taglist_square_size, theme.taglits_fg_normal
@@ -80,7 +80,7 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_border_color = "#434750"
 theme.menu_border_width = "1"
-theme.menu_bg_focus = "#0099EE"
+theme.menu_bg_focus = "#0100A8"
 theme.menu_height = dpi(25)
 theme.menu_width  = dpi(200)
 
@@ -136,7 +136,7 @@ theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
-    theme.menu_height, theme.bg_focus, theme.fg_focus
+   theme.menu_height, "#E1666F", theme.fg_focus
 )
 
 -- Define the icon theme for application icons. If not set then the icons
