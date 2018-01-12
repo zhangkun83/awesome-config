@@ -59,31 +59,6 @@ function aal.focus_client(c)
    awful.client.focus.byidx(0, c)
 end
 
-function aal.create_title_bar(c)
-   -- buttons for the titlebar
-   local buttons = awful.util.table.join(
-      awful.button({ }, 1, function()
-                      client.focus = c
-                      c:raise()
-                      awful.mouse.client.move(c)
-                           end),
-      awful.button({ }, 3, function()
-                      client.focus = c
-                      c:raise()
-                      awful.mouse.client.resize(c)
-                           end)
-   )
-
-   -- Create a layout without widgets, just to bind the mouse buttons
-   local layout = wibox.layout.align.horizontal()
-   layout:buttons(buttons)
-
-   -- The titlebar position has to be passed to both titlebar() and titlebar.show(),
-   -- otherwise the implementation will mess up.
-   awful.titlebar(c, { size = titlebar_height, position = "bottom" }):set_widget(layout)
-   awful.titlebar.show(c, "bottom")
-end
-
 function aal.create_notification(text, position, font)
    return naughty.notify(
       {text = text, position = position, font = font, timeout = 10})

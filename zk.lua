@@ -98,15 +98,6 @@ local function place_window_sanely(c)
    aal.set_client_geometry(c, geo)
 end
 
-local function create_title_bar(c)
-   if aal.should_have_title_bar(c) then
-      aal.create_title_bar(c)
-      -- At least, make space for the window title, and do not extend over
-      -- the borders of the screen
-      place_window_sanely(c)
-   end
-end
-
 local function restore_tag_names()
   local f = assert(io.open(saved_tags_file, "r"))
   local savedTags = tags[mouse.screen]
@@ -142,7 +133,6 @@ function zk.client_manage_hook(c, startup)
   -- New windows are always floating, but have "floating" state only when necessary.
   aal.set_client_floating(c, not aal.is_in_floating_layout(c))
 
-  create_title_bar(c)
   on_floating_changed(c)
 end
 
