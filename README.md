@@ -59,9 +59,9 @@ It uses the following applications / packages:
  - __urxvt__ as the terminal emulator (`Mod+Enter`)
  - __xfce4-panel__ to display the notification icons, because GTK+2 applications may
    [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891)
- - __xfce4-power-manager__ for the battery icon on laptops
+ - __xfce4-power-manager__ for the battery icon on laptops.  Also
+   provides backlight adjustment.
  - __xscreensaver__ for screen lock (`Mod+F12`)
- - __xbacklight__ for adjusting screen backlight
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
  - [__pulseaudio-ctl__](https://github.com/graysky2/pulseaudio-ctl) for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
  - __ibus__ for Chinese input (`Mod+Space`)
@@ -109,28 +109,12 @@ QT4_IM_MODULE=ibus
 GTK_IM_MODULE=ibus
 ```
 
+Current color scheme works best with HighContrast GTK theme.  Use it
+for the key `gtk-theme-name` in both `~/.gtkrc-2.0` and
+`~/.config/gtk-3.0/settings.ini`.
+
 (Optional) link the wallpaper directory as the source of randomized wallpapers. If you skip this step,
 the default wallpaper will be used.
 ```
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
-
-## Screenshots (outdated) ##
-
-Vertically split, with the layout menu shown at the top-right by
-clicking the layout icon.  On the top-right there is also the clock
-widget and the current input method (英 for English, 拼 for Chinese
-Pinyin).  There are also the WiFi status and power status when the
-`work_thinkpad` is chosen.
-
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-split.jpg" width="640">
-
-Tiling windows in the background, with a window (the Quick Search box
-summoned by `Mod+F10`) floating on top.  A 3-month calendar is shown
-when the clock is clicked.
-
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating-on-top.jpg" width="640">
-
-The floating layout. The blue bottom bar can be used to move (left button) and resize (right button) the window.
-
-<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/3-floating.jpg" width="640">
