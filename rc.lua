@@ -392,9 +392,9 @@ clientkeys = gears.table.join(
     awful.key({ modkey,           }, "n", zk.minimize_client,
               {description = "minimize", group = "client"}),
     awful.key({ modkey,           }, "p",      float_window_canonically,
-              {description = "float window canonically"}),
+              {description = "float window canonically", group = "client"}),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse,
-              {description = "float window canonically (reverse direction)"}),
+              {description = "float window canonically (reverse direction)", group = "client"}),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized
