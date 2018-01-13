@@ -144,18 +144,12 @@ local function client_menu_toggle_fn()
 end
 -- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end}
-}
-
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "web browser", zk.config_home .. "bin/chrome-default-user.sh"},
+                                    { "file manager", "thunar"},
+                                    { "dictionary", zk.config_home .. "bin/youdao_dict.py" },
+                                    { "open terminal", terminal },
+                                    { "switch wallpaper", zk.config_home .. "bin/prepare-wallpaper.sh" }
                                   }
                         })
 
@@ -370,6 +364,12 @@ globalkeys = gears.table.join(
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
+    -- ZK: File manager
+    awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
+    -- ZK: Youdao dict
+    awful.key({ modkey }, "F10", function () awful.util.spawn(zk.config_home .. "bin/youdao_dict.py") end),
+    -- pulse audio control panel
+    awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/xlock.sh") end,
               {description = "lock the screen", group = "awesome"}),
