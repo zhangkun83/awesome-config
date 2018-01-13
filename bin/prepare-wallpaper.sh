@@ -10,4 +10,4 @@ else
     wallpaper_path="$WALLPAPER_SRC_DIR/$wallpaper"
 fi
 
-feh --bg-fill "$wallpaper_path"
+feh --bg-scale "$wallpaper_path"
