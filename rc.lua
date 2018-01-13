@@ -97,6 +97,24 @@ layoutMenu = awful.menu({ items = {
                              { "vertical split", layoutVSplit, beautiful.layout_tile},
                              { "floating", layoutFloating, beautiful.layout_floating}}})
 
+local tasklistMenuTarget = nil
+local tasklistMenu = awful.menu({ items = {
+                                     { "dock / float", function()
+                                          aal.set_client_floating(tasklistMenuTarget, not aal.is_client_floating(tasklistMenuTarget))
+                                          zk.raise_focus_client()
+                                                       end},
+                                     { "float canonically", function()
+                                          float_window_canonically(tasklistMenuTarget)
+                                                       end},
+                                     { "minimize", function()
+                                          zk.minimize_client(tasklistMenuTarget)
+                                                   end},
+                                     { "close", function()
+                                          if tasklistMenuTarget then
+                                             tasklistMenuTarget:kill()
+                                          end
+                                                end}}})
+
 -- This is used later as the default terminal and editor to run.
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
@@ -192,11 +210,9 @@ local tasklist_buttons = gears.table.join(
                                      c.minimized = true
                                      zk.raise_focus_client()
                                           end),
-                     awful.button({ }, 4, function ()
-                                              awful.client.focus.byidx(1)
-                                          end),
-                     awful.button({ }, 5, function ()
-                                              awful.client.focus.byidx(-1)
+                     awful.button({ }, 3, function (c)
+                                     tasklistMenuTarget = c
+                                     awful.menu.toggle(tasklistMenu)
                                           end))
 
 local function set_wallpaper(s)
@@ -263,6 +279,20 @@ root.buttons(gears.table.join(
     awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
+
+-- Float a window and apply a canonical geometry
+-- If not currently with any canonical geometry, will
+-- use the first one.  Otherwise, will use the next one.
+function float_window_canonically(c)
+  zk.float_window_canonically(c, 1)
+end
+
+-- Float a window and apply a canonical geometry
+-- If not currently with any canonical geometry, will
+-- use the first one.  Otherwise, will use the previous one.
+function float_window_canonically_reverse(c)
+  zk.float_window_canonically(c, -1)
+end
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
@@ -358,9 +388,6 @@ globalkeys = gears.table.join(
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/xlock.sh") end,
               {description = "lock the screen", group = "awesome"}),
@@ -380,16 +407,12 @@ clientkeys = gears.table.join(
               {description = "move to master", group = "client"}),
     awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
               {description = "move to screen", group = "client"}),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-           if not aal.is_panel(c) then
-              c.minimized = true
-              zk.raise_focus_client()
-           end
-        end ,
-        {description = "minimize", group = "client"}),
+    awful.key({ modkey,           }, "n", zk.minimize_client,
+              {description = "minimize", group = "client"}),
+    awful.key({ modkey,           }, "p",      float_window_canonically,
+              {description = "float window canonically"}),
+    awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse,
+              {description = "float window canonically (reverse direction)"}),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized

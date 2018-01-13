@@ -160,6 +160,13 @@ function zk.set_floating_for_all_clients(value)
     end
 end
 
+function zk.minimize_client(c)
+   if not aal.is_panel(c) then
+      c.minimized = true
+      zk.raise_focus_client()
+   end
+end
+
 function zk.minimize_all_other_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
@@ -241,7 +248,8 @@ function zk.change_window_geometry(dx, dy, dw, dh, c)
 end
 
 function zk.float_window_canonically(c, dir)
-  if not is_floating(c) then
+  local was_floating = is_floating(c)
+  if not was_floating then
     aal.set_client_floating(c, true)
   end
   local screen_geo = aal.get_workarea(c)
@@ -280,7 +288,16 @@ function zk.float_window_canonically(c, dir)
   local new_geo_index = 1
   for i,geo in pairs(canonical_geos) do
      if geo_equals(geo, orig_geo) then
-        new_geo_index = i + dir
+        if was_floating then
+           new_geo_index = i + dir
+        else
+           -- If window was not floating and the floating position is
+           -- already in a canonical position, it's preferable to stay
+           -- in that position for now.  (Think about switching back
+           -- and forth using Ctrl+D and Ctrl+P.  You wouldn't want
+           -- each Ctrl+P to end up in different position).
+           new_geo_index = i
+        end
         if new_geo_index > num_canonical_geos then
            new_geo_index = 1
         elseif new_geo_index < 1 then
@@ -300,14 +317,17 @@ function zk.raise_focus_client()
          -- If previous focus is still the panel, try to find a
          -- non-panel window
          local clients = client.get(mouse.screen)
+         -- Try at most the number of client's times
          for k,c in pairs(clients) do
-            if not aal.is_panel(c) then
-               client.focus = c
+            if client.focus and aal.is_panel(client.focus) then
+               awful.client.focus.byidx(1)
+            else
                break
             end
          end
+      else
+         client.focus:raise()
       end
-      client.focus:raise()
    end
 end
 
