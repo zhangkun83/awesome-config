@@ -364,6 +364,9 @@ globalkeys = gears.table.join(
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
+    -- ZK: Prompt to rename the current tag
+    awful.key({ modkey, "Shift" }, "=", zk.rename_tag,
+              {description = "rename current tag", group = "tag"}),
     -- ZK: File manager
     awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
     -- ZK: Youdao dict

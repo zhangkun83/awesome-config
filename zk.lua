@@ -100,9 +100,9 @@ end
 
 local function restore_tag_names()
   local f = assert(io.open(saved_tags_file, "r"))
-  local savedTags = tags[mouse.screen]
-  for i = 1, table.getn(savedTags) do
-    savedTags[i].name = f:read()
+  local screen = awful.screen.focused()
+  for tag in gears.table.iterate(screen.tags, function(i) return true end) do
+    tag.name = f:read()
   end
   f:close()
 end
@@ -110,9 +110,9 @@ end
 -- Save tag names so that they survive after restart
 local function save_tag_names()
   local f = assert(io.open(saved_tags_file, "w"))
-  local savedTags = tags[mouse.screen]
-  for i = 1, table.getn(savedTags) do
-    f:write(savedTags[i].name)
+  local screen = awful.screen.focused()
+  for tag in gears.table.iterate(screen.tags, function(i) return true end) do
+    f:write(tag.name)
     f:write("\n")
   end
   f:close()
@@ -137,8 +137,8 @@ function zk.client_manage_hook(c, startup)
 end
 
 function zk.rename_tag()
-   awful.prompt.run({ prompt = " [Rename tag]: " },
-                    mypromptbox[mouse.screen].widget,
+   awful.prompt.run({ prompt = "Name tag: " },
+                    mouse.screen.mypromptbox.widget,
                     function (s)
                        local tag = awful.tag.selected(mouse.screen)
                        local index = awful.tag.getidx(tag)
@@ -346,7 +346,7 @@ function zk.notify_monospace(text, last_notification)
 end
 
 function zk.post_starts()
-   -- restore_tag_names()
+   restore_tag_names()
    aal.run_shell_command(zk.config_home .. "bin/start-xfce4-panel.sh")
    aal.run_shell_command(zk.config_home .. "bin/prepare-wallpaper.sh")
    aal.run_shell_command(zk.config_home .. "bin/post-start-commands.sh")
