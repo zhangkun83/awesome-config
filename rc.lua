@@ -368,11 +368,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "=", zk.rename_tag,
               {description = "rename current tag", group = "tag"}),
     -- ZK: File manager
-    awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end),
+    awful.key({ modkey }, "]", function () awful.util.spawn("thunar") end,
+              {description = "file manager", group = "launcher"}),
     -- ZK: Youdao dict
-    awful.key({ modkey }, "F10", function () awful.util.spawn(zk.config_home .. "bin/youdao_dict.py") end),
+    awful.key({ modkey }, "F10", function () awful.util.spawn(zk.config_home .. "bin/youdao_dict.py") end,
+              {description = "dictionary", group = "launcher"}),
     -- pulse audio control panel
-    awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end),
+    awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end,
+              {description = "volume control", group = "launcher"}),
     -- ZK: Lock screen
     awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/xlock.sh") end,
               {description = "lock the screen", group = "awesome"}),
