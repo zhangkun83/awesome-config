@@ -60,7 +60,7 @@ theme.hotkeys_modifiers_fg = "#CCCCCC"
 theme.hotkeys_font = "Liberation Sans 12"
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(6)
+local taglist_square_size = dpi(5)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
     taglist_square_size, theme.taglist_fg_normal
 )
