@@ -95,4 +95,8 @@ function aal.get_minimized_clients_current_tag()
     return mcls
 end
 
+function aal.quit_awesome()
+   awesome.quit()
+end
+
 return aal

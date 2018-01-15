@@ -9,7 +9,7 @@ myawesomemenu = {
     { "edit config", terminal .. " --default-working-directory .config/awesome" },
     { "restart", awesome.restart },
     { "quit", {
-        { "yes", awesome.quit },
+        { "yes", aal.quit_awesome },
         { "no", function() end } } }
 }
 
