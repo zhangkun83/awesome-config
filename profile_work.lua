@@ -21,10 +21,9 @@ mykeybindings = awful.util.table.join(
 )
 
 function myautostarts()
-    -- load nvidia settings
-    aal.run_shell_command("nvidia-settings -l")
-    -- Set mouse speed
-    aal.run_shell_command("xset m 1/5 10")
+    aal.run_shell_command("redshift -O 6100")
+    -- Set mouse speed.  (Negative value sets it slower than default).
+    aal.run_shell_command("xinput set-prop 'Logitech USB Optical Mouse' --type=float 'libinput Accel Speed' -0.2")
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
