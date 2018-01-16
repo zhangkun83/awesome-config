@@ -26,6 +26,10 @@ function aal.is_in_floating_layout(c)
    return awful.layout.get(c.screen) == awful.layout.suit.floating
 end
 
+function aal.is_in_maximized_layout(c)
+   return awful.layout.get(c.screen) == awful.layout.suit.max
+end
+
 function aal.get_client_geometry(c)
    return c:geometry()
 end

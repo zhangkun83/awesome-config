@@ -9,14 +9,15 @@ zk.config_home = gears.filesystem.get_configuration_dir()
 
 local saved_tags_file = zk.config_home .. "runtime/saved_tags"
 
+local function is_floating(c)
+  return aal.is_in_floating_layout(c) or aal.is_client_floating(c)
+end
+
 -- Run whenver the floating status of a window changes
 local function on_floating_changed(c)
    aal.set_client_ontop(c, aal.is_client_floating(c))
    zk.raise_focus_client()
-end
-
-local function is_floating(c)
-  return aal.is_in_floating_layout(c) or aal.is_client_floating(c)
+   zk.refresh_titlebars(c)
 end
 
 local function geo_equals(g1, g2)
@@ -116,6 +117,30 @@ local function save_tag_names()
     f:write("\n")
   end
   f:close()
+end
+
+function zk.refresh_titlebars(c)
+   if not aal.is_panel(c) then
+      if is_floating(c) then
+         awful.titlebar.show(c, "top")
+      else
+         awful.titlebar.hide(c, "top")
+      end
+      if aal.is_in_maximized_layout(c) and not aal.is_client_floating(c) then
+         awful.titlebar.hide(c, "bottom")
+      else
+         awful.titlebar.show(c, "bottom")
+      end
+   end
+end
+
+function zk.refresh_titlebars_all_clients()
+   local clients = client.get(mouse.screen)
+   for k,c in pairs(clients) do
+      if c:isvisible() then
+         zk.refresh_titlebars(c)
+      end
+   end
 end
 
 function zk.client_manage_hook(c, startup)

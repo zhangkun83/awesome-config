@@ -18,7 +18,8 @@ local window_move_step = 50
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
-titlebar_height = 12
+titlebar_height_top = 20
+titlebar_height_bottom = 12
 
 aal = require("aal")
 zk = require("zk")
@@ -72,14 +73,17 @@ end
 
 function layoutMaximized()
    awful.layout.set(awful.layout.suit.max)
+   zk.refresh_titlebars_all_clients()
 end
 
 function layoutHSplit()
    awful.layout.set(awful.layout.suit.tile.bottom)
+   zk.refresh_titlebars_all_clients()
 end
 
 function layoutVSplit()
    awful.layout.set(awful.layout.suit.tile)
+   zk.refresh_titlebars_all_clients()
 end
 
 function layoutFloating()
@@ -89,6 +93,7 @@ function layoutFloating()
    zk.set_floating_for_all_clients(true)
    -- But we don't really need them to be in floating state.
    zk.set_floating_for_all_clients(false)
+   zk.refresh_titlebars_all_clients()
 end
 
 layoutMenu = awful.menu({ items = {
@@ -572,13 +577,31 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c, {position = "bottom", size = titlebar_height}) : setup {
+    awful.titlebar(c, {position = "top", size = titlebar_height_top}) : setup {
+        { -- Left
+           awful.titlebar.widget.iconwidget(c),
+           buttons = buttons,
+           layout  = wibox.layout.fixed.horizontal
+        },
+        { -- Middle
+            { -- Title
+               align  = "center",
+               widget = awful.titlebar.widget.titlewidget(c)
+            },
+            buttons = buttons,
+            layout  = wibox.layout.flex.horizontal
+        },
+        layout = wibox.layout.align.horizontal
+    }
+
+    awful.titlebar(c, {position = "bottom", size = titlebar_height_bottom}) : setup {
         { -- No title
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
         },
         layout = wibox.layout.flex.horizontal
     }
+    zk.refresh_titlebars(c)
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
