@@ -20,8 +20,8 @@ local window_move_step = 50
 modkey = "Mod4"
 titlebar_height_top = 20
 titlebar_height_bottom = 12
-titlebar_height_side = 4
-titlebar_color_side = "#FFFF00"
+titlebar_height_side = 5
+titlebar_color_side = beautiful.bg_focus
 
 aal = require("aal")
 zk = require("zk")
