@@ -17,7 +17,7 @@ theme.master_fill_policy = "expand"
 theme.font          = "Liberation Sans 11"
 
 theme.bg_focus      = '#0099EE'
-theme.bg_normal     = '#FFFFFF'
+theme.bg_normal     = '#E8E8E7'
 theme.bg_urgent     = '#FCCBCC'
 theme.bg_minimize   = '#DCDAD5'
 theme.bg_systray    = theme.bg_normal
