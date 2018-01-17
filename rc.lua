@@ -18,6 +18,7 @@ local window_move_step = 50
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+titlebar_font = "Liberation Sans Bold 10"
 titlebar_height_top = 20
 titlebar_height_bottom = 12
 titlebar_height_side = 5
@@ -583,6 +584,8 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
+    local titlewidget = awful.titlebar.widget.titlewidget(c)
+    titlewidget.font = titlebar_font
     awful.titlebar(c, {position = "top", size = titlebar_height_top}) : setup {
         { -- Left
            awful.titlebar.widget.iconwidget(c),
@@ -592,7 +595,7 @@ client.connect_signal("request::titlebars", function(c)
         { -- Middle
             { -- Title
                align  = "center",
-               widget = awful.titlebar.widget.titlewidget(c)
+               widget = titlewidget
             },
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
