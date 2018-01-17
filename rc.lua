@@ -20,7 +20,7 @@ local window_move_step = 50
 modkey = "Mod4"
 titlebar_height_top = 20
 titlebar_height_bottom = 12
-panel_border_width = 2
+panel_border_width = 0
 
 aal = require("aal")
 zk = require("zk")
