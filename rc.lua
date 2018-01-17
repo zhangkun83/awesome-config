@@ -20,7 +20,6 @@ local window_move_step = 50
 modkey = "Mod4"
 titlebar_height_top = 20
 titlebar_height_bottom = 12
-panel_border_width = 0
 
 aal = require("aal")
 zk = require("zk")
@@ -235,12 +234,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar(awful.util.table.join({ position = "top", screen = s}, mywiboxprops))
-
-    -- ZK: Create a border for wibar, and move it up to shift the top
-    -- border out of the screen, so that it's easy to click the
-    -- content of the wibar at the edge of the screen.
-    s.mywibox.border_width = panel_border_width
-    s.mywibox.y = -panel_border_width
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -519,7 +512,7 @@ awful.rules.rules = {
     -- ZK: do not show border and titlebar for xfce4-panel
     { rule = { type = "dock" },
       properties = {
-         border_width = panel_border_width,
+         border_width = "0",
          titlebars_enabled = false
       }},
     -- Floating clients.
