@@ -15,7 +15,7 @@ myawesomemenu = {
         { "no", function() end } } }
 }
 
-mywiboxprops = { height = 20 }
+mywiboxprops = { height = 24 }
 
 mycustomwidgets = { }
 
