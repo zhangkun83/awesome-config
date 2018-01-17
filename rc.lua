@@ -512,7 +512,7 @@ awful.rules.rules = {
     -- ZK: do not show border and titlebar for xfce4-panel
     { rule = { type = "dock" },
       properties = {
-         border_width = "0",
+         border_width = 0,
          titlebars_enabled = false
       }},
     -- Floating clients.
@@ -618,9 +618,14 @@ myautostarts()
 -- it (see https://github.com/awesomeWM/awesome/issues/927)
 client.connect_signal("request::activate",
                       function(c)
-                         c.minimized = false
-                         client.focus = c
-                         zk.raise_focus_client()
+                         -- Avoid setting c.minimized = false if it's
+                         -- already false, to prevent C stack
+                         -- overflow.
+                         if c.minimized then
+                            c.minimized = false
+                            client.focus = c
+                            zk.raise_focus_client()
+                         end
                       end)
 
 -- ZK: generalized hotkeys
