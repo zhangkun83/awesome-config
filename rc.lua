@@ -20,6 +20,8 @@ local window_move_step = 50
 modkey = "Mod4"
 titlebar_height_top = 20
 titlebar_height_bottom = 12
+titlebar_height_side = 4
+titlebar_color_side = "#FFFF00"
 
 aal = require("aal")
 zk = require("zk")
@@ -604,6 +606,14 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         layout = wibox.layout.flex.horizontal
+    }
+
+    -- Side titlebars are used to indicate ontop status
+    awful.titlebar(c, {position = "left", size = titlebar_height_side, bg_focus = titlebar_color_side}) : setup {
+        layout = wibox.layout.flex.vertical
+    }
+    awful.titlebar(c, {position = "right", size = titlebar_height_side, bg_focus = titlebar_color_side}) : setup {
+        layout = wibox.layout.flex.vertical
     }
     zk.refresh_titlebars(c)
 end)

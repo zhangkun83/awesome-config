@@ -131,6 +131,13 @@ function zk.refresh_titlebars(c)
       else
          awful.titlebar.show(c, "bottom")
       end
+      if aal.is_client_ontop(c) then
+         awful.titlebar.show(c, "left")
+         awful.titlebar.show(c, "right")
+      else
+         awful.titlebar.hide(c, "left")
+         awful.titlebar.hide(c, "right")
+      end
    end
 end
 

@@ -21,6 +21,10 @@ function aal.set_client_ontop(c, ontop)
    c.ontop = ontop
 end
 
+function aal.is_client_ontop(c)
+   return c.ontop
+end
+
 -- Returns true if the client is in floating layout
 function aal.is_in_floating_layout(c)
    return awful.layout.get(c.screen) == awful.layout.suit.floating
