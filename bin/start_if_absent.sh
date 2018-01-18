@@ -1,12 +1,12 @@
 #!/bin/bash
-EXEC=$1
-COMMAND=$2
+EXEC="$1"
+shift
 
-RESULT=$(ps -u $USER | awk '{print $NF}' | fgrep "$1")
+RESULT=$(ps -u $USER | awk '{print $NF}' | fgrep "$EXEC")
 
 if [ -z "$RESULT" ]; then
-  $2 &
-  echo "naughty.notify({text = \"<b>$2</b> started\", timeout = 30})" | awesome-client
+  $@ &
+  echo "start_if_absent: $EXEC started"
 else
-  echo "naughty.notify({text = \"<b>$2</b> already running\", timeout = 30})" | awesome-client
+  echo "start_if_absent: $EXEC already running"
 fi
