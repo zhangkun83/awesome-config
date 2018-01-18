@@ -312,14 +312,10 @@ globalkeys = gears.table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "go back", group = "client"}),
+    awful.key({ modkey,           }, "Tab", function() zk.next_client_by_floating(false) end,
+        {description = "next docked client", group = "client"}),
+    awful.key({ modkey,           }, "`", function() zk.next_client_by_floating(true) end,
+        {description = "next floating client", group = "client"}),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -341,7 +337,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
               {description = "decrease the number of master clients", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "d",     function () zk.set_floating_for_all_clients(false) end,
-              {description = "dock all clients", group = "layout"}),
+              {description = "dock all clients", group = "client"}),
     awful.key({ modkey, "Shift"   }, "f",     function () zk.set_floating_for_all_clients(true) end,
               {description = "float all clients", group = "layout"}),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
