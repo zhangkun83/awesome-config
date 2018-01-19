@@ -344,16 +344,10 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
 
-    awful.key({ modkey, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                      client.focus = c
-                      c:raise()
-                  end
-              end,
+    awful.key({ modkey,           }, "b", zk.menu_restore_client,
               {description = "restore minimized", group = "client"}),
+    awful.key({ modkey,   "Shift" }, "b", zk.restore_all_minimized_clients,
+              {description = "restore all minimized", group = "client"}),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,

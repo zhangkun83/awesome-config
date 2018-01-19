@@ -199,6 +199,33 @@ function zk.minimize_client(c)
    end
 end
 
+function zk.menu_restore_client()
+   local mcls = aal.get_minimized_clients_current_tag()
+   local num = 0
+   local items = {}
+   local last_c = nil
+   for i, c in pairs(mcls) do
+      num = num + 1
+      items[num] = {
+         c.name,
+         function()
+            zk.restore_client(c)
+         end,
+         c.icon,
+      }
+      last_c = c
+   end
+   if num == 0 then
+      return
+   end
+   if num == 1 then
+      zk.restore_client(last_c)
+      return
+   end
+   menu = { items = items, theme = { width = "600", height = "32" }}
+   awful.menu(menu):show()
+end
+
 function zk.minimize_all_other_floating_clients()
    local clients = client.get(mouse.screen)
    for k,c in pairs(clients) do
@@ -209,20 +236,20 @@ function zk.minimize_all_other_floating_clients()
    zk.raise_focus_client()
 end
 
-function zk.restore_and_float_all_minimized_clients()
+function zk.restore_all_minimized_clients()
    local mcls = aal.get_minimized_clients_current_tag()
-   -- If there are two or more minimized windows, dock the current
-   -- windows first to make it easier to navigate the just restored
-   -- windows as they will be floating.
-   if table.getn(mcls) > 1 then
-      zk.set_floating_for_all_clients(false)
-   end
    for k, c in pairs(mcls) do
-      c.minimized = false
-      aal.set_client_floating(c, true)
-      client.focus = c
-      zk.raise_focus_client()
+      zk.restore_client(c)
    end
+end
+
+function zk.restore_client(c)
+   if not c.minimized then
+      return
+   end
+   c.minimized = false
+   client.focus = c
+   zk.raise_focus_client()
 end
 
 -- Place the window at one of the 9 pre-defined pivot points on the screen

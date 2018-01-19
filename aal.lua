@@ -85,22 +85,24 @@ function aal.run_shell_command(command)
 end
 
 function aal.get_minimized_clients_current_tag()
-    local s = mouse.screen
-    local cls = client.get(s)
-    local tags = tag.selectedlist(s)
-    local mcls = {}
-    for k, c in pairs(cls) do
-        local ctags = c:tags()
-        if c.minimized then
-            for k, t in ipairs(tags) do
-                if awful.util.table.hasitem(ctags, t) then
-                   table.insert(mcls, c)
-                   break
-                end
+   local s = mouse.screen
+   local cls = client.get(s)
+   local tags = tag.selectedlist(s)
+   local mcls = {}
+   local i = 0
+   for k, c in pairs(cls) do
+      local ctags = c:tags()
+      if c.minimized then
+         for k, t in ipairs(tags) do
+            if awful.util.table.hasitem(ctags, t) then
+               i = i + 1
+               mcls[i] = c
+               break
             end
-        end
-    end
-    return mcls
+         end
+      end
+   end
+   return mcls
 end
 
 function aal.quit_awesome()
