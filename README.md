@@ -1,6 +1,9 @@
 # awesome-config
-This is the [awesome WM](http://awesome.naquadah.org/) config I have fined-tuned for my daily use.
-I am currently running it on awesome v4.2 on Debian sid (work profile) and Mint 17 (home profile).
+
+This is the [awesome WM](http://awesome.naquadah.org/) config I have
+fined-tuned for my daily use.  I am currently running it on awesome
+v4.2 on Debian tesing (buster), using `work` and `work_thinkpad`
+profile.
 
 ## Design highlights ##
 
@@ -19,16 +22,14 @@ should be able to easily changed.
 
 The interface should be clean while informative and functional.
 
-  - Removed the traditional top titlebar that has window title text
-    and buttons etc.  Window title is already displayed in the task
-    bar.
+  - Only show the traditional top titlebar with window title text on
+    floating windows.
   - The color scheme is designed to best highlight the focus window,
     and build a strong visual connection between it and its task bar
     entry.
-  - Use a no-content title bar at the bottom as an extension to the
-    border, which enhances the highlighting for the focus, and also
-    serves as a more natural moving and resizing handle than the
-    original top title bar.
+  - Use a bottom bar at an extension to the border, which enhances the
+    highlighting for the focus, and also serves as a more natural
+    resizing handle than the top title bar.
 
 Most essential functionality should be easily accessible from both
 keyboard and mouse.
@@ -41,29 +42,32 @@ keyboard and mouse.
 
 Responses to user inputs should be deterministic.
 
-  - Avoid toggle-type key-bindings.  For example, assign separate keys
+  - Avoid toggle-style key-bindings.  For example, assign separate keys
     for floating and or tiling a window, instead of assign one key to
     toggle floating state.
 
 Additional shortcuts and changes to default key bindings.
 
 ## Other features ##
- - Doesn't use any third-party awesome extensions.
- - Support multiple profiles that let me have small tweaks (theming, autostarts
-   etc) on my differnt machines. Use `switch_profile.sh {work|work_thinkpad|home}` to swich
-   between profiles.
- - Randomized wallpaper (link `~/.config/awesome/runtime/wallpapers` to where the wallpapers are).
+ - Self-contained: doesn't use any third-party awesome extensions.
+ - Support multiple profiles that let me have small tweaks (theming,
+   autostarts etc) on my differnt machines. Use `switch_profile.sh
+   {work|work_thinkpad}` to swich between profiles.
+ - Randomized wallpaper (link `~/.config/awesome/runtime/wallpapers`
+   to where the wallpapers are).
 
 ## Dependencies ##
 It uses the following applications / packages:
  - __urxvt__ as the terminal emulator (`Mod+Enter`)
- - __xfce4-panel__ to display the notification icons, because GTK+2 applications may
-   [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891)
+ - __xfce4-panel__ to display the notification icons, because GTK+2
+   applications may
+   [crash with awesome's systray](https://github.com/awesomeWM/awesome/issues/891).
+   I also have a window list on it that only shows minimized windows,
+   because I made the wibar (on the top) skip them.
  - __xfce4-power-manager__ for the battery icon on laptops.  Also
    provides backlight adjustment.
  - __xscreensaver__ for screen lock (`Mod+F12`)
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
- - [__pulseaudio-ctl__](https://github.com/graysky2/pulseaudio-ctl) for volume control (`Mod+{KP_Add|KP_Subtract|KP_Multiply}`)
  - __ibus__ for Chinese input (`Mod+Space`)
  - __thunar__ as the file manager (`Mod+]`)
  - __Google Chrome__ as the web browser (`Mod+\`)
