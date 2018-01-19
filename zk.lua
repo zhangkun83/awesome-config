@@ -222,7 +222,7 @@ function zk.menu_restore_client()
       zk.restore_client(last_c)
       return
    end
-   menu = { items = items, theme = { width = "600", height = "32" }}
+   local menu = { items = items, theme = { width = "600", height = "32" }}
    awful.menu(menu):show()
 end
 
