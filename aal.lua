@@ -12,7 +12,10 @@ end
 function aal.set_client_floating(c, floating)
    -- Dock windows are always floating. Do not change it.
    if (not aal.is_panel(c)) then
+      -- Restore the geometry when the client was previously floating
+      local floating_geometry = awful.client.property.get(c, 'floating_geometry')
       c.floating = floating
+      c:geometry(floating_geometry)
    end
 end
 

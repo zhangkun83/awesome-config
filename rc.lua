@@ -338,7 +338,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "d",     function () zk.set_floating_for_all_clients(false) end,
               {description = "dock all clients", group = "client"}),
     awful.key({ modkey, "Shift"   }, "f",     function () zk.set_floating_for_all_clients(true) end,
-              {description = "float all clients", group = "layout"}),
+              {description = "float all clients", group = "client"}),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
