@@ -11,3 +11,4 @@ xscreensaver -no-splash &
 xset r rate 220 30
 
 $DIR/start_if_absent.sh urxvtd urxvtd -q -o -f
+$DIR/start_if_absent.sh nm-applet nm-applet
