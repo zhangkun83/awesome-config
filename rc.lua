@@ -376,7 +376,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "F11", function () awful.util.spawn("pavucontrol") end,
               {description = "volume control", group = "launcher"}),
     -- ZK: Lock screen
-    awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/xlock.sh") end,
+    awful.key({ modkey }, "F12", function () aal.spawn(zk.config_home .. "bin/lock.sh") end,
               {description = "lock the screen", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "F12", function () aal.spawn(zk.config_home .. "bin/sleepnlock.sh") end,
               {description = "lock the screen and sleep", group = "awesome"}),

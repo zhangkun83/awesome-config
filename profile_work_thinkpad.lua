@@ -7,7 +7,7 @@ mythememod = {
 }
 
 myawesomemenu = {
-    { "lock screen", function() aal.run_shell_command(zk.config_home .. "bin/xlock.sh") end },
+    { "lock screen", function() aal.run_shell_command(zk.config_home .. "bin/lock.sh") end },
     { "sleep", zk.config_home .. "bin/sleepnlock.sh" },
     { "restart", awesome.restart },
     { "quit", {
