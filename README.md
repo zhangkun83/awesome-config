@@ -119,7 +119,9 @@ for the key `gtk-theme-name` in both `~/.gtkrc-2.0` and
 `~/.config/gtk-3.0/settings.ini`.
 
 (Optional) link the wallpaper directory as the source of randomized wallpapers. If you skip this step,
-the default wallpaper will be used.
+the default wallpaper will be used.  A wallpaper can be either a tile image or full-screen image.  If
+the file name ends with `-tile`, like `cats-tile.png`, it will be used as a tile image.
+
 ```
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
