@@ -28,7 +28,7 @@ theme.fg_urgent     = '#000000'
 theme.fg_minimize   = '#666666'
 
 theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(2)
+theme.border_width  = dpi(0)
 theme.border_normal = '#C3C6CB'
 theme.border_focus  = '#0099EE'
 theme.border_marked = '#5278AE'
@@ -79,7 +79,7 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_border_color = "#434750"
-theme.menu_border_width = "1"
+theme.menu_border_width = "0"
 theme.menu_bg_focus = "#0099EE"
 theme.menu_height = dpi(25)
 theme.menu_width  = dpi(200)

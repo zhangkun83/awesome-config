@@ -58,6 +58,7 @@ Additional shortcuts and changes to default key bindings.
 
 ## Dependencies ##
 It uses the following applications / packages:
+ - __compton__ as the compositer
  - __urxvt__ as the terminal emulator (`Mod+Enter`)
  - __xfce4-panel__ to display the notification icons, because GTK+2
    applications may

@@ -1,8 +1,7 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#killall compton
-#compton -c -b -r 3 -l -5 -t -5 --backend glx --glx-no-stencil --glx-no-rebind-pixmap
+$DIR/start_if_absent.sh compton compton -c -b -r 3 -l -5 -t -5 --backend xrender
 
 # Change key repeat rate
 xset r rate 220 30
