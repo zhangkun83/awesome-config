@@ -26,6 +26,7 @@ titlebar_color_side = beautiful.bg_focus
 
 aal = require("aal")
 zk = require("zk")
+zkmax = require("zkmax")
 
 terminal = zk.config_home .. "bin/urxvt.sh"
 -- {{{ provides the following variables / functions
@@ -75,7 +76,7 @@ if mythememod then
 end
 
 function layoutMaximized()
-   awful.layout.set(awful.layout.suit.max)
+   awful.layout.set(zkmax)
    zk.refresh_titlebars_all_clients()
 end
 
@@ -129,7 +130,7 @@ editor_cmd = terminal .. " -e " .. editor
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.max,
+    zkmax,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile,
     awful.layout.suit.floating,
