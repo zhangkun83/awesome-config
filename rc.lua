@@ -236,7 +236,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
     -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist(s, zk.task_list_filter_exclude_minimized, tasklist_buttons)
+    s.mytasklist = awful.widget.tasklist(s, zk.task_list_filter, tasklist_buttons)
 
     -- Create the wibox
     s.mywibox = awful.wibar(awful.util.table.join({ position = "top", screen = s}, mywiboxprops))
@@ -312,10 +312,10 @@ globalkeys = gears.table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey,           }, "Tab", function() zk.next_client_by_floating(false) end,
-        {description = "next docked client", group = "client"}),
-    awful.key({ modkey,           }, "`", function() zk.next_client_by_floating(true) end,
-        {description = "next floating client", group = "client"}),
+    awful.key({ modkey,           }, "Tab", function() zk.next_floating_client(-1) end,
+        {description = "next floating client to the left", group = "client"}),
+    awful.key({ modkey,           }, "q", function() zk.next_floating_client(1) end,
+        {description = "next floating client to the right", group = "client"}),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
