@@ -46,5 +46,5 @@ function myautostarts()
     -- to get it actually work.
     aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
 
-    aal.run_shell_command(zk.config_home .. "bin/start_if_absent.sh auto-sleep.sh " .. zk.config_home .. "bin/auto-sleep.sh")
+    aal.run_shell_command(zk.config_home .. "bin/start_if_absent.sh sleep_when_lid_closed.sh " .. zk.config_home .. "bin/sleep_when_lid_closed.sh")
 end

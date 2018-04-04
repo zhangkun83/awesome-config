@@ -2,7 +2,7 @@
 EXEC="$1"
 shift
 
-RESULT=$(ps -u $USER | awk '{print $NF}' | fgrep "$EXEC")
+RESULT=$(ps -u $USER -o command | fgrep "$EXEC" | fgrep -v "grep " | fgrep -v start_if_absent.sh)
 
 if [ -z "$RESULT" ]; then
   $@ &
