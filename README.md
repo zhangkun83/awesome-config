@@ -5,7 +5,7 @@ fined-tuned for my daily use.  I am currently running it on awesome
 v4.2 on Debian tesing (buster), using `work` and `work_thinkpad`
 profile.
 
-## Design highlights ##
+## Design principles ##
 
 Uses tiling for long-lived windows (for writing, programing or reading
 etc), while floating for temporary windows (dialogs, file manager, IM,
@@ -126,3 +126,21 @@ the file name ends with `-tile`, like `cats-tile.png`, it will be used as a tile
 ```
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
+
+## Screenshots ##
+
+The "max" layout.  One window at a time.  Stay focused.
+
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/4-max.jpg" width="640">
+
+The "vertical split" layout.  Useful when looking at two or more
+windows at the same time.  One floating window is shown here, usually
+for transient tasks.
+
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/4-split-floating.jpg" width="640">
+
+The "floating" layout.  Best for applications that have many windows.
+Windows have "ontop" (`Mod-F`) set have visible side borders, while normal
+windows do not.
+
+<img src="https://github.com/zhangkun83/awesome-config/blob/master/screenshots/4-floating.jpg" width="640">
