@@ -68,6 +68,7 @@ It uses the following applications / packages:
  - __xfce4-power-manager__ for the battery icon on laptops.  Also
    provides backlight adjustment.
  - __xsecurelock__ for screen lock (`Mod+F12`)
+ - __xprintidle__ for the auto-lock-when-idle feature
  - __python-gtk2__ for the quick search dialog (`Mod+F10`)
  - __ibus__ for Chinese input (`Mod+Space`)
  - __thunar__ as the file manager (`Mod+]`)
