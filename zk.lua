@@ -59,46 +59,6 @@ local function get_pivot_geo(h, v, c)
    return geo
 end
 
--- Adjust a range [initial_offset, initial_offset + initial_length), so that it
--- fit in the range [0, limit), with the minimum padding on both sides
--- (min_padding1 and min_padding2) and a minimum length (min_length).
--- min_length has a higher
--- priority than min_paddings and limit.
--- Returns a table {offset, length}.
-local function get_sane_offset_and_length(initial_offset, initial_length,
-  min_padding1, min_padding2, min_length, limit)
-    local offset = initial_offset
-    local length = initial_length
-    if offset < min_padding1 then
-        offset = min_padding1
-    end
-    if offset + length > limit - min_padding2 then
-        length = limit - min_padding2 - offset
-    end
-    if length < min_length then
-        length = min_length
-    end
-    local result = {}
-    result.offset = offset
-    result.length = length
-    return result
-end
-
-local function place_window_sanely(c)
-   local screen_geo = aal.get_workarea(c)
-   local geo = aal.get_client_geometry(c)
-   local xgeo = get_sane_offset_and_length(
-      geo.x, geo.width, 0, 0, screen_geo.width / 10, screen_geo.width)
-   local ygeo = get_sane_offset_and_length(
-      geo.y, geo.height, 10, beautiful.menu_height + 10,
-      screen_geo.height / 10, screen_geo.height)
-   geo.x = xgeo.offset
-   geo.width = xgeo.length
-   geo.y = ygeo.offset
-   geo.height = ygeo.length
-   aal.set_client_geometry(c, geo)
-end
-
 local function restore_tag_names()
   local f = assert(io.open(saved_tags_file, "r"))
   local screen = awful.screen.focused()
