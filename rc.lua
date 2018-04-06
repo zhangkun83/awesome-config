@@ -403,22 +403,13 @@ clientkeys = gears.table.join(
               {description = "float window canonically (reverse direction)", group = "client"}),
     awful.key({ modkey,           }, "m",
         function (c)
-            c.maximized = not c.maximized
+            c.maximized = false
+            c.maximized_vertical = false
+            c.maximized_horizontal = false
+            c.fullscreen = not c.fullscreen
             c:raise()
         end ,
-        {description = "(un)maximize", group = "client"}),
-    awful.key({ modkey, "Control" }, "m",
-        function (c)
-            c.maximized_vertical = not c.maximized_vertical
-            c:raise()
-        end ,
-        {description = "(un)maximize vertically", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c:raise()
-        end ,
-        {description = "(un)maximize horizontally", group = "client"}),
+        {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey }, "Up",  function (c) zk.change_window_geometry(0, -window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "Down",  function (c) zk.change_window_geometry(0, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "Left",  function (c) zk.change_window_geometry(-window_move_step, 0, 0, 0, c) end),
