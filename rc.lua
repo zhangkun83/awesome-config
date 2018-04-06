@@ -401,15 +401,6 @@ clientkeys = gears.table.join(
               {description = "float window canonically", group = "client"}),
     awful.key({ modkey, "Shift"   }, "p",      float_window_canonically_reverse,
               {description = "float window canonically (reverse direction)", group = "client"}),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized = false
-            c.maximized_vertical = false
-            c.maximized_horizontal = false
-            c.fullscreen = not c.fullscreen
-            c:raise()
-        end ,
-        {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey }, "Up",  function (c) zk.change_window_geometry(0, -window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "Down",  function (c) zk.change_window_geometry(0, window_move_step, 0, 0, c) end),
     awful.key({ modkey }, "Left",  function (c) zk.change_window_geometry(-window_move_step, 0, 0, 0, c) end),
@@ -598,10 +589,14 @@ client.connect_signal("request::titlebars", function(c)
     zk.refresh_titlebars(c)
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("focus", function(c)
+                         c.border_color = beautiful.border_focus
+                         c.maximized = false
+                         c.maximized_vertical = false
+                         c.maximized_horizontal = false
+                               end)
 client.connect_signal("unfocus", function(c)
                          c.border_color = beautiful.border_normal
-                         c.fullscreen = false
                                  end)
 client.connect_signal("manage", zk.client_manage_hook)
 -- }}}
