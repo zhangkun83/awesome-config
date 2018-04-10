@@ -3,7 +3,8 @@ local awful = require("awful")
 mythememod = {
    font = "Liberation Sans 12",
    font_monospace = "Liberation Mono 12",
-   menu_height = "24"
+   menu_height = "24",
+   useless_gap = "5"
 }
 
 myawesomemenu = {
