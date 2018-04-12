@@ -209,6 +209,7 @@ function zk.restore_client(c)
    end
    c.minimized = false
    client.focus = c
+   zk.refresh_titlebars(c)
    zk.raise_focus_client()
 end
 
