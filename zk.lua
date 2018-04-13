@@ -204,6 +204,8 @@ function zk.restore_all_minimized_clients()
 end
 
 function zk.restore_client(c)
+   -- Avoid setting c.minimized = false if it's already false, to
+   -- prevent C stack overflow in some cases.
    if not c.minimized then
       return
    end

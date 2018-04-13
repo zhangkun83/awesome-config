@@ -608,17 +608,7 @@ myautostarts()
 -- taskbar would "activate" the minimized window when clicked, but
 -- awesome by default only mark the window as urgent without restoring
 -- it (see https://github.com/awesomeWM/awesome/issues/927)
-client.connect_signal("request::activate",
-                      function(c)
-                         -- Avoid setting c.minimized = false if it's
-                         -- already false, to prevent C stack
-                         -- overflow.
-                         if c.minimized then
-                            c.minimized = false
-                            client.focus = c
-                            zk.raise_focus_client()
-                         end
-                      end)
+client.connect_signal("request::activate", zk.restore_client)
 
 -- ZK: generalized hotkeys
 hotkeys_popup.add_hotkeys(
