@@ -544,11 +544,6 @@ client.connect_signal("request::titlebars", function(c)
             client.focus = c
             c:raise()
             awful.mouse.client.move(c)
-        end),
-        awful.button({ }, 3, function()
-            client.focus = c
-            c:raise()
-            awful.mouse.client.resize(c)
         end)
     )
 
