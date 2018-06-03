@@ -46,6 +46,4 @@ function myautostarts()
     -- something wrong with my workstation that I need to restart ibus-daemon
     -- to get it actually work.
     aal.run_shell_command(zk.config_home .. "bin/restart_ibus.sh")
-
-    aal.run_shell_command(zk.config_home .. "bin/start_if_absent.sh sleep_when_lid_closed.sh " .. zk.config_home .. "bin/sleep_when_lid_closed.sh")
 end
