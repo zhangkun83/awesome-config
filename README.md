@@ -125,6 +125,15 @@ the file name ends with `-tile`, like `cats-tile.png`, it will be used as a tile
 $ ln -s ~/Pictures/wallpapers ~/.config/awesome/runtime/wallpapers
 ```
 
+**lightdm** starts its own nm-applet instance and leave it running
+even after login.  That nm-applet is usually inoperable due to
+permission issues.  To get rid of it, put an executable file under
+`/etc/lightdm/post-login.d` with the following content:
+```bash
+#!/bin/bash
+killall -u lightdm nm-applet
+```
+
 ## Screenshots ##
 
 The "max" layout.  One window at a time.  Stay focused.
