@@ -7,7 +7,7 @@ profile.
 
 ## Design principles ##
 
-Uses tiling for long-lived windows (for writing, programing or reading
+Use tiling for long-lived windows (for writing, programing or reading
 etc), while floating for temporary windows (dialogs, file manager, IM,
 settings etc).  Based on that idea:
 
@@ -42,11 +42,9 @@ keyboard and mouse.
 
 Responses to user inputs should be deterministic.
 
-  - Avoid toggle-style key-bindings.  For example, assign separate keys
-    for floating and or tiling a window, instead of assign one key to
-    toggle floating state.
-
-Additional shortcuts and changes to default key bindings.
+  - Avoid toggle-style key-bindings.  For example, assign separate
+    bindings for floating and or tiling a window, instead of assign
+    one key to toggle floating state.
 
 ## Other features ##
  - Self-contained: doesn't use any third-party awesome extensions.
