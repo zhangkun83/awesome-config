@@ -38,7 +38,6 @@ function myautostarts()
     -- Enable both vertical and horizontal scrolling
     aal.run_shell_command("xinput set-prop 'SynPS/2 Synaptics TouchPad' --type=int 283 1 1")
 
-    aal.run_shell_command("xfce4-power-manager")
     -- Shift the color a bit towards red to reduce eye strain
     aal.run_shell_command("redshift -O 6100")
     -- Make fonts slightly larger
